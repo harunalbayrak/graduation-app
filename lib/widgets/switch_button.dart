@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/constants/colors.dart';
 
 class SwitchButton extends StatefulWidget {
   const SwitchButton({Key? key}) : super(key: key);
@@ -14,14 +15,15 @@ class _SwitchButtonState extends State<SwitchButton> {
 
     return Container(
       alignment: Alignment.center,
-      width: screenSize.width / 3,
-      height: screenSize.height / 3,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
+          primary: lightBlue,
+          onPrimary: Colors.white,
+          shape: const CircleBorder(),
         ),
-        child: Image.asset('assets/images/image0.png'),
+        child: Image.asset('assets/images/image0.png',
+            width: screenSize.width / 3, height: screenSize.height / 3),
       ),
     );
   }

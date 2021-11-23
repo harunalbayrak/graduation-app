@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
-const Color darkBlue = Color(0xff2E4C6D);
-const Color blue = Color(0xff396EB0);
-const Color lightBlue = Color(0xffDADDFC);
-const Color orange = Color(0xffFC997C);
+import 'package:graduation_app/constants/colors.dart';
 
 final ThemeData denemeTheme = ThemeData(
   fontFamily: 'Poppins',
@@ -13,5 +9,13 @@ final ThemeData denemeTheme = ThemeData(
   ),
   bottomAppBarTheme: const BottomAppBarTheme(
     color: darkBlue,
+  ),
+  textTheme: const TextTheme(
+    bodyText1: TextStyle(
+      fontSize: 16,
+    ),
+    bodyText2: TextStyle(
+      fontSize: 12,
+    ),
   ),
 );
