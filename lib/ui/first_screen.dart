@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class FirstScreen extends StatelessWidget {
           onPressed: () {
             // Navigate to the second screen when tapped.
           },
-          child: const Text('Launch screen'),
+          child: const Text('msg').tr(),
         ),
       ),
     );

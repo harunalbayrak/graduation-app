@@ -1,0 +1,3 @@
+- https://docs.flutter.dev/cookbook/navigation/named-routes
+- https://pub.dev/packages/easy_localization
+- https://pub.dev/packages/flutter_native_splash
