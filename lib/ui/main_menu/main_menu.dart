@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/widgets/switch_button.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
-import 'package:graduation_app/widgets/bottom_navbar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class MainMenu extends StatefulWidget {
+  MainMenu({Key? key}) : super(key: key);
 
+  @override
+  _MainMenuState createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     const double fontSize1 = 40;
@@ -16,9 +19,7 @@ class MainScreen extends StatelessWidget {
     const double spaceSize2 = spaceSize1 / 2;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main Menu'),
-      ),
+      appBar: AppBar(title: const Text('Main Menu')),
       body: Stack(
         children: [
           const Positioned.fill(
@@ -61,7 +62,6 @@ class MainScreen extends StatelessWidget {
           )),
         ],
       ),
-      bottomNavigationBar: BottomNavbar(),
     );
   }
 }
