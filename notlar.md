@@ -1,3 +1,4 @@
 - https://docs.flutter.dev/cookbook/navigation/named-routes
 - https://pub.dev/packages/easy_localization
 - https://pub.dev/packages/flutter_native_splash
+- https://colorhunt.co/palette/2e4c6d396eb0daddfcfc997c
