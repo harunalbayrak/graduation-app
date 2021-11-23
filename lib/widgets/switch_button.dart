@@ -12,6 +12,8 @@ class _SwitchButtonState extends State<SwitchButton> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    var imageWidth = screenSize.width / 3;
+    var imageHeight = screenSize.height / 3;
 
     return Container(
       alignment: Alignment.center,
@@ -23,7 +25,7 @@ class _SwitchButtonState extends State<SwitchButton> {
           shape: const CircleBorder(),
         ),
         child: Image.asset('assets/images/image0.png',
-            width: screenSize.width / 3, height: screenSize.height / 3),
+            width: imageWidth, height: imageHeight),
       ),
     );
   }

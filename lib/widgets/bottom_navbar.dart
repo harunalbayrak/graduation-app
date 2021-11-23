@@ -13,7 +13,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: darkBlue,
-      selectedItemColor: lightBlue,
       unselectedItemColor: blue,
       currentIndex: 0,
       onTap: (deneme) {},
@@ -26,15 +25,15 @@ class _BottomNavbarState extends State<BottomNavbar> {
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.last_page),
+          icon: Icon(Icons.apps),
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.list),
+          icon: Icon(Icons.block_rounded),
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.contact_phone),
+          icon: Icon(Icons.format_list_bulleted),
           label: '',
         ),
       ],

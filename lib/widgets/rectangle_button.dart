@@ -4,15 +4,18 @@ import 'package:graduation_app/constants/colors.dart';
 class RectangleButton extends StatelessWidget {
   const RectangleButton({
     Key? key,
+    required this.iconData,
     required this.buttonText,
   }) : super(key: key);
 
+  final IconData iconData;
   final String buttonText;
 
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    var imageSize = screenSize.height / 18;
+    var containerWidth = screenSize.width / 6;
+    var containerHeight = screenSize.height / 8;
     const double spaceHeight = 15;
 
     return Container(
@@ -27,13 +30,12 @@ class RectangleButton extends StatelessWidget {
           ),
         ),
         child: Container(
-          width: screenSize.width / 6,
-          height: screenSize.height / 8,
+          width: containerWidth,
+          height: containerHeight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/image0.png',
-                  height: imageSize, width: imageSize),
+              Icon(iconData),
               const SizedBox(
                 height: spaceHeight,
               ),

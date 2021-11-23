@@ -47,11 +47,14 @@ class MainScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  RectangleButton(buttonText: "ASD"),
+                  RectangleButton(
+                      iconData: Icons.filter_list, buttonText: "Filter"),
                   SizedBox(width: spaceSize2),
-                  RectangleButton(buttonText: "BCD"),
+                  RectangleButton(
+                      iconData: Icons.query_stats, buttonText: "Statistics"),
                   SizedBox(width: spaceSize2),
-                  RectangleButton(buttonText: "ASDA"),
+                  RectangleButton(
+                      iconData: Icons.settings, buttonText: "Settings"),
                 ],
               )
             ],
