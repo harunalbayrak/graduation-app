@@ -14,6 +14,9 @@ class Applications extends StatefulWidget {
 class _ApplicationsState extends State<Applications> {
   final titles = ["List 1", "List 2", "List 3"];
   final isExpandeds = [false, false, false];
+  final double paddingListView = 6.0;
+  final double paddingTB = 1.0;
+  final int iconDurationMiliseconds = 350;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class _ApplicationsState extends State<Applications> {
           padding: EdgeInsets.zero,
           decoration: classicBlackGray,
           child: Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: EdgeInsets.all(paddingListView),
             child: buildExpansionTiles(index),
           ),
         );
@@ -64,7 +67,8 @@ class _ApplicationsState extends State<Applications> {
       textColor: gray,
       collapsedTextColor: gray,
       iconColor: gray,
-      tilePadding: const EdgeInsets.fromLTRB(6, 1, 0, 1),
+      tilePadding:
+          EdgeInsets.fromLTRB(paddingListView, paddingTB, 0, paddingTB),
       initiallyExpanded: false,
       children: [
         Column(
@@ -82,7 +86,7 @@ class _ApplicationsState extends State<Applications> {
           AutoSizeText(titles[index]),
           AnimatedRotation(
             turns: isExpandeds[index] ? .5 : 0,
-            duration: Duration(milliseconds: 350),
+            duration: Duration(milliseconds: iconDurationMiliseconds),
             child: IgnorePointer(
               child: IconButton(
                 onPressed: () {},
@@ -94,8 +98,9 @@ class _ApplicationsState extends State<Applications> {
         ],
       ),
       leading: const CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+        backgroundImage: NetworkImage(
+            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,

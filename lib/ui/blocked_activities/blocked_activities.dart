@@ -18,6 +18,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
     "Here is list 2 subtitle",
     "Here is list 3 subtitle"
   ];
+  final double paddingListTileLR = 12.0;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,8 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
 
   Widget buildListTiles(index) {
     return ListTile(
-      contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+      contentPadding:
+          EdgeInsets.fromLTRB(paddingListTileLR, 0, paddingListTileLR, 0),
       title: AutoSizeText(titles[index], style: textStyle2),
       subtitle: AutoSizeText(subtitles[index], style: textStyle2),
       leading: const CircleAvatar(
