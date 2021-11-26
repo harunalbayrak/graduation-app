@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:graduation_app/constants/box_decorations.dart';
+import 'package:graduation_app/constants/text_styles.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Applications extends StatefulWidget {
   Applications({Key? key}) : super(key: key);
@@ -34,17 +36,12 @@ class _ApplicationsState extends State<Applications> {
                 return Card(
                   margin: EdgeInsets.zero,
                   child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: GradientColors.eternalConstance,
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
+                    decoration: classicBlackGray,
                     child: ListTile(
-                      title: Text(titles[index]),
-                      subtitle: Text(subtitles[index]),
-                      leading: CircleAvatar(
+                      title: AutoSizeText(titles[index], style: textStyle2),
+                      subtitle:
+                          AutoSizeText(subtitles[index], style: textStyle2),
+                      leading: const CircleAvatar(
                           backgroundImage: NetworkImage(
                               "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
                     ),
