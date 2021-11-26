@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:graduation_app/constants/colors.dart';
 
 class BlockedActivities extends StatefulWidget {
   BlockedActivities({Key? key}) : super(key: key);
@@ -24,31 +25,41 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       appBar: AppBar(title: const Text('Blocked Activities')),
       body: Stack(
         children: [
-          const Positioned.fill(
-            child: Image(
-              image: AssetImage("assets/images/background0.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          buildBackground(),
           ListView.builder(
             itemCount: titles.length,
             itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.zero,
-                child: Container(
-                  decoration: classicBlackGray,
-                  child: ListTile(
-                    title: AutoSizeText(titles[index], style: textStyle2),
-                    subtitle: AutoSizeText(subtitles[index], style: textStyle2),
-                    leading: const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+              return Container(
+                padding: EdgeInsets.zero,
+                decoration: classicBlackGray,
+                child: ListTile(
+                  contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                  title: AutoSizeText(titles[index], style: textStyle2),
+                  subtitle: AutoSizeText(subtitles[index], style: textStyle2),
+                  leading: const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+                  trailing: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.edit,
+                      color: gray,
+                    ),
                   ),
                 ),
               );
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildBackground() {
+    return const Positioned.fill(
+      child: Image(
+        image: AssetImage("assets/images/background0.jpg"),
+        fit: BoxFit.cover,
       ),
     );
   }
