@@ -26,30 +26,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       body: Stack(
         children: [
           buildBackground(),
-          ListView.builder(
-            itemCount: titles.length,
-            itemBuilder: (context, index) {
-              return Container(
-                padding: EdgeInsets.zero,
-                decoration: classicBlackGray,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                  title: AutoSizeText(titles[index], style: textStyle2),
-                  subtitle: AutoSizeText(subtitles[index], style: textStyle2),
-                  leading: const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.edit,
-                      color: gray,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          buildListView(),
         ],
       ),
     );
@@ -60,6 +37,37 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       child: Image(
         image: AssetImage("assets/images/background0.jpg"),
         fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  Widget buildListView() {
+    return ListView.builder(
+      itemCount: titles.length,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: EdgeInsets.zero,
+          decoration: classicBlackGray,
+          child: buildListTiles(index),
+        );
+      },
+    );
+  }
+
+  Widget buildListTiles(index) {
+    return ListTile(
+      contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+      title: AutoSizeText(titles[index], style: textStyle2),
+      subtitle: AutoSizeText(subtitles[index], style: textStyle2),
+      leading: const CircleAvatar(
+          backgroundImage: NetworkImage(
+              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+      trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          Icons.edit,
+          color: gray,
+        ),
       ),
     );
   }
