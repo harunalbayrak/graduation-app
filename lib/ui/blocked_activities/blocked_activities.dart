@@ -31,23 +31,23 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
             ),
           ),
           ListView.builder(
-              itemCount: titles.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.zero,
-                  child: Container(
-                    decoration: classicBlackGray,
-                    child: ListTile(
-                      title: AutoSizeText(titles[index], style: textStyle2),
-                      subtitle:
-                          AutoSizeText(subtitles[index], style: textStyle2),
-                      leading: const CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
-                    ),
+            itemCount: titles.length,
+            itemBuilder: (context, index) {
+              return Card(
+                margin: EdgeInsets.zero,
+                child: Container(
+                  decoration: classicBlackGray,
+                  child: ListTile(
+                    title: AutoSizeText(titles[index], style: textStyle2),
+                    subtitle: AutoSizeText(subtitles[index], style: textStyle2),
+                    leading: const CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
                   ),
-                );
-              }),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
