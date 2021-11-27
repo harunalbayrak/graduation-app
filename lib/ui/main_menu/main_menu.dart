@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/widgets/switch_button.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key? key}) : super(key: key);
@@ -22,12 +23,7 @@ class _MainMenuState extends State<MainMenu> {
       appBar: AppBar(title: const Text('Main Menu')),
       body: Stack(
         children: [
-          const Positioned.fill(
-            child: Image(
-              image: AssetImage("assets/images/background0.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          buildBackground(),
           Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

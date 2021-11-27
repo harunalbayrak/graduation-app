@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
-import 'package:graduation_app/constants/text_styles.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class BlockedActivities2 extends StatefulWidget {
   BlockedActivities2({Key? key}) : super(key: key);
@@ -33,16 +31,16 @@ class _BlockedActivities2State extends State<BlockedActivities2> {
     );
   }
 
-  Widget buildBackground() {
-    return const Positioned.fill(
-      child: Image(
-        image: AssetImage("assets/images/background0.jpg"),
-        fit: BoxFit.cover,
+  Widget buildListView() {
+    return Container(
+      decoration: classicBlackGray,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text("ASD"),
+          Text("ASD"),
+        ],
       ),
     );
-  }
-
-  Widget buildListView() {
-    return Container();
   }
 }

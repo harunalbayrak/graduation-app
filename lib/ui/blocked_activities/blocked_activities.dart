@@ -5,6 +5,7 @@ import 'package:graduation_app/ui/blocked_activities/blocked_activities_2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class BlockedActivities extends StatefulWidget {
   BlockedActivities({Key? key}) : super(key: key);
@@ -31,15 +32,6 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
           buildBackground(),
           buildListView(),
         ],
-      ),
-    );
-  }
-
-  Widget buildBackground() {
-    return const Positioned.fill(
-      child: Image(
-        image: AssetImage("assets/images/background0.jpg"),
-        fit: BoxFit.cover,
       ),
     );
   }

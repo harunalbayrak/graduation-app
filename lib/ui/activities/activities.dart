@@ -3,6 +3,7 @@ import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class Activities extends StatefulWidget {
   Activities({Key? key}) : super(key: key);
@@ -29,15 +30,6 @@ class _ActivitiesState extends State<Activities> {
           buildBackground(),
           buildListView(),
         ],
-      ),
-    );
-  }
-
-  Widget buildBackground() {
-    return const Positioned.fill(
-      child: Image(
-        image: AssetImage("assets/images/background0.jpg"),
-        fit: BoxFit.cover,
       ),
     );
   }

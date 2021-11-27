@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: blue,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.app),
+        icon: const Icon(CupertinoIcons.app_badge),
         title: ("Applications"),
         activeColorPrimary: lightBlue,
         inactiveColorPrimary: blue,
