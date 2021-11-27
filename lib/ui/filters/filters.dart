@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
+import 'package:graduation_app/constants/text_styles.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
-import 'package:graduation_app/widgets/list_tiles.dart';
 
 class Filters extends StatefulWidget {
   const Filters({Key? key}) : super(key: key);
@@ -11,6 +14,14 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
+  final titles = ["List 1", "List 2", "List 3"];
+  final subtitles = [
+    "Here is list 1 subtitle",
+    "Here is list 2 subtitle",
+    "Here is list 3 subtitle"
+  ];
+  final isSwitcheds = [false, false, false];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,29 +29,53 @@ class _FiltersState extends State<Filters> {
       body: Stack(
         children: [
           buildBackground(),
-          buildContainer(),
+          buildListView(),
         ],
       ),
     );
   }
 
-  Widget buildContainer() {
-    bool isSwitched = false;
-    void onChange(value) {
-      setState(() {
-        isSwitched = value;
-      });
-    }
+  Widget buildListView() {
+    return ListView.builder(
+      itemCount: titles.length,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: EdgeInsets.zero,
+          decoration: classicBlackGray,
+          child: buildListTiles(index),
+        );
+      },
+    );
+  }
 
-    return Container(
-      padding: EdgeInsets.zero,
-      decoration: classicBlackGray,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildListTile5("Adware/Malware", onChange, isSwitched),
-        ],
+  Widget buildListTiles(index) {
+    return ListTile(
+      onTap: () {
+        /*
+        pushNewScreenWithRouteSettings(
+          context,
+          settings: const RouteSettings(name: "/blocked_activities2"),
+          screen: const Filters2(),
+          withNavBar: true,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+        */
+      },
+      contentPadding: const EdgeInsets.fromLTRB(paddingOverall,
+          paddingOverall * 2 / 3, paddingOverall, paddingOverall * 2 / 3),
+      title: AutoSizeText(titles[index], style: textStyle2),
+      leading: const CircleAvatar(
+        backgroundImage: NetworkImage(
+            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      ),
+      trailing: Switch(
+        activeColor: lightBlue,
+        value: isSwitcheds[index],
+        onChanged: (value) {
+          setState(() {
+            isSwitcheds[index] = value;
+          });
+        },
       ),
     );
   }

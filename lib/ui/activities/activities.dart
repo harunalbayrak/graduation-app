@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
@@ -21,7 +22,6 @@ class _ActivitiesState extends State<Activities> {
     "Here is list 2 subtitle",
     "Here is list 3 subtitle"
   ];
-  final double paddingListTileLR = 12.0;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _ActivitiesState extends State<Activities> {
         );
       },
       contentPadding:
-          EdgeInsets.fromLTRB(paddingListTileLR, 0, paddingListTileLR, 0),
+          const EdgeInsets.fromLTRB(paddingOverall, 0, paddingOverall, 0),
       title: AutoSizeText(titles[index], style: textStyle2),
       subtitle: AutoSizeText(subtitles[index], style: textStyle2),
       leading: const CircleAvatar(
