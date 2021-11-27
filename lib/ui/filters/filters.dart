@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
-import 'package:graduation_app/widgets/padding_bold_text.dart';
-import 'package:graduation_app/constants/text_styles.dart';
 
 class Filters extends StatefulWidget {
   Filters({Key? key}) : super(key: key);
@@ -16,7 +14,7 @@ class _FiltersState extends State<Filters> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Activities')),
+      appBar: AppBar(title: const Text('Filters')),
       body: Stack(
         children: [
           buildBackground(),
