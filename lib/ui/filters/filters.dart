@@ -4,7 +4,7 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 
 class Filters extends StatefulWidget {
-  Filters({Key? key}) : super(key: key);
+  const Filters({Key? key}) : super(key: key);
 
   @override
   _FiltersState createState() => _FiltersState();

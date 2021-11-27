@@ -3,10 +3,9 @@ import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
-import 'package:graduation_app/constants/text_styles.dart';
 
 class BlockedActivities2 extends StatefulWidget {
-  BlockedActivities2({Key? key}) : super(key: key);
+  const BlockedActivities2({Key? key}) : super(key: key);
 
   @override
   _BlockedActivities2State createState() => _BlockedActivities2State();

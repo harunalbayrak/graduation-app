@@ -3,12 +3,10 @@ import 'package:graduation_app/widgets/switch_button.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/constants/text_styles.dart';
-import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainMenu extends StatefulWidget {
-  MainMenu({Key? key}) : super(key: key);
+  const MainMenu({Key? key}) : super(key: key);
 
   @override
   _MainMenuState createState() => _MainMenuState();

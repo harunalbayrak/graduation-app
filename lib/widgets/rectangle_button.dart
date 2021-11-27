@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
+import 'package:graduation_app/ui/statistics/statistics.dart';
+import 'package:graduation_app/ui/settings/settings.dart';
 
 Widget rectangleButton(
     BuildContext context, String str, IconData iconData, int val) {
@@ -19,7 +21,25 @@ Widget rectangleButton(
             pushNewScreenWithRouteSettings(
               context,
               settings: const RouteSettings(name: "/filters"),
-              screen: Filters(),
+              screen: const Filters(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+            break;
+          case 2:
+            pushNewScreenWithRouteSettings(
+              context,
+              settings: const RouteSettings(name: "/statistics"),
+              screen: const Statistics(),
+              withNavBar: true,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+            break;
+          case 3:
+            pushNewScreenWithRouteSettings(
+              context,
+              settings: const RouteSettings(name: "/settings"),
+              screen: const Settings(),
               withNavBar: true,
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );

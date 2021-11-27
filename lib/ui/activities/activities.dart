@@ -8,7 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 
 class Activities extends StatefulWidget {
-  Activities({Key? key}) : super(key: key);
+  const Activities({Key? key}) : super(key: key);
 
   @override
   _ActivitiesState createState() => _ActivitiesState();
@@ -54,8 +54,8 @@ class _ActivitiesState extends State<Activities> {
       onTap: () {
         pushNewScreenWithRouteSettings(
           context,
-          settings: const RouteSettings(name: "/blocked_activities_2"),
-          screen: Activities2(),
+          settings: const RouteSettings(name: "/blocked_activities2"),
+          screen: const Activities2(),
           withNavBar: true,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
