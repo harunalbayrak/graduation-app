@@ -3,6 +3,7 @@ import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class Activities extends StatefulWidget {
   Activities({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _ActivitiesState extends State<Activities> {
     "Here is list 2 subtitle",
     "Here is list 3 subtitle"
   ];
+  final double paddingListTileLR = 12.0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +30,6 @@ class _ActivitiesState extends State<Activities> {
           buildBackground(),
           buildListView(),
         ],
-      ),
-    );
-  }
-
-  Widget buildBackground() {
-    return const Positioned.fill(
-      child: Image(
-        image: AssetImage("assets/images/background0.jpg"),
-        fit: BoxFit.cover,
       ),
     );
   }
@@ -56,7 +49,8 @@ class _ActivitiesState extends State<Activities> {
 
   Widget buildListTiles(index) {
     return ListTile(
-      contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+      contentPadding:
+          EdgeInsets.fromLTRB(paddingListTileLR, 0, paddingListTileLR, 0),
       title: AutoSizeText(titles[index], style: textStyle2),
       subtitle: AutoSizeText(subtitles[index], style: textStyle2),
       leading: const CircleAvatar(
@@ -65,8 +59,8 @@ class _ActivitiesState extends State<Activities> {
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(
-          Icons.edit,
-          color: gray,
+          Icons.block,
+          color: orange,
         ),
       ),
     );

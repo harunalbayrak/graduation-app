@@ -3,6 +3,7 @@ import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/widgets/applications_list_tile.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class Applications extends StatefulWidget {
   Applications({Key? key}) : super(key: key);
@@ -14,6 +15,9 @@ class Applications extends StatefulWidget {
 class _ApplicationsState extends State<Applications> {
   final titles = ["List 1", "List 2", "List 3"];
   final isExpandeds = [false, false, false];
+  final double paddingListView = 6.0;
+  final double paddingTB = 1.0;
+  final int iconDurationMiliseconds = 350;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +32,6 @@ class _ApplicationsState extends State<Applications> {
     );
   }
 
-  Widget buildBackground() {
-    return const Positioned.fill(
-      child: Image(
-        image: AssetImage("assets/images/background0.jpg"),
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
   Widget buildListView() {
     return ListView.builder(
       itemCount: titles.length,
@@ -45,7 +40,7 @@ class _ApplicationsState extends State<Applications> {
           padding: EdgeInsets.zero,
           decoration: classicBlackGray,
           child: Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: EdgeInsets.all(paddingListView),
             child: buildExpansionTiles(index),
           ),
         );
@@ -64,7 +59,8 @@ class _ApplicationsState extends State<Applications> {
       textColor: gray,
       collapsedTextColor: gray,
       iconColor: gray,
-      tilePadding: const EdgeInsets.fromLTRB(6, 1, 0, 1),
+      tilePadding:
+          EdgeInsets.fromLTRB(paddingListView, paddingTB, 0, paddingTB),
       initiallyExpanded: false,
       children: [
         Column(
@@ -82,7 +78,7 @@ class _ApplicationsState extends State<Applications> {
           AutoSizeText(titles[index]),
           AnimatedRotation(
             turns: isExpandeds[index] ? .5 : 0,
-            duration: Duration(milliseconds: 350),
+            duration: Duration(milliseconds: iconDurationMiliseconds),
             child: IgnorePointer(
               child: IconButton(
                 onPressed: () {},
@@ -94,8 +90,9 @@ class _ApplicationsState extends State<Applications> {
         ],
       ),
       leading: const CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+        backgroundImage: NetworkImage(
+            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,

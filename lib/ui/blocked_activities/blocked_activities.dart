@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
+import 'package:graduation_app/ui/blocked_activities/blocked_activities_2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:graduation_app/widgets/build_background.dart';
 
 class BlockedActivities extends StatefulWidget {
   BlockedActivities({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
     "Here is list 2 subtitle",
     "Here is list 3 subtitle"
   ];
+  final double paddingListTileLR = 12.0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +32,6 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
           buildBackground(),
           buildListView(),
         ],
-      ),
-    );
-  }
-
-  Widget buildBackground() {
-    return const Positioned.fill(
-      child: Image(
-        image: AssetImage("assets/images/background0.jpg"),
-        fit: BoxFit.cover,
       ),
     );
   }
@@ -56,7 +51,17 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
 
   Widget buildListTiles(index) {
     return ListTile(
-      contentPadding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+      onTap: () {
+        pushNewScreenWithRouteSettings(
+          context,
+          settings: const RouteSettings(name: "/blocked_activities_2"),
+          screen: BlockedActivities2(),
+          withNavBar: true,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+      },
+      contentPadding:
+          EdgeInsets.fromLTRB(paddingListTileLR, 0, paddingListTileLR, 0),
       title: AutoSizeText(titles[index], style: textStyle2),
       subtitle: AutoSizeText(subtitles[index], style: textStyle2),
       leading: const CircleAvatar(
@@ -65,7 +70,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(
-          Icons.edit,
+          Icons.highlight_remove,
           color: gray,
         ),
       ),
