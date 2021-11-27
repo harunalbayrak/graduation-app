@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
+import 'package:graduation_app/ui/blocked_activities/blocked_activities_2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BlockedActivities extends StatefulWidget {
   BlockedActivities({Key? key}) : super(key: key);
@@ -57,6 +59,15 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
 
   Widget buildListTiles(index) {
     return ListTile(
+      onTap: () {
+        pushNewScreenWithRouteSettings(
+          context,
+          settings: const RouteSettings(name: "/blocked_activities_2"),
+          screen: BlockedActivities2(),
+          withNavBar: true,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+      },
       contentPadding:
           EdgeInsets.fromLTRB(paddingListTileLR, 0, paddingListTileLR, 0),
       title: AutoSizeText(titles[index], style: textStyle2),

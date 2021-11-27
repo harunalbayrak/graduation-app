@@ -39,7 +39,7 @@ dependencies:
   easy_localization: ^3.0.0
   auto_size_text: ^3.0.0
   flutter_gradient_colors: ^2.1.1
-  expandable: ^5.0.1
+  persistent_bottom_nav_bar: ^4.0.2
 
 dev_dependencies:
   flutter_test:
