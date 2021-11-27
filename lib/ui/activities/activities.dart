@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
+import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 
 class Activities extends StatefulWidget {
-  Activities({Key? key}) : super(key: key);
+  const Activities({Key? key}) : super(key: key);
 
   @override
   _ActivitiesState createState() => _ActivitiesState();
@@ -24,7 +26,7 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Blocked Activities')),
+      appBar: AppBar(title: const Text('Activities')),
       body: Stack(
         children: [
           buildBackground(),
@@ -49,6 +51,15 @@ class _ActivitiesState extends State<Activities> {
 
   Widget buildListTiles(index) {
     return ListTile(
+      onTap: () {
+        pushNewScreenWithRouteSettings(
+          context,
+          settings: const RouteSettings(name: "/blocked_activities2"),
+          screen: const Activities2(),
+          withNavBar: true,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
+      },
       contentPadding:
           EdgeInsets.fromLTRB(paddingListTileLR, 0, paddingListTileLR, 0),
       title: AutoSizeText(titles[index], style: textStyle2),

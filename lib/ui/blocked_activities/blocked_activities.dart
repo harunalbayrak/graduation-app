@@ -8,7 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 
 class BlockedActivities extends StatefulWidget {
-  BlockedActivities({Key? key}) : super(key: key);
+  const BlockedActivities({Key? key}) : super(key: key);
 
   @override
   _BlockedActivitiesState createState() => _BlockedActivitiesState();
@@ -54,8 +54,8 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       onTap: () {
         pushNewScreenWithRouteSettings(
           context,
-          settings: const RouteSettings(name: "/blocked_activities_2"),
-          screen: BlockedActivities2(),
+          settings: const RouteSettings(name: "/blocked_activities2"),
+          screen: const BlockedActivities2(),
           withNavBar: true,
           pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
@@ -65,8 +65,9 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       title: AutoSizeText(titles[index], style: textStyle2),
       subtitle: AutoSizeText(subtitles[index], style: textStyle2),
       leading: const CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+        backgroundImage: NetworkImage(
+            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      ),
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(

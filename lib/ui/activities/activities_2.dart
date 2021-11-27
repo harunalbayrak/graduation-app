@@ -4,18 +4,18 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
 
-class BlockedActivities2 extends StatefulWidget {
-  const BlockedActivities2({Key? key}) : super(key: key);
+class Activities2 extends StatefulWidget {
+  const Activities2({Key? key}) : super(key: key);
 
   @override
-  _BlockedActivities2State createState() => _BlockedActivities2State();
+  _Activities2State createState() => _Activities2State();
 }
 
-class _BlockedActivities2State extends State<BlockedActivities2> {
+class _Activities2State extends State<Activities2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Blocked Activities')),
+      appBar: AppBar(title: const Text('Activities')),
       body: Stack(
         children: [
           buildBackground(),
@@ -33,13 +33,13 @@ class _BlockedActivities2State extends State<BlockedActivities2> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile1("www.telegram.org"),
+          buildListTile1("Telegram"),
+          paddingBoldText(context, "Total Activities: 1234 (Last 7 days)"),
           paddingBoldText(context, "Actions"),
-          buildListTile2("Add to Allowed", Icons.done),
-          buildListTile2("Copy to Clipboard", Icons.copy_all),
-          paddingBoldText(context, "Information"),
-          buildListTile3("Application", "Telegram"),
-          buildListTile3("Asd asdas asdad", "Lorem ipsum"),
+          buildListTile4("www.asdasd.telegram.com",
+              "Time: 18:03:21 (22 seconds ago)", Icons.block),
+          buildListTile4("www.asdasd.telegram.com",
+              "Time: 18:03:21 (22 seconds ago)", Icons.block),
         ],
       ),
     );

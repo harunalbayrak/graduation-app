@@ -6,7 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 
 class Applications extends StatefulWidget {
-  Applications({Key? key}) : super(key: key);
+  const Applications({Key? key}) : super(key: key);
 
   @override
   _ApplicationsState createState() => _ApplicationsState();

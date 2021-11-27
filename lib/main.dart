@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/ui/filters/filters.dart';
+import 'package:graduation_app/ui/statistics/statistics.dart';
+import 'package:graduation_app/ui/settings/settings.dart';
 import 'package:graduation_app/ui/home_page.dart';
 import 'package:graduation_app/ui/main_menu/main_menu.dart';
 import 'package:graduation_app/ui/applications/applications.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities_2.dart';
 import 'package:graduation_app/ui/activities/activities.dart';
+import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -35,12 +39,16 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
-        '/main_menu': (context) => MainMenu(),
-        '/applications': (context) => Applications(),
-        '/blocked_activities': (context) => BlockedActivities(),
-        '/blocked_activities_2': (context) => BlockedActivities2(),
-        '/activities': (context) => Activities(),
+        '/': (context) => const HomePage(),
+        '/main_menu': (context) => const MainMenu(),
+        '/applications': (context) => const Applications(),
+        '/blocked_activities': (context) => const BlockedActivities(),
+        '/blocked_activities2': (context) => const BlockedActivities2(),
+        '/activities': (context) => const Activities(),
+        '/activities2': (context) => const Activities2(),
+        '/filters': (context) => const Filters(),
+        '/statistics': (context) => const Statistics(),
+        '/settings': (context) => const Settings(),
       },
       theme: denemeTheme,
     );

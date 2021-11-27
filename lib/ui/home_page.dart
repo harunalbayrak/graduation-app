@@ -8,7 +8,7 @@ import 'package:graduation_app/constants/colors.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -18,7 +18,12 @@ class _HomePageState extends State<HomePage> {
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
   List<Widget> _buildScreens() {
-    return [MainMenu(), Applications(), BlockedActivities(), Activities()];
+    return [
+      const MainMenu(),
+      const Applications(),
+      const BlockedActivities(),
+      const Activities()
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
