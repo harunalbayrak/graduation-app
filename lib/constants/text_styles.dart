@@ -12,3 +12,13 @@ const TextStyle textStyle2 = TextStyle(
 const TextStyle textStyle3 = TextStyle(
   color: lightBlue,
 );
+
+TextStyle textStyle4(BuildContext context) {
+  var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+  return TextStyle(
+    color: gray,
+    fontWeight: FontWeight.w700,
+    fontSize: textScaleFactor * 25,
+  );
+}

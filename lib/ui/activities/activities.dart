@@ -24,7 +24,7 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Blocked Activities')),
+      appBar: AppBar(title: const Text('Activities')),
       body: Stack(
         children: [
           buildBackground(),

@@ -65,8 +65,9 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       title: AutoSizeText(titles[index], style: textStyle2),
       subtitle: AutoSizeText(subtitles[index], style: textStyle2),
       leading: const CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+        backgroundImage: NetworkImage(
+            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      ),
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(
