@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:graduation_app/ui/home_page.dart';
 import 'package:graduation_app/ui/main_menu/main_menu.dart';
 import 'package:graduation_app/ui/applications/applications.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities_2.dart';
 import 'package:graduation_app/ui/activities/activities.dart';
+import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
         '/blocked_activities': (context) => BlockedActivities(),
         '/blocked_activities_2': (context) => BlockedActivities2(),
         '/activities': (context) => Activities(),
+        '/activities_2': (context) => Activities2(),
+        '/filters': (context) => Filters(),
       },
       theme: denemeTheme,
     );

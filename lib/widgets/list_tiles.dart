@@ -47,3 +47,44 @@ Widget buildListTile3(String str1, String str2) {
     ),
   );
 }
+
+Widget buildListTile4(String str1, String str2, IconData iconData) {
+  return ListTile(
+    contentPadding: const EdgeInsets.fromLTRB(
+        paddingOverall, 0, paddingOverall, paddingOverall),
+    title: AutoSizeText(
+      str1,
+      style: textStyle2,
+    ),
+    subtitle: AutoSizeText(
+      str2,
+      style: textStyle2,
+    ),
+    trailing: Icon(
+      iconData,
+      color: orange,
+    ),
+  );
+}
+
+Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
+  return ListTile(
+    contentPadding: const EdgeInsets.all(paddingOverall),
+    leading: const CircleAvatar(
+      backgroundImage: NetworkImage(
+          "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+    ),
+    title: AutoSizeText(
+      str,
+      style: textStyle2,
+    ),
+    trailing: Switch(
+      value: isSwitched,
+      onChanged: (value) {
+        onChanged;
+      },
+      activeTrackColor: Colors.lightGreenAccent,
+      activeColor: Colors.green,
+    ),
+  );
+}
