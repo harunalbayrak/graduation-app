@@ -67,8 +67,8 @@ class _ActivitiesState extends State<Activities> {
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(
-          Icons.edit,
-          color: gray,
+          Icons.block,
+          color: orange,
         ),
       ),
     );

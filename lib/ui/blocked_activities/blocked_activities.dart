@@ -67,7 +67,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(
-          Icons.edit,
+          Icons.highlight_remove,
           color: gray,
         ),
       ),
