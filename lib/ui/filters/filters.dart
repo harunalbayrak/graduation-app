@@ -41,7 +41,7 @@ class _FiltersState extends State<Filters> {
       itemBuilder: (context, index) {
         return Container(
           padding: EdgeInsets.zero,
-          decoration: classicBlackGray,
+          decoration: filtersDecoration,
           child: buildListTiles(index),
         );
       },
@@ -61,15 +61,15 @@ class _FiltersState extends State<Filters> {
         );
         */
       },
-      contentPadding: const EdgeInsets.fromLTRB(paddingOverall,
-          paddingOverall * 2 / 3, paddingOverall, paddingOverall * 2 / 3),
+      contentPadding: const EdgeInsets.fromLTRB(filtersPaddingLR,
+          filtersPaddingTB, filtersPaddingLR, filtersPaddingTB),
       title: AutoSizeText(titles[index], style: textStyle2),
       leading: const CircleAvatar(
         backgroundImage: NetworkImage(
             "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
       ),
       trailing: Switch(
-        activeColor: lightBlue,
+        activeColor: filtersSwitchActiveColor,
         value: isSwitcheds[index],
         onChanged: (value) {
           setState(() {

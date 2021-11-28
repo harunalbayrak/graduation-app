@@ -63,6 +63,12 @@ const IconData activitiesBlockIcon = Icons.block;
 const Color activitiesIconColor = orange;
 const TextStyle activitiesTextStyle = textStyle2;
 
+/* FILTERS */
+const Decoration filtersDecoration = classicBlackGray;
+const double filtersPaddingLR = 12.0;
+const double filtersPaddingTB = 8.0;
+const Color filtersSwitchActiveColor = lightBlue;
+
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
 const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;
 const IconData backupSettingsIcon = Icons.settings_backup_restore;
