@@ -121,6 +121,8 @@ Widget buildListTile6(
         case 5:
           pageRoute(context, "/battery_settings", const BatterySettings());
           break;
+        default:
+          break;
       }
     },
   );

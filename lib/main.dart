@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
+import 'package:graduation_app/ui/filters/filters_2.dart';
 import 'package:graduation_app/ui/statistics/statistics.dart';
 import 'package:graduation_app/ui/settings/settings.dart';
 import 'package:graduation_app/ui/settings/general_settings.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/activities': (context) => const Activities(),
         '/activities2': (context) => const Activities2(),
         '/filters': (context) => const Filters(),
+        '/filters2': (context) => const Filters2(),
         '/statistics': (context) => const Statistics(),
         '/settings': (context) => const Settings(),
         '/general_settings': (context) => const GeneralSettings(),

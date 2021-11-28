@@ -6,6 +6,11 @@ import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+/* GENERAL */
+const double paddingMin = 8.0;
+const double paddingOverall = 12.0;
+const double borderRadiusMin = 4.0;
+
 /* BOTTOM BAR */
 const IconData bottomBarMainMenuIcon = Icons.home;
 const IconData bottomBarApplicationIcon = CupertinoIcons.app_badge;
@@ -80,10 +85,6 @@ const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;
 const IconData backupSettingsIcon = Icons.settings_backup_restore;
 const IconData advancedSettingsIcon = Icons.admin_panel_settings;
 const IconData batterySettingsIcon = Icons.power_settings_new_sharp;
-
-const double paddingMin = 8.0;
-const double paddingOverall = 12.0;
-const double borderRadiusMin = 4.0;
 
 /* BAR CHARTS */
 const double chartAspectRatio = 1.5;

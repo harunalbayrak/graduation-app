@@ -32,3 +32,12 @@ TextStyle textStyle5(BuildContext context, double scale) {
     fontSize: textScaleFactor * scale,
   );
 }
+
+TextStyle textStyle6(BuildContext context, int scale) {
+  var textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+  return TextStyle(
+    color: gray,
+    fontSize: textScaleFactor * scale,
+  );
+}
