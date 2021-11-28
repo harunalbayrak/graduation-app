@@ -34,7 +34,7 @@ class _ApplicationsState extends State<Applications> {
       itemBuilder: (context, index) {
         return Container(
           padding: EdgeInsets.zero,
-          decoration: decoration,
+          decoration: applicationsDecoration,
           child: Padding(
             padding: const EdgeInsets.all(applicationsPaddingLW),
             child: buildExpansionTiles(index),

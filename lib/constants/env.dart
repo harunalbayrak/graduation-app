@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
+import 'package:graduation_app/constants/text_styles.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 /* BOTTOM BAR */
@@ -42,7 +43,17 @@ const IconData applicationsCellDataIcon = Icons.network_cell_sharp;
 const IconData applicationsExtendedIcon1 = Icons.assistant_direction;
 const IconData applicationsExtendedIcon2 = Icons.badge_sharp;
 const Color applicationsTextIconColor = gray;
-const Decoration decoration = classicBlackGray;
+const Decoration applicationsDecoration = classicBlackGray;
+
+/* BLOCKED ACTIVITIES */
+const Decoration blockedActivitiesDecoration = classicBlackGray;
+const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
+const Color blockedActivitiesIconColor = gray;
+const TextStyle blockedActivitiesTextStyle = textStyle2;
+
+/* BLOCKED ACTIVITIES 2 */
+const IconData blockedActivities2Icon1 = Icons.done;
+const IconData blockedActivities2Icon2 = Icons.copy_all;
 
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
 const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;
