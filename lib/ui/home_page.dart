@@ -4,7 +4,7 @@ import 'package:graduation_app/ui/main_menu/main_menu.dart';
 import 'package:graduation_app/ui/applications/applications.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
 import 'package:graduation_app/ui/activities/activities.dart';
-import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,28 +29,28 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home),
+        icon: const Icon(bottomBarMainMenuIcon),
         title: ("Main Menu"),
-        activeColorPrimary: lightBlue,
-        inactiveColorPrimary: blue,
+        activeColorPrimary: bottomBarActiveColor,
+        inactiveColorPrimary: bottomBarInActiveColor,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.app_badge),
+        icon: const Icon(bottomBarApplicationIcon),
         title: ("Applications"),
-        activeColorPrimary: lightBlue,
-        inactiveColorPrimary: blue,
+        activeColorPrimary: bottomBarActiveColor,
+        inactiveColorPrimary: bottomBarInActiveColor,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.slash_circle),
+        icon: const Icon(bottomBarBlockedActivitiesIcon),
         title: ("Blocked Activities"),
-        activeColorPrimary: lightBlue,
-        inactiveColorPrimary: blue,
+        activeColorPrimary: bottomBarActiveColor,
+        inactiveColorPrimary: bottomBarInActiveColor,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.list_bullet),
+        icon: const Icon(bottomBarActivitiesIcon),
         title: ("Activities"),
-        activeColorPrimary: lightBlue,
-        inactiveColorPrimary: blue,
+        activeColorPrimary: bottomBarActiveColor,
+        inactiveColorPrimary: bottomBarInActiveColor,
       ),
     ];
   }
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: darkBlue, // Default is Colors.white.
+      backgroundColor: bottomBarBackgroundColor, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset:
           true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style13, // Choose the nav bar style with this property.
+          bottomBarNavBarStyle, // Choose the nav bar style with this property.
     );
   }
 }

@@ -14,4 +14,25 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-# graduation-app
+
+# Done
+- Add Basic Main Menu
+- Add Basic Applications Screen
+- Add Basic Blocked Activities Screen
+- Add Basic Activities Screen
+- Add Basic Filters Screen
+- Add Basic Statistics Screen
+- Add Basic Settings Screen
+- Add Environment Variables
+
+# TO DO
+- Add All Filters Screens
+- Add All Settings Screens
+- Fix Chart Sized Box 
+- Configure All Texts as JSON 
+- Design A Logo
+- Add Splash Screen
+- Add Initial Screens
+- Add Some Logic (Changing the theme, Button Logic etc.)
+- Make All Screens Scrollable 
+- Add Database (SQLite/SQFLite)
