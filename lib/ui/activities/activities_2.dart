@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_app/constants/box_decorations.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
@@ -28,7 +28,7 @@ class _Activities2State extends State<Activities2> {
   Widget buildContainer() {
     return Container(
       padding: EdgeInsets.zero,
-      decoration: classicBlackGray,
+      decoration: activitiesDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,9 +37,9 @@ class _Activities2State extends State<Activities2> {
           paddingBoldText(context, "Total Activities: 1234 (Last 7 days)"),
           paddingBoldText(context, "Actions"),
           buildListTile4("www.asdasd.telegram.com",
-              "Time: 18:03:21 (22 seconds ago)", Icons.block),
+              "Time: 18:03:21 (22 seconds ago)", activitiesBlockIcon),
           buildListTile4("www.asdasd.telegram.com",
-              "Time: 18:03:21 (22 seconds ago)", Icons.block),
+              "Time: 18:03:21 (22 seconds ago)", activitiesBlockIcon),
         ],
       ),
     );

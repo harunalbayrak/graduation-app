@@ -46,6 +46,7 @@ const Color applicationsTextIconColor = gray;
 const Decoration applicationsDecoration = classicBlackGray;
 
 /* BLOCKED ACTIVITIES */
+const double blockedActivitiesPadding = 12.0;
 const Decoration blockedActivitiesDecoration = classicBlackGray;
 const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
 const Color blockedActivitiesIconColor = gray;
@@ -54,6 +55,13 @@ const TextStyle blockedActivitiesTextStyle = textStyle2;
 /* BLOCKED ACTIVITIES 2 */
 const IconData blockedActivities2Icon1 = Icons.done;
 const IconData blockedActivities2Icon2 = Icons.copy_all;
+
+/* ACTIVITIES */
+const double activitiesPadding = 12.0;
+const Decoration activitiesDecoration = classicBlackGray;
+const IconData activitiesBlockIcon = Icons.block;
+const Color activitiesIconColor = orange;
+const TextStyle activitiesTextStyle = textStyle2;
 
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
 const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;

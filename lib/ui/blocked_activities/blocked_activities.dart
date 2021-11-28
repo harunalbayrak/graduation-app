@@ -55,8 +55,8 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       onTap: () {
         pageRoute(context, "/blocked_activities2", const BlockedActivities2());
       },
-      contentPadding:
-          const EdgeInsets.fromLTRB(paddingOverall, 0, paddingOverall, 0),
+      contentPadding: const EdgeInsets.fromLTRB(
+          blockedActivitiesPadding, 0, blockedActivitiesPadding, 0),
       title: AutoSizeText(titles[index], style: blockedActivitiesTextStyle),
       subtitle:
           AutoSizeText(subtitles[index], style: blockedActivitiesTextStyle),

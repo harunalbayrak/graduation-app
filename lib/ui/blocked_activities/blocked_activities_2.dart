@@ -29,7 +29,7 @@ class _BlockedActivities2State extends State<BlockedActivities2> {
   Widget buildContainer() {
     return Container(
       padding: EdgeInsets.zero,
-      decoration: classicBlackGray,
+      decoration: blockedActivitiesDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
