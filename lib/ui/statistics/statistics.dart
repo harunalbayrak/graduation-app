@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart_2.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart.dart';
+import 'package:graduation_app/ui/statistics/statistics_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class Statistics extends StatefulWidget {
@@ -93,30 +93,5 @@ class _StatisticsState extends State<Statistics> {
         ],
       ),
     );
-  }
-
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-      BarChartRodData(
-        y: y1,
-        colors: [lightBlue, orange],
-        width: width,
-      ),
-      BarChartRodData(
-        y: y2,
-        colors: [lightBlue, blue],
-        width: width,
-      ),
-    ]);
-  }
-
-  BarChartGroupData makeGroupData2(int x, double y1) {
-    return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-      BarChartRodData(
-        y: y1,
-        colors: [lightBlue, orange],
-        width: width,
-      ),
-    ]);
   }
 }

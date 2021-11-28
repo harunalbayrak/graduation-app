@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/constants/colors.dart';
 
 const double paddingMin = 8.0;
 const double paddingOverall = 12.0;
 
 const double borderRadiusMin = 4.0;
 
+const double statisticsBarWidth = 7;
 const double chartAspectRatio = 1.5;
 const double chartLeftInterval = 1;
 const double chartLeftReservedSize = 28;
+const List<Color> chart1Colors_1 = [lightBlue, orange];
+const List<Color> chart1Colors_2 = [lightBlue, blue];
+const List<Color> chart2Colors = [lightBlue, orange];
 
 double chartTopPadding(BuildContext context) {
   return MediaQuery.of(context).size.height / 60;
