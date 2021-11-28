@@ -3,6 +3,12 @@ import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:graduation_app/ui/settings/general_settings.dart';
+import 'package:graduation_app/ui/settings/network_settings.dart';
+import 'package:graduation_app/ui/settings/backup_settings.dart';
+import 'package:graduation_app/ui/settings/advanced_settings.dart';
+import 'package:graduation_app/ui/settings/battery_settings.dart';
+import 'package:graduation_app/utils/page_route_utils.dart';
 
 Widget buildListTile1(String str) {
   return ListTile(
@@ -86,5 +92,36 @@ Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
       activeTrackColor: Colors.lightGreenAccent,
       activeColor: Colors.green,
     ),
+  );
+}
+
+Widget buildListTile6(
+    BuildContext context, String str, IconData iconData, int val) {
+  return ListTile(
+    contentPadding: const EdgeInsets.all(paddingOverall),
+    leading: Icon(iconData),
+    title: AutoSizeText(
+      str,
+      style: textStyle2,
+    ),
+    onTap: () {
+      switch (val) {
+        case 1:
+          pageRoute(context, "/general_settings", const GeneralSettings());
+          break;
+        case 2:
+          pageRoute(context, "/network_settings", const NetworkSettings());
+          break;
+        case 3:
+          pageRoute(context, "/backup_settings", const BackupSettings());
+          break;
+        case 4:
+          pageRoute(context, "/advanced_settings", const AdvancedSettings());
+          break;
+        case 5:
+          pageRoute(context, "/battery_settings", const BatterySettings());
+          break;
+      }
+    },
   );
 }

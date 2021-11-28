@@ -29,7 +29,7 @@ Widget buildVerticalBarChart2(
             Expanded(
               child: BarChart(
                 BarChartData(
-                  maxY: 20,
+                  maxY: chart2_MaxY,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
                       tooltipBgColor: Colors.grey,
@@ -44,7 +44,7 @@ Widget buildVerticalBarChart2(
                     leftTitles: SideTitles(
                       showTitles: true,
                       getTextStyles: (context, value) => const TextStyle(
-                          color: Color(0xff7589a2),
+                          color: gray,
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
                       margin: chartLeftMargin(context),

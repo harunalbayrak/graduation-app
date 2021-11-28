@@ -13,6 +13,8 @@ const double chartLeftReservedSize = 28;
 const List<Color> chart1Colors_1 = [lightBlue, orange];
 const List<Color> chart1Colors_2 = [lightBlue, blue];
 const List<Color> chart2Colors = [lightBlue, orange];
+const double chart1_MaxY = 20;
+const double chart2_MaxY = 20;
 
 double chartTopPadding(BuildContext context) {
   return MediaQuery.of(context).size.height / 60;

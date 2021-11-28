@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/colors.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:graduation_app/ui/statistics/statistics.dart';
 import 'package:graduation_app/ui/settings/settings.dart';
+import 'package:graduation_app/utils/page_route_utils.dart';
 
 Widget rectangleButton(
     BuildContext context, String str, IconData iconData, int val) {
@@ -18,31 +18,13 @@ Widget rectangleButton(
       onPressed: () {
         switch (val) {
           case 1:
-            pushNewScreenWithRouteSettings(
-              context,
-              settings: const RouteSettings(name: "/filters"),
-              screen: const Filters(),
-              withNavBar: true,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            pageRoute(context, "/filters", const Filters());
             break;
           case 2:
-            pushNewScreenWithRouteSettings(
-              context,
-              settings: const RouteSettings(name: "/statistics"),
-              screen: const Statistics(),
-              withNavBar: true,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            pageRoute(context, "/statistics", const Statistics());
             break;
           case 3:
-            pushNewScreenWithRouteSettings(
-              context,
-              settings: const RouteSettings(name: "/settings"),
-              screen: const Settings(),
-              withNavBar: true,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            pageRoute(context, "/settings", const Settings());
             break;
         }
       },
