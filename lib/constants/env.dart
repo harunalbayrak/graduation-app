@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/themes.dart';
+import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 /* BOTTOM BAR */
@@ -30,6 +31,18 @@ double mainMenuSpaceSize1(BuildContext context) {
 double mainMenuSpaceSize2(BuildContext context) {
   return mainMenuSpaceSize1(context) / 2;
 }
+
+/* APPLICATIONS */
+const double applicationsPaddingLW = 6.0;
+const double applicationsPaddingTB = 1.0;
+const int applicationsIconDuration = 350;
+const IconData applicationsDropdownIcon = Icons.arrow_drop_down;
+const IconData applicationsWifiIcon = Icons.wifi;
+const IconData applicationsCellDataIcon = Icons.network_cell_sharp;
+const IconData applicationsExtendedIcon1 = Icons.assistant_direction;
+const IconData applicationsExtendedIcon2 = Icons.badge_sharp;
+const Color applicationsTextIconColor = gray;
+const Decoration decoration = classicBlackGray;
 
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
 const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;

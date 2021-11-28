@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_app/constants/box_decorations.dart';
-import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/applications_list_tile.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -15,9 +14,6 @@ class Applications extends StatefulWidget {
 class _ApplicationsState extends State<Applications> {
   final titles = ["List 1", "List 2", "List 3"];
   final isExpandeds = [false, false, false];
-  final double paddingListView = 6.0;
-  final double paddingTB = 1.0;
-  final int iconDurationMiliseconds = 350;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +34,9 @@ class _ApplicationsState extends State<Applications> {
       itemBuilder: (context, index) {
         return Container(
           padding: EdgeInsets.zero,
-          decoration: classicBlackGray,
+          decoration: decoration,
           child: Padding(
-            padding: EdgeInsets.all(paddingListView),
+            padding: const EdgeInsets.all(applicationsPaddingLW),
             child: buildExpansionTiles(index),
           ),
         );
@@ -55,20 +51,20 @@ class _ApplicationsState extends State<Applications> {
           isExpandeds[index] = value;
         });
       },
-      collapsedIconColor: gray,
-      textColor: gray,
-      collapsedTextColor: gray,
-      iconColor: gray,
-      tilePadding:
-          EdgeInsets.fromLTRB(paddingListView, paddingTB, 0, paddingTB),
+      collapsedIconColor: applicationsTextIconColor,
+      textColor: applicationsTextIconColor,
+      collapsedTextColor: applicationsTextIconColor,
+      iconColor: applicationsTextIconColor,
+      tilePadding: const EdgeInsets.fromLTRB(applicationsPaddingLW,
+          applicationsPaddingTB, 0, applicationsPaddingTB),
       initiallyExpanded: false,
       children: [
         Column(
           children: [
             applicationsListTile(
-                Icons.assistant_direction, "Deneme2", "com.package.name"),
+                applicationsExtendedIcon1, "Deneme2", "com.package.name"),
             applicationsListTile(
-                Icons.badge_sharp, "Deneme3", "com.package.name"),
+                applicationsExtendedIcon2, "Deneme3", "com.package.name"),
           ],
         ),
       ],
@@ -78,12 +74,12 @@ class _ApplicationsState extends State<Applications> {
           AutoSizeText(titles[index]),
           AnimatedRotation(
             turns: isExpandeds[index] ? .5 : 0,
-            duration: Duration(milliseconds: iconDurationMiliseconds),
+            duration: const Duration(milliseconds: applicationsIconDuration),
             child: IgnorePointer(
               child: IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.arrow_drop_down),
-                color: gray,
+                icon: const Icon(applicationsDropdownIcon),
+                color: applicationsTextIconColor,
               ),
             ),
           ),
@@ -99,11 +95,11 @@ class _ApplicationsState extends State<Applications> {
         children: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.edit),
+            icon: const Icon(applicationsWifiIcon),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.delete),
+            icon: const Icon(applicationsCellDataIcon),
           ),
         ],
       ),
