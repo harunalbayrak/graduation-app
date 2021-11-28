@@ -47,10 +47,12 @@ class _MainMenuState extends State<MainMenu> {
         AutoSizeText(
           "Application",
           style: textStyle5(context, mainMenuText1Size),
+          maxLines: 1,
         ),
         AutoSizeText(
           "Deactivated",
           style: textStyle5(context, mainMenuText2Size),
+          maxLines: 1,
         ),
       ],
     );

@@ -6,6 +6,7 @@ import 'package:graduation_app/widgets/vertical_bar_chart_2.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart.dart';
 import 'package:graduation_app/ui/statistics/statistics_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({Key? key}) : super(key: key);
@@ -15,7 +16,6 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
-  final double width = 7;
   late List<BarChartGroupData> showingBarGroups;
   late List<BarChartGroupData> showingBarGroups2;
 
@@ -65,30 +65,40 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Filters')),
+      appBar: AppBar(title: const Text('Statistics')),
       body: Stack(
         children: [
           buildBackground(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(paddingOverall),
-                child: Text(
-                  "Total/Blocked Activities per day",
-                  style: textStyle5(context, 20),
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(paddingOverall),
+                  child: AutoSizeText(
+                    "Total/Blocked Activities per day",
+                    style: textStyle5(context, statisticsTextSize),
+                  ),
                 ),
-              ),
-              buildVerticalBarChart(context, showingBarGroups),
-              Padding(
-                padding: const EdgeInsets.all(paddingOverall),
-                child: Text(
-                  "Most Blocked Apps (Last 7 Days)",
-                  style: textStyle5(context, 20),
+                buildVerticalBarChart(context, showingBarGroups),
+                Padding(
+                  padding: const EdgeInsets.all(paddingOverall),
+                  child: AutoSizeText(
+                    "Most Blocked Apps (Last 7 Days)",
+                    style: textStyle5(context, statisticsTextSize),
+                  ),
                 ),
-              ),
-              buildVerticalBarChart2(context, showingBarGroups2),
-            ],
+                buildVerticalBarChart2(context, showingBarGroups2),
+                Padding(
+                  padding: const EdgeInsets.all(paddingOverall),
+                  child: AutoSizeText(
+                    "Most Blocked Apps (Last 7 Days)",
+                    style: textStyle5(context, statisticsTextSize),
+                  ),
+                ),
+                buildVerticalBarChart2(context, showingBarGroups2),
+              ],
+            ),
           ),
         ],
       ),

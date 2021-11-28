@@ -69,6 +69,12 @@ const double filtersPaddingLR = 12.0;
 const double filtersPaddingTB = 8.0;
 const Color filtersSwitchActiveColor = lightBlue;
 
+/* STATISTICS */
+const double statisticsPadding = 12.0;
+const double statisticsTextSize = 20;
+const double statisticsBarWidth = 7;
+
+/* SETTINGS */
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
 const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;
 const IconData backupSettingsIcon = Icons.settings_backup_restore;
@@ -78,16 +84,16 @@ const IconData batterySettingsIcon = Icons.power_settings_new_sharp;
 const double paddingMin = 8.0;
 const double paddingOverall = 12.0;
 const double borderRadiusMin = 4.0;
-const double statisticsBarWidth = 7;
+
+/* BAR CHARTS */
 const double chartAspectRatio = 1.5;
 const double chartLeftInterval = 1;
 const double chartLeftReservedSize = 28;
 const List<Color> chart1Colors_1 = [lightBlue, orange];
 const List<Color> chart1Colors_2 = [lightBlue, blue];
 const List<Color> chart2Colors = [lightBlue, orange];
-const double chart1_MaxY = 20;
-const double chart2_MaxY = 20;
-
+const double barChart1MaxY = 20;
+const double barChart2MaxY = 20;
 double chartTopPadding(BuildContext context) {
   return MediaQuery.of(context).size.height / 60;
 }

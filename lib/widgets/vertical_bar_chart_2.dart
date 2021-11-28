@@ -29,7 +29,7 @@ Widget buildVerticalBarChart2(
             Expanded(
               child: BarChart(
                 BarChartData(
-                  maxY: chart2_MaxY,
+                  maxY: barChart2MaxY,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
                       tooltipBgColor: Colors.grey,
