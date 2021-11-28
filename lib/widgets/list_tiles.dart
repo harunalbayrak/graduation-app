@@ -99,8 +99,8 @@ Widget buildListTile6(
     BuildContext context, String str, IconData iconData, int val) {
   return ListTile(
     contentPadding: const EdgeInsets.all(paddingOverall),
-    leading: Icon(iconData),
-    title: AutoSizeText(
+    leading: Icon(iconData, color: gray, size: 30),
+    title: Text(
       str,
       style: textStyle2,
     ),

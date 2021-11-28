@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 
 class Settings extends StatefulWidget {
@@ -32,11 +33,11 @@ class _SettingsState extends State<Settings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, "General Settings", Icons.ac_unit, 1),
-          buildListTile6(context, "Network Settings", Icons.ac_unit, 2),
-          buildListTile6(context, "Backup Settings", Icons.ac_unit, 3),
-          buildListTile6(context, "Advanced Settings", Icons.ac_unit, 4),
-          buildListTile6(context, "Battery Settings", Icons.ac_unit, 5),
+          buildListTile6(context, "General Settings", generalSettingsIcon, 1),
+          buildListTile6(context, "Network Settings", networkSettingsIcon, 2),
+          buildListTile6(context, "Backup Settings", backupSettingsIcon, 3),
+          buildListTile6(context, "Advanced Settings", advancedSettingsIcon, 4),
+          buildListTile6(context, "Battery Settings", batterySettingsIcon, 5),
         ],
       ),
     );

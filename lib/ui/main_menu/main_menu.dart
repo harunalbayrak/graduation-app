@@ -3,6 +3,7 @@ import 'package:graduation_app/widgets/switch_button.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/constants/text_styles.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class MainMenu extends StatefulWidget {
@@ -56,11 +57,11 @@ class _MainMenuState extends State<MainMenu> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        rectangleButton(context, "Filters", Icons.filter_list, 1),
+        rectangleButton(context, "Filters", mainMenuFiltersIcon, 1),
         SizedBox(width: spaceSize),
-        rectangleButton(context, "Statistics", Icons.query_stats, 2),
+        rectangleButton(context, "Statistics", mainMenuStatisticsIcon, 2),
         SizedBox(width: spaceSize),
-        rectangleButton(context, "Settings", Icons.settings, 3),
+        rectangleButton(context, "Settings", mainMenuSettingsIcon, 3),
       ],
     );
   }
