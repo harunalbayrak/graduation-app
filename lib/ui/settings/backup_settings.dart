@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/widgets/build_background.dart';
-import 'package:graduation_app/constants/box_decorations.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 
 class BackupSettings extends StatefulWidget {
@@ -14,7 +14,7 @@ class _BackupSettingsState extends State<BackupSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Backup Settings')),
+      appBar: AppBar(title: const Text('Settings')),
       body: Stack(
         children: [
           buildBackground(),
@@ -27,12 +27,12 @@ class _BackupSettingsState extends State<BackupSettings> {
   Widget buildContainer() {
     return Container(
       padding: EdgeInsets.zero,
-      decoration: classicBlackGray,
+      decoration: activitiesDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("asd"),
+        children: [
+          buildListTile6(context, "Backup Settings", Icons.dangerous, 0),
         ],
       ),
     );

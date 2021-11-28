@@ -17,16 +17,15 @@ samples, guidance on mobile development, and a full API reference.
 
 # Done
 - Add Basic Main Menu
-- Add Basic Applications Screen
-- Add Basic Blocked Activities Screen
-- Add Basic Activities Screen
-- Add Basic Filters Screen
+- Add All Applications Screen
+- Add All Blocked Activities Screen
+- Add All Activities Screen
+- Add All Filters Screen
 - Add Basic Statistics Screen
 - Add Basic Settings Screen
 - Add Environment Variables
 
 # TO DO
-- Add All Filters Screens
 - Add All Settings Screens
 - Fix Chart Sized Box 
 - Configure All Texts as JSON 
