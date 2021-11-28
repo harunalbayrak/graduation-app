@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/constants/env.dart';
 
-Widget buildVerticalBarChart(List<BarChartGroupData> showingBarGroups) {
+Widget buildVerticalBarChart(
+    BuildContext context, List<BarChartGroupData> showingBarGroups) {
+  double topPadding = chartTopPadding(context);
+
   return AspectRatio(
-    aspectRatio: 1.5,
+    aspectRatio: chartAspectRatio,
     child: Card(
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadiusMin)),
       color: darkBlue,
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(paddingMin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: topPadding,
             ),
             Expanded(
               child: BarChart(
@@ -39,7 +44,7 @@ Widget buildVerticalBarChart(List<BarChartGroupData> showingBarGroups) {
                           color: Color(0xff7589a2),
                           fontWeight: FontWeight.w700,
                           fontSize: 14),
-                      margin: 20,
+                      margin: chartLeftMargin(context),
                       getTitles: (double value) {
                         switch (value.toInt()) {
                           case 0:
@@ -67,9 +72,9 @@ Widget buildVerticalBarChart(List<BarChartGroupData> showingBarGroups) {
                           color: Color(0xff7589a2),
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
-                      margin: 8,
-                      reservedSize: 28,
-                      interval: 1,
+                      margin: chartLeftMargin(context),
+                      reservedSize: chartLeftReservedSize,
+                      interval: chartLeftInterval,
                       getTitles: (value) {
                         if (value == 0) {
                           return '1K';
@@ -91,8 +96,8 @@ Widget buildVerticalBarChart(List<BarChartGroupData> showingBarGroups) {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12,
+            SizedBox(
+              height: topPadding / 2 + 2,
             ),
           ],
         ),

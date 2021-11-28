@@ -5,9 +5,7 @@ import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart_2.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart.dart';
-import 'package:graduation_app/models/chart_data.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({Key? key}) : super(key: key);
@@ -81,8 +79,15 @@ class _StatisticsState extends State<Statistics> {
                   style: textStyle5(context, 20),
                 ),
               ),
-              buildVerticalBarChart(showingBarGroups),
-              buildVerticalBarChart2(showingBarGroups2),
+              buildVerticalBarChart(context, showingBarGroups),
+              Padding(
+                padding: const EdgeInsets.all(paddingOverall),
+                child: Text(
+                  "Most Blocked Apps (Last 7 Days)",
+                  style: textStyle5(context, 20),
+                ),
+              ),
+              buildVerticalBarChart2(context, showingBarGroups2),
             ],
           ),
         ],

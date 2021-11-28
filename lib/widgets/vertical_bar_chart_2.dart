@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/constants/env.dart';
 
-Widget buildVerticalBarChart2(List<BarChartGroupData> showingBarGroups) {
+Widget buildVerticalBarChart2(
+    BuildContext context, List<BarChartGroupData> showingBarGroups) {
+  double leftPadding = chartLeftPadding(context);
+  double topPadding = chartTopPadding(context);
+  double sizedBoxWidth = chartIconSizedBox(context);
+
   return AspectRatio(
-    aspectRatio: 1.5,
+    aspectRatio: chartAspectRatio,
     child: Card(
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadiusMin)),
       color: darkBlue,
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(paddingMin),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: topPadding,
             ),
             Expanded(
               child: BarChart(
@@ -33,50 +40,23 @@ Widget buildVerticalBarChart2(List<BarChartGroupData> showingBarGroups) {
                     show: true,
                     rightTitles: SideTitles(showTitles: false),
                     topTitles: SideTitles(showTitles: false),
-                    bottomTitles: SideTitles(
-                      showTitles: true,
-                      getTextStyles: (context, value) => const TextStyle(
-                          color: Color(0xff7589a2),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14),
-                      margin: 20,
-                      getTitles: (double value) {
-                        switch (value.toInt()) {
-                          case 0:
-                            return 'Mn';
-                          case 1:
-                            return 'Te';
-                          case 2:
-                            return 'Wd';
-                          case 3:
-                            return 'Tu';
-                          case 4:
-                            return 'Fr';
-                          case 5:
-                            return 'St';
-                          case 6:
-                            return 'Sn';
-                          default:
-                            return '';
-                        }
-                      },
-                    ),
+                    bottomTitles: SideTitles(showTitles: false),
                     leftTitles: SideTitles(
                       showTitles: true,
                       getTextStyles: (context, value) => const TextStyle(
                           color: Color(0xff7589a2),
                           fontWeight: FontWeight.bold,
                           fontSize: 14),
-                      margin: 8,
-                      reservedSize: 28,
-                      interval: 1,
+                      margin: chartLeftMargin(context),
+                      reservedSize: chartLeftReservedSize,
+                      interval: chartLeftInterval,
                       getTitles: (value) {
                         if (value == 0) {
-                          return '1K';
+                          return '0';
                         } else if (value == 10) {
-                          return '5K';
+                          return '25K';
                         } else if (value == 19) {
-                          return '10K';
+                          return '30K';
                         } else {
                           return '';
                         }
@@ -91,8 +71,28 @@ Widget buildVerticalBarChart2(List<BarChartGroupData> showingBarGroups) {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12,
+            Padding(
+              padding: EdgeInsets.fromLTRB(leftPadding, topPadding, 0, 0),
+              child: Row(
+                children: [
+                  const Icon(Icons.ac_unit),
+                  SizedBox(width: sizedBoxWidth),
+                  const Icon(Icons.ac_unit),
+                  SizedBox(width: sizedBoxWidth),
+                  const Icon(Icons.ac_unit),
+                  SizedBox(width: sizedBoxWidth),
+                  const Icon(Icons.ac_unit),
+                  SizedBox(width: sizedBoxWidth),
+                  const Icon(Icons.ac_unit),
+                  SizedBox(width: sizedBoxWidth),
+                  const Icon(Icons.ac_unit),
+                  SizedBox(width: sizedBoxWidth),
+                  const Icon(Icons.ac_unit),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: topPadding / 2 + 2,
             ),
           ],
         ),
