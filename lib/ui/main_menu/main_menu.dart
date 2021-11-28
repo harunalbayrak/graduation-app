@@ -20,9 +20,6 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
-    const double spaceSize1 = 40 * 0.75;
-    const double spaceSize2 = spaceSize1 / 2;
-
     return Scaffold(
       appBar: AppBar(title: const Text('Main Menu')),
       body: Stack(
@@ -33,10 +30,10 @@ class _MainMenuState extends State<MainMenu> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildTexts(),
-              const SizedBox(height: spaceSize1),
+              SizedBox(height: mainMenuSpaceSize1(context)),
               mainSwitchButton(context),
-              const SizedBox(height: spaceSize1),
-              buildRow(spaceSize2),
+              SizedBox(height: mainMenuSpaceSize1(context)),
+              buildRow(mainMenuSpaceSize2(context)),
             ],
           )),
         ],
@@ -47,8 +44,14 @@ class _MainMenuState extends State<MainMenu> {
   Widget buildTexts() {
     return Column(
       children: [
-        AutoSizeText("Application", style: textStyle5(context, 40)),
-        AutoSizeText("Deactivated", style: textStyle5(context, 20)),
+        AutoSizeText(
+          "Application",
+          style: textStyle5(context, mainMenuText1Size),
+        ),
+        AutoSizeText(
+          "Deactivated",
+          style: textStyle5(context, mainMenuText2Size),
+        ),
       ],
     );
   }

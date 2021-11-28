@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/constants/themes.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 /* BOTTOM BAR */
@@ -13,9 +14,23 @@ const Color bottomBarInActiveColor = blue;
 const Color bottomBarBackgroundColor = darkBlue;
 const NavBarStyle bottomBarNavBarStyle = NavBarStyle.style13;
 
+/* MAIN */
+ThemeData mainMenuMaterialAppTheme = denemeTheme;
+
+/* MAIN MENU */
 const IconData mainMenuFiltersIcon = Icons.filter_list;
 const IconData mainMenuStatisticsIcon = Icons.query_stats;
 const IconData mainMenuSettingsIcon = Icons.settings;
+const double mainMenuText1Size = 40;
+const double mainMenuText2Size = mainMenuText1Size / 2;
+double mainMenuSpaceSize1(BuildContext context) {
+  return MediaQuery.of(context).size.height / 40;
+}
+
+double mainMenuSpaceSize2(BuildContext context) {
+  return mainMenuSpaceSize1(context) / 2;
+}
+
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
 const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;
 const IconData backupSettingsIcon = Icons.settings_backup_restore;
