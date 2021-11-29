@@ -4,6 +4,7 @@ import 'package:graduation_app/constants/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Activities extends StatefulWidget {
   const Activities({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Activities')),
+      appBar: AppBar(title: Text('hp4'.tr())),
       body: Stack(
         children: [
           buildBackground(),

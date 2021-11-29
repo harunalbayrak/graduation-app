@@ -6,6 +6,7 @@ import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
 import 'package:graduation_app/ui/activities/activities.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,25 +31,25 @@ class _HomePageState extends State<HomePage> {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(bottomBarMainMenuIcon),
-        title: ("Main Menu"),
+        title: ('hp1'.tr()),
         activeColorPrimary: bottomBarActiveColor,
         inactiveColorPrimary: bottomBarInActiveColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(bottomBarApplicationIcon),
-        title: ("Applications"),
+        title: ('hp2'.tr()),
         activeColorPrimary: bottomBarActiveColor,
         inactiveColorPrimary: bottomBarInActiveColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(bottomBarBlockedActivitiesIcon),
-        title: ("Blocked Activities"),
+        title: ('hp3'.tr()),
         activeColorPrimary: bottomBarActiveColor,
         inactiveColorPrimary: bottomBarInActiveColor,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(bottomBarActivitiesIcon),
-        title: ("Activities"),
+        title: ('hp4'.tr()),
         activeColorPrimary: bottomBarActiveColor,
         inactiveColorPrimary: bottomBarInActiveColor,
       ),

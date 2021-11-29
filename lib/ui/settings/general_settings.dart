@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GeneralSettings extends StatefulWidget {
   const GeneralSettings({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text('mm6'.tr())),
       body: Stack(
         children: [
           buildBackground(),
@@ -32,7 +33,10 @@ class _GeneralSettingsState extends State<GeneralSettings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, "General Settings", Icons.dangerous, 0),
+          buildListTile6(context, 'st1'.tr(), Icons.dangerous, 0, paddingMax),
+          buildListTile7('st1_1'.tr()),
+          buildListTile3('st1_2'.tr(), "System default"),
+          buildListTile3('st1_3'.tr(), "English"),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Main Menu')),
+      appBar: AppBar(title: Text('hp1'.tr())),
       body: Stack(
         children: [
           buildBackground(),
@@ -45,12 +46,12 @@ class _MainMenuState extends State<MainMenu> {
     return Column(
       children: [
         AutoSizeText(
-          "Application",
+          'mm1'.tr(),
           style: textStyle5(context, mainMenuText1Size),
           maxLines: 1,
         ),
         AutoSizeText(
-          "Deactivated",
+          'mm2'.tr(),
           style: textStyle5(context, mainMenuText2Size),
           maxLines: 1,
         ),
@@ -62,11 +63,11 @@ class _MainMenuState extends State<MainMenu> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        rectangleButton(context, "Filters", mainMenuFiltersIcon, 1),
+        rectangleButton(context, 'mm4'.tr(), mainMenuFiltersIcon, 1),
         SizedBox(width: spaceSize),
-        rectangleButton(context, "Statistics", mainMenuStatisticsIcon, 2),
+        rectangleButton(context, 'mm5'.tr(), mainMenuStatisticsIcon, 2),
         SizedBox(width: spaceSize),
-        rectangleButton(context, "Settings", mainMenuSettingsIcon, 3),
+        rectangleButton(context, 'mm6'.tr(), mainMenuSettingsIcon, 3),
       ],
     );
   }

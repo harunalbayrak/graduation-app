@@ -3,6 +3,7 @@ import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/applications_list_tile.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/widgets/build_background.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Applications extends StatefulWidget {
   const Applications({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _ApplicationsState extends State<Applications> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Applications')),
+      appBar: AppBar(title: Text('hp2'.tr())),
       body: Stack(
         children: [
           buildBackground(),
@@ -62,9 +63,9 @@ class _ApplicationsState extends State<Applications> {
         Column(
           children: [
             applicationsListTile(
-                applicationsExtendedIcon1, "Deneme2", "com.package.name"),
+                applicationsExtendedIcon1, 'ap1'.tr(), "com.package.name"),
             applicationsListTile(
-                applicationsExtendedIcon2, "Deneme3", "com.package.name"),
+                applicationsExtendedIcon2, 'ap2'.tr(), "com.package.name"),
           ],
         ),
       ],

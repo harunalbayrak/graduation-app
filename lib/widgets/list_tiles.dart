@@ -95,10 +95,10 @@ Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
   );
 }
 
-Widget buildListTile6(
-    BuildContext context, String str, IconData iconData, int val) {
+Widget buildListTile6(BuildContext context, String str, IconData iconData,
+    int val, double padding) {
   return ListTile(
-    contentPadding: const EdgeInsets.all(paddingOverall),
+    contentPadding: EdgeInsets.all(padding),
     leading: Icon(iconData, color: gray, size: 30),
     title: Text(
       str,
@@ -125,5 +125,15 @@ Widget buildListTile6(
           break;
       }
     },
+  );
+}
+
+Widget buildListTile7(String str) {
+  return ListTile(
+    contentPadding: const EdgeInsets.all(paddingOverall),
+    title: AutoSizeText(
+      str,
+      style: textStyle2,
+    ),
   );
 }

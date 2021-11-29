@@ -32,6 +32,7 @@ samples, guidance on mobile development, and a full API reference.
 - Design A Logo
 - Add Splash Screen
 - Add Initial Screens
+- Make All Screens Scrollable
+- Add Classes & Modals & Utils
 - Add Some Logic (Changing the theme, Button Logic etc.)
-- Make All Screens Scrollable 
 - Add Database (SQLite/SQFLite)

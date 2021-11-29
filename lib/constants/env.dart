@@ -9,6 +9,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 /* GENERAL */
 const double paddingMin = 8.0;
 const double paddingOverall = 12.0;
+const double paddingMax = 20.0;
 const double borderRadiusMin = 4.0;
 
 /* BOTTOM BAR */

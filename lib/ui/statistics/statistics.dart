@@ -7,6 +7,7 @@ import 'package:graduation_app/widgets/vertical_bar_chart.dart';
 import 'package:graduation_app/ui/statistics/statistics_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Statistics')),
+      appBar: AppBar(title: Text('mm5'.tr())),
       body: Stack(
         children: [
           buildBackground(),
@@ -76,7 +77,7 @@ class _StatisticsState extends State<Statistics> {
                 Padding(
                   padding: const EdgeInsets.all(paddingOverall),
                   child: AutoSizeText(
-                    "Total/Blocked Activities per day",
+                    's1'.tr(),
                     style: textStyle5(context, statisticsTextSize),
                   ),
                 ),
@@ -84,7 +85,7 @@ class _StatisticsState extends State<Statistics> {
                 Padding(
                   padding: const EdgeInsets.all(paddingOverall),
                   child: AutoSizeText(
-                    "Most Blocked Apps (Last 7 Days)",
+                    's2'.tr(args: ['7']),
                     style: textStyle5(context, statisticsTextSize),
                   ),
                 ),
@@ -92,7 +93,7 @@ class _StatisticsState extends State<Statistics> {
                 Padding(
                   padding: const EdgeInsets.all(paddingOverall),
                   child: AutoSizeText(
-                    "Most Blocked Apps (Last 7 Days)",
+                    's3'.tr(args: ['7']),
                     style: textStyle5(context, statisticsTextSize),
                   ),
                 ),

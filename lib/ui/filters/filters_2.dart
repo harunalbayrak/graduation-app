@@ -4,6 +4,7 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
 import 'package:graduation_app/widgets/padding_light_text.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Filters2 extends StatefulWidget {
   const Filters2({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _Filters2State extends State<Filters2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Filters')),
+      appBar: AppBar(title: Text('mm4'.tr())),
       body: Stack(
         children: [
           buildBackground(),
@@ -34,11 +35,11 @@ class _Filters2State extends State<Filters2> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, "Adware/malware", Icons.dangerous, 0),
-          paddingBoldText(context, "Total Domain(Host): 1234"),
-          paddingBoldText(context, "Information"),
-          paddingLightText(context,
-              "Lorem ipsum dolor sit amet, consectetur lorem ipsum ipsum dolor sit amet, consectetur lorem ipsum ipsum dolor sit amet, consectetur lorem ipsum"),
+          buildListTile6(
+              context, 'f1'.tr(), Icons.dangerous, 0, paddingOverall),
+          paddingBoldText(context, 'f2'.tr(args: ['1234'])),
+          paddingBoldText(context, 'f3'.tr()),
+          paddingLightText(context, 'f4'.tr()),
         ],
       ),
     );
