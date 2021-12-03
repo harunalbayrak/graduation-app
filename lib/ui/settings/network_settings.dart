@@ -33,7 +33,7 @@ class _NetworkSettingsState extends State<NetworkSettings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, 'st2'.tr(), Icons.dangerous, 0, paddingMax),
+          buildListTile6(context, 'st2'.tr(), Icons.dangerous, 0),
         ],
       ),
     );

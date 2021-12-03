@@ -33,7 +33,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, 'st1'.tr(), Icons.dangerous, 0, paddingMax),
+          buildListTile6(context, 'st1'.tr(), Icons.dangerous, 0),
           buildListTile7('st1_1'.tr()),
           buildListTile3('st1_2'.tr(), "System default"),
           buildListTile3('st1_3'.tr(), "English"),

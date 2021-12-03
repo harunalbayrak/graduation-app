@@ -33,7 +33,7 @@ class _AdvancedSettingsState extends State<AdvancedSettings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, 'st4'.tr(), Icons.dangerous, 0, paddingMax),
+          buildListTile6(context, 'st4'.tr(), Icons.dangerous, 0),
         ],
       ),
     );

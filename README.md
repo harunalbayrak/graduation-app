@@ -24,11 +24,12 @@ samples, guidance on mobile development, and a full API reference.
 - Add Basic Statistics Screen
 - Add Basic Settings Screen
 - Add Environment Variables
+- Configure All Texts as JSON (Reevalute)
 
 # TO DO
+- Add Sizer
 - Add All Settings Screens
 - Fix Chart Sized Box 
-- Configure All Texts as JSON 
 - Design A Logo
 - Add Splash Screen
 - Add Initial Screens

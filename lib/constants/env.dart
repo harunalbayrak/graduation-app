@@ -5,6 +5,7 @@ import 'package:graduation_app/constants/themes.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 /* GENERAL */
 const double paddingMin = 8.0;
@@ -29,19 +30,14 @@ ThemeData mainMenuMaterialAppTheme = denemeTheme;
 const IconData mainMenuFiltersIcon = Icons.filter_list;
 const IconData mainMenuStatisticsIcon = Icons.query_stats;
 const IconData mainMenuSettingsIcon = Icons.settings;
-const double mainMenuText1Size = 40;
-const double mainMenuText2Size = mainMenuText1Size / 2;
-double mainMenuSpaceSize1(BuildContext context) {
-  return MediaQuery.of(context).size.height / 40;
-}
-
-double mainMenuSpaceSize2(BuildContext context) {
-  return mainMenuSpaceSize1(context) / 2;
-}
+const double mainMenuText1Size = 25;
+const double mainMenuText2Size = mainMenuText1Size * 2 / 3;
+double mainMenuSpaceSize1 = 4.5.h;
+double mainMenuSpaceSize2 = 3.w;
+const Color mainMenuSwitchButtonColorP = lightBlue;
+const Color mainMenuSwitchButtonColorO = Colors.white;
 
 /* APPLICATIONS */
-const double applicationsPaddingLW = 6.0;
-const double applicationsPaddingTB = 1.0;
 const int applicationsIconDuration = 350;
 const IconData applicationsDropdownIcon = Icons.arrow_drop_down;
 const IconData applicationsWifiIcon = Icons.wifi;
@@ -52,7 +48,9 @@ const Color applicationsTextIconColor = gray;
 const Decoration applicationsDecoration = classicBlackGray;
 
 /* BLOCKED ACTIVITIES */
-const double blockedActivitiesPadding = 12.0;
+double blockedActivitiesPaddingL = 3.5.w;
+double blockedActivitiesPaddingR = 2.5.w;
+double blockedActivitiesPaddingTB = 0.18.h;
 const Decoration blockedActivitiesDecoration = classicBlackGray;
 const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
 const Color blockedActivitiesIconColor = gray;
@@ -63,22 +61,28 @@ const IconData blockedActivities2Icon1 = Icons.done;
 const IconData blockedActivities2Icon2 = Icons.copy_all;
 
 /* ACTIVITIES */
-const double activitiesPadding = 12.0;
+double activitiesPaddingL = 3.5.w;
+double activitiesPaddingR = 2.5.w;
+double activitiesPaddingTB = 0.18.h;
 const Decoration activitiesDecoration = classicBlackGray;
 const IconData activitiesBlockIcon = Icons.block;
 const Color activitiesIconColor = orange;
 const TextStyle activitiesTextStyle = textStyle2;
 
 /* FILTERS */
+double filtersPaddingL = 3.5.w;
+double filtersPaddingR = 2.5.w;
+double filtersPaddingTB = 1.2.h;
 const Decoration filtersDecoration = classicBlackGray;
-const double filtersPaddingLR = 12.0;
-const double filtersPaddingTB = 8.0;
 const Color filtersSwitchActiveColor = lightBlue;
 
 /* STATISTICS */
-const double statisticsPadding = 12.0;
-const double statisticsTextSize = 20;
-const double statisticsBarWidth = 7;
+double statisticsPaddingLR = 4.w;
+double statisticsPaddingT = 2.h;
+double statisticsPaddingB = 1.5.h;
+double statisticsHeight = 2.h;
+double statisticsTextSize = 20;
+double statisticsBarWidth = 2.w;
 
 /* SETTINGS */
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;

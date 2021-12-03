@@ -273,6 +273,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  responsive_sizer:
+    dependency: "direct main"
+    description:
+      name: responsive_sizer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.4+4"
   shared_preferences:
     dependency: transitive
     description:
@@ -329,6 +336,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  sizer:
+    dependency: "direct main"
+    description:
+      name: sizer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.15"
   sky_engine:
     dependency: transitive
     description: flutter

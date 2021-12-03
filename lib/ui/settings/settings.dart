@@ -34,16 +34,11 @@ class _SettingsState extends State<Settings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(
-              context, 'st1'.tr(), generalSettingsIcon, 1, paddingOverall),
-          buildListTile6(
-              context, 'st2'.tr(), networkSettingsIcon, 2, paddingOverall),
-          buildListTile6(
-              context, 'st3'.tr(), backupSettingsIcon, 3, paddingOverall),
-          buildListTile6(
-              context, 'st4'.tr(), advancedSettingsIcon, 4, paddingOverall),
-          buildListTile6(
-              context, 'st5'.tr(), batterySettingsIcon, 5, paddingOverall),
+          buildListTile6(context, 'st1'.tr(), generalSettingsIcon, 1),
+          buildListTile6(context, 'st2'.tr(), networkSettingsIcon, 2),
+          buildListTile6(context, 'st3'.tr(), backupSettingsIcon, 3),
+          buildListTile6(context, 'st4'.tr(), advancedSettingsIcon, 4),
+          buildListTile6(context, 'st5'.tr(), batterySettingsIcon, 5),
         ],
       ),
     );

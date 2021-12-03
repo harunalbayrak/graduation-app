@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/ui/filters/filters_2.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -54,8 +55,7 @@ class _FiltersState extends State<Filters> {
       onTap: () {
         pageRoute(context, "/filters2", const Filters2());
       },
-      contentPadding: const EdgeInsets.fromLTRB(filtersPaddingLR,
-          filtersPaddingTB, filtersPaddingLR, filtersPaddingTB),
+      contentPadding: padding4,
       title: AutoSizeText(titles[index], style: textStyle2),
       leading: const CircleAvatar(
         backgroundImage: NetworkImage(

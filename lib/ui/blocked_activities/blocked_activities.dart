@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities_2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class BlockedActivities extends StatefulWidget {
   const BlockedActivities({Key? key}) : super(key: key);
@@ -52,8 +54,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
       onTap: () {
         pageRoute(context, "/blocked_activities2", const BlockedActivities2());
       },
-      contentPadding: const EdgeInsets.fromLTRB(
-          blockedActivitiesPadding, 0, blockedActivitiesPadding, 0),
+      contentPadding: padding3,
       title: AutoSizeText(titles[index], style: blockedActivitiesTextStyle),
       subtitle:
           AutoSizeText(subtitles[index], style: blockedActivitiesTextStyle),

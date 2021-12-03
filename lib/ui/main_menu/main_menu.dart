@@ -31,10 +31,10 @@ class _MainMenuState extends State<MainMenu> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildTexts(),
-              SizedBox(height: mainMenuSpaceSize1(context)),
+              SizedBox(height: mainMenuSpaceSize1),
               mainSwitchButton(context),
-              SizedBox(height: mainMenuSpaceSize1(context)),
-              buildRow(mainMenuSpaceSize2(context)),
+              SizedBox(height: mainMenuSpaceSize1),
+              buildRow(mainMenuSpaceSize2),
             ],
           )),
         ],
@@ -47,12 +47,12 @@ class _MainMenuState extends State<MainMenu> {
       children: [
         AutoSizeText(
           'mm1'.tr(),
-          style: textStyle5(context, mainMenuText1Size),
+          style: textStyle5(mainMenuText1Size),
           maxLines: 1,
         ),
         AutoSizeText(
           'mm2'.tr(),
-          style: textStyle5(context, mainMenuText2Size),
+          style: textStyle5(mainMenuText2Size),
           maxLines: 1,
         ),
       ],

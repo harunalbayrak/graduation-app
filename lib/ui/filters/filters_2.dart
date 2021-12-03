@@ -35,8 +35,7 @@ class _Filters2State extends State<Filters2> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(
-              context, 'f1'.tr(), Icons.dangerous, 0, paddingOverall),
+          buildListTile6(context, 'f1'.tr(), Icons.dangerous, 0),
           paddingBoldText(context, 'f2'.tr(args: ['1234'])),
           paddingBoldText(context, 'f3'.tr()),
           paddingLightText(context, 'f4'.tr()),

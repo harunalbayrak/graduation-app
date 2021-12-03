@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/ui/settings/general_settings.dart';
 import 'package:graduation_app/ui/settings/network_settings.dart';
@@ -10,9 +11,22 @@ import 'package:graduation_app/ui/settings/advanced_settings.dart';
 import 'package:graduation_app/ui/settings/battery_settings.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 
+Widget buildListTile0(IconData iconData, String text1, String text2) {
+  return ListTile(
+    contentPadding: padding1,
+    leading: Icon(
+      iconData,
+      color: gray,
+    ),
+    title: Text(text1, style: textStyle2),
+    subtitle: Text(text2, style: textStyle2),
+    visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+  );
+}
+
 Widget buildListTile1(String str) {
   return ListTile(
-    contentPadding: const EdgeInsets.all(paddingOverall),
+    contentPadding: padding6,
     leading: const CircleAvatar(
       backgroundImage: NetworkImage(
           "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
@@ -26,8 +40,7 @@ Widget buildListTile1(String str) {
 
 Widget buildListTile2(String str, IconData iconData) {
   return ListTile(
-    contentPadding: const EdgeInsets.fromLTRB(
-        paddingOverall, 0, paddingOverall, paddingOverall),
+    contentPadding: padding7,
     trailing: Icon(
       iconData,
       color: gray,
@@ -41,8 +54,7 @@ Widget buildListTile2(String str, IconData iconData) {
 
 Widget buildListTile3(String str1, String str2) {
   return ListTile(
-    contentPadding: const EdgeInsets.fromLTRB(
-        paddingOverall, 0, paddingOverall, paddingOverall),
+    contentPadding: padding7,
     title: AutoSizeText(
       str1,
       style: textStyle2,
@@ -56,8 +68,7 @@ Widget buildListTile3(String str1, String str2) {
 
 Widget buildListTile4(String str1, String str2, IconData iconData) {
   return ListTile(
-    contentPadding: const EdgeInsets.fromLTRB(
-        paddingOverall, 0, paddingOverall, paddingOverall),
+    contentPadding: padding7,
     title: AutoSizeText(
       str1,
       style: textStyle2,
@@ -75,7 +86,7 @@ Widget buildListTile4(String str1, String str2, IconData iconData) {
 
 Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
   return ListTile(
-    contentPadding: const EdgeInsets.all(paddingOverall),
+    contentPadding: padding7,
     leading: const CircleAvatar(
       backgroundImage: NetworkImage(
           "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
@@ -95,10 +106,10 @@ Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
   );
 }
 
-Widget buildListTile6(BuildContext context, String str, IconData iconData,
-    int val, double padding) {
+Widget buildListTile6(
+    BuildContext context, String str, IconData iconData, int val) {
   return ListTile(
-    contentPadding: EdgeInsets.all(padding),
+    contentPadding: padding6,
     leading: Icon(iconData, color: gray, size: 30),
     title: Text(
       str,
@@ -130,7 +141,7 @@ Widget buildListTile6(BuildContext context, String str, IconData iconData,
 
 Widget buildListTile7(String str) {
   return ListTile(
-    contentPadding: const EdgeInsets.all(paddingOverall),
+    contentPadding: padding7,
     title: AutoSizeText(
       str,
       style: textStyle2,

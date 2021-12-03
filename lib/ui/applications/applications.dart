@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/env.dart';
-import 'package:graduation_app/widgets/applications_list_tile.dart';
+import 'package:graduation_app/constants/paddings.dart';
+import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,15 +32,12 @@ class _ApplicationsState extends State<Applications> {
 
   Widget buildListView() {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       itemCount: titles.length,
       itemBuilder: (context, index) {
         return Container(
-          padding: EdgeInsets.zero,
           decoration: applicationsDecoration,
-          child: Padding(
-            padding: const EdgeInsets.all(applicationsPaddingLW),
-            child: buildExpansionTiles(index),
-          ),
+          child: buildExpansionTiles(index),
         );
       },
     );
@@ -52,19 +50,18 @@ class _ApplicationsState extends State<Applications> {
           isExpandeds[index] = value;
         });
       },
+      tilePadding: padding2,
       collapsedIconColor: applicationsTextIconColor,
       textColor: applicationsTextIconColor,
       collapsedTextColor: applicationsTextIconColor,
       iconColor: applicationsTextIconColor,
-      tilePadding: const EdgeInsets.fromLTRB(applicationsPaddingLW,
-          applicationsPaddingTB, 0, applicationsPaddingTB),
       initiallyExpanded: false,
       children: [
         Column(
           children: [
-            applicationsListTile(
+            buildListTile0(
                 applicationsExtendedIcon1, 'ap1'.tr(), "com.package.name"),
-            applicationsListTile(
+            buildListTile0(
                 applicationsExtendedIcon2, 'ap2'.tr(), "com.package.name"),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -52,13 +53,13 @@ class _ActivitiesState extends State<Activities> {
       onTap: () {
         pageRoute(context, "/blocked_activities2", const Activities2());
       },
-      contentPadding:
-          const EdgeInsets.fromLTRB(activitiesPadding, 0, activitiesPadding, 0),
+      contentPadding: padding3,
       title: AutoSizeText(titles[index], style: activitiesTextStyle),
       subtitle: AutoSizeText(subtitles[index], style: activitiesTextStyle),
       leading: const CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
+        backgroundImage: NetworkImage(
+            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      ),
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(

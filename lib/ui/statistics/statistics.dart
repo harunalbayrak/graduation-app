@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart_2.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart.dart';
@@ -75,26 +76,31 @@ class _StatisticsState extends State<Statistics> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(paddingOverall),
+                  padding: padding5,
                   child: AutoSizeText(
                     's1'.tr(),
-                    style: textStyle5(context, statisticsTextSize),
+                    style: textStyle5(17),
+                    maxLines: 1,
                   ),
                 ),
                 buildVerticalBarChart(context, showingBarGroups),
+                SizedBox(height: statisticsHeight),
                 Padding(
-                  padding: const EdgeInsets.all(paddingOverall),
+                  padding: padding5,
                   child: AutoSizeText(
                     's2'.tr(args: ['7']),
-                    style: textStyle5(context, statisticsTextSize),
+                    style: textStyle5(17),
+                    maxLines: 1,
                   ),
                 ),
                 buildVerticalBarChart2(context, showingBarGroups2),
+                SizedBox(height: statisticsHeight),
                 Padding(
-                  padding: const EdgeInsets.all(paddingOverall),
+                  padding: padding5,
                   child: AutoSizeText(
                     's3'.tr(args: ['7']),
-                    style: textStyle5(context, statisticsTextSize),
+                    style: textStyle5(17),
+                    maxLines: 1,
                   ),
                 ),
                 buildVerticalBarChart2(context, showingBarGroups2),

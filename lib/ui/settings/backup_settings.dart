@@ -33,7 +33,7 @@ class _BackupSettingsState extends State<BackupSettings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, 'st3'.tr(), Icons.dangerous, 0, paddingMax),
+          buildListTile6(context, 'st3'.tr(), Icons.dangerous, 0),
         ],
       ),
     );

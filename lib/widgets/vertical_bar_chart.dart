@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 Widget buildVerticalBarChart(
     BuildContext context, List<BarChartGroupData> showingBarGroups) {
-  double topPadding = chartTopPadding(context);
-
   return AspectRatio(
     aspectRatio: chartAspectRatio,
     child: Card(
@@ -15,14 +15,14 @@ Widget buildVerticalBarChart(
           borderRadius: BorderRadius.circular(borderRadiusMin)),
       color: darkBlue,
       child: Padding(
-        padding: const EdgeInsets.all(paddingMin),
+        padding: padding4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             SizedBox(
-              height: topPadding,
+              height: 2.5.h,
             ),
             Expanded(
               child: BarChart(
@@ -97,7 +97,7 @@ Widget buildVerticalBarChart(
               ),
             ),
             SizedBox(
-              height: topPadding / 2 + 2,
+              height: 2.5.h / 2 + 2,
             ),
           ],
         ),
