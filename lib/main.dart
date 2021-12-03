@@ -18,11 +18,14 @@ import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('tr')],
