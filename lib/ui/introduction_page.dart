@@ -25,13 +25,13 @@ class _IntroductionPageState extends State<IntroductionPage> {
     ), (Route<dynamic> route) => false);
   }
 
-  Widget introImage(String assetName) {
+  Widget introImage(String assetName, double width, double height) {
     //widget to show intro image
     return Column(
       children: [
-        SizedBox(height: 15.h),
+        SizedBox(height: height),
         Align(
-          child: Image.asset(assetName, width: 80.w),
+          child: Image.asset(assetName, width: width),
           alignment: Alignment.topCenter,
         ),
       ],
@@ -52,22 +52,31 @@ class _IntroductionPageState extends State<IntroductionPage> {
   List<PageViewModel> getPages() {
     return [
       PageViewModel(
-        image: introImage('assets/images/image0.png'),
+        image: introImage('assets/images/image5.png', 60.w, 20.h),
         title: 'Personal Firewall',
         body:
             'Firewall protection is effective as possible against hackers, espionage, and known spy, dangerous servers.',
         decoration: decoration,
       ),
       PageViewModel(
-        image: introImage('assets/images/image1.png'),
-        title: "Learn coding online",
-        body: 'Subscribe to divine asdaksad asddas aksdaskda',
+        image: introImage('assets/images/image4.png', 60.w, 25.h),
+        title: "Block Apps with One Click",
+        body:
+            'Avoid unauthorized sending of personal data or connections to intelligence services, and control internet access depending on the network type.',
         decoration: decoration,
       ),
       PageViewModel(
-        image: introImage('assets/images/image0.png'),
-        title: "Learn coding online",
-        body: 'Subscribe to divine asdaksad asddas aksdaskda',
+        image: introImage('assets/images/image4.png', 60.w, 25.h),
+        title: "Monitor Activities",
+        body:
+            'Monitor internet access and statistics of your phone and applications on your phone. In this way, avoid unnecessary internet access.',
+        decoration: decoration,
+      ),
+      PageViewModel(
+        image: introImage('assets/images/image2.png', 60.w, 25.h),
+        title: "Filter DNS",
+        body:
+            'Restrict access to various known and dangerous hosts with domain filtering. Increase your security.',
         decoration: decoration,
       ),
     ];
