@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/constants/text_styles.dart';
@@ -47,7 +48,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
         itemBuilder: (context, index) {
           return Container(
             padding: EdgeInsets.zero,
-            decoration: blockedActivitiesDecoration,
+            decoration: blackGrayDecoration,
             child: buildListTiles(index),
           );
         },

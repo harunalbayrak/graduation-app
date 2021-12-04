@@ -28,7 +28,7 @@ class _NetworkSettingsState extends State<NetworkSettings> {
   Widget buildContainer() {
     return Container(
       padding: EdgeInsets.zero,
-      decoration: activitiesDecoration,
+      decoration: blackGrayDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

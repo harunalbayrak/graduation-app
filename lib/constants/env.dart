@@ -12,6 +12,7 @@ const double paddingMin = 8.0;
 const double paddingOverall = 12.0;
 const double paddingMax = 20.0;
 const double borderRadiusMin = 4.0;
+BoxDecoration blackGrayDecoration = classicBlackGray;
 
 /* BOTTOM BAR */
 const IconData bottomBarMainMenuIcon = Icons.home;
@@ -56,43 +57,25 @@ const IconData applicationsCellDataOffIcon =
 const IconData applicationsExtendedIcon1 = Icons.assistant_direction;
 const IconData applicationsExtendedIcon2 = Icons.badge_sharp;
 const Color applicationsTextIconColor = gray;
-Decoration applicationsDecoration = classicBlackGray;
 
 /* BLOCKED ACTIVITIES */
-double blockedActivitiesPaddingL = 3.5.w;
-double blockedActivitiesPaddingR = 2.5.w;
-double blockedActivitiesPaddingTB = 0.18.h;
-Decoration blockedActivitiesDecoration = classicBlackGray;
 const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
 const Color blockedActivitiesIconColor = gray;
-//const TextStyle blockedActivitiesTextStyle = textStyle2;
 
 /* BLOCKED ACTIVITIES 2 */
 const IconData blockedActivities2Icon1 = Icons.done;
 const IconData blockedActivities2Icon2 = Icons.copy_all;
 
 /* ACTIVITIES */
-double activitiesPaddingL = 3.5.w;
-double activitiesPaddingR = 2.5.w;
-double activitiesPaddingTB = 0.18.h;
-Decoration activitiesDecoration = classicBlackGray;
 const IconData activitiesBlockIcon = Icons.block;
 const Color activitiesIconColor = orange;
 //const TextStyle activitiesTextStyle = textStyle2;
 
 /* FILTERS */
-double filtersPaddingL = 3.5.w;
-double filtersPaddingR = 2.5.w;
-double filtersPaddingTB = 1.2.h;
-Decoration filtersDecoration = classicBlackGray;
 const Color filtersSwitchActiveColor = lightBlue;
 
 /* STATISTICS */
-double statisticsPaddingLR = 4.w;
-double statisticsPaddingT = 2.h;
-double statisticsPaddingB = 1.5.h;
 double statisticsHeight = 2.h;
-double statisticsTextSize = 20;
 double statisticsBarWidth = 2.w;
 
 /* SETTINGS */
@@ -111,18 +94,3 @@ const List<Color> chart1Colors_2 = [lightBlue, blue];
 const List<Color> chart2Colors = [lightBlue, orange];
 const double barChart1MaxY = 20;
 const double barChart2MaxY = 20;
-double chartTopPadding(BuildContext context) {
-  return MediaQuery.of(context).size.height / 60;
-}
-
-double chartLeftPadding(BuildContext context) {
-  return MediaQuery.of(context).size.width / 6.22;
-}
-
-double chartIconSizedBox(BuildContext context) {
-  return MediaQuery.of(context).size.width / 21.3;
-}
-
-double chartLeftMargin(BuildContext context) {
-  return MediaQuery.of(context).size.width / 42;
-}

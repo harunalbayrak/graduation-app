@@ -43,11 +43,11 @@ Widget buildVerticalBarChart2(
                     bottomTitles: SideTitles(showTitles: false),
                     leftTitles: SideTitles(
                       showTitles: true,
-                      getTextStyles: (context, value) => const TextStyle(
+                      getTextStyles: (context, value) => TextStyle(
                           color: gray,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                      margin: chartLeftMargin(context),
+                          fontSize: 16.sp),
+                      margin: 2.5.w,
                       reservedSize: chartLeftReservedSize,
                       interval: chartLeftInterval,
                       getTitles: (value) {
@@ -92,7 +92,7 @@ Widget buildVerticalBarChart2(
               ),
             ),
             SizedBox(
-              height: 2.5.h / 2 + 2,
+              height: 2.h,
             ),
           ],
         ),

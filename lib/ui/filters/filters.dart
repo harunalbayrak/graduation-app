@@ -47,7 +47,7 @@ class _FiltersState extends State<Filters> {
         itemBuilder: (context, index) {
           return Container(
             padding: EdgeInsets.zero,
-            decoration: filtersDecoration,
+            decoration: blackGrayDecoration,
             child: buildListTiles(index),
           );
         },

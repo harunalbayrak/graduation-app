@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
@@ -30,7 +31,7 @@ class _Filters2State extends State<Filters2> {
   Widget buildListView() {
     return Container(
       padding: EdgeInsets.zero,
-      decoration: activitiesDecoration,
+      decoration: blackGrayDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
@@ -64,7 +65,7 @@ class _ApplicationsState extends State<Applications> {
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
               return Container(
-                decoration: applicationsDecoration,
+                decoration: classicBlackGray,
                 child: buildExpansionTiles(index, snapshot.data[index]),
               );
             },

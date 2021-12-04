@@ -28,7 +28,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
   Widget buildContainer() {
     return Container(
       padding: EdgeInsets.zero,
-      decoration: activitiesDecoration,
+      decoration: blackGrayDecoration,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
