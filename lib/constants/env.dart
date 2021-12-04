@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
-import 'package:graduation_app/constants/text_styles.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -45,13 +44,13 @@ const IconData applicationsCellDataIcon = Icons.network_cell_sharp;
 const IconData applicationsExtendedIcon1 = Icons.assistant_direction;
 const IconData applicationsExtendedIcon2 = Icons.badge_sharp;
 const Color applicationsTextIconColor = gray;
-const Decoration applicationsDecoration = classicBlackGray;
+Decoration applicationsDecoration = classicBlackGray;
 
 /* BLOCKED ACTIVITIES */
 double blockedActivitiesPaddingL = 3.5.w;
 double blockedActivitiesPaddingR = 2.5.w;
 double blockedActivitiesPaddingTB = 0.18.h;
-const Decoration blockedActivitiesDecoration = classicBlackGray;
+Decoration blockedActivitiesDecoration = classicBlackGray;
 const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
 const Color blockedActivitiesIconColor = gray;
 //const TextStyle blockedActivitiesTextStyle = textStyle2;
@@ -64,7 +63,7 @@ const IconData blockedActivities2Icon2 = Icons.copy_all;
 double activitiesPaddingL = 3.5.w;
 double activitiesPaddingR = 2.5.w;
 double activitiesPaddingTB = 0.18.h;
-const Decoration activitiesDecoration = classicBlackGray;
+Decoration activitiesDecoration = classicBlackGray;
 const IconData activitiesBlockIcon = Icons.block;
 const Color activitiesIconColor = orange;
 //const TextStyle activitiesTextStyle = textStyle2;
@@ -73,7 +72,7 @@ const Color activitiesIconColor = orange;
 double filtersPaddingL = 3.5.w;
 double filtersPaddingR = 2.5.w;
 double filtersPaddingTB = 1.2.h;
-const Decoration filtersDecoration = classicBlackGray;
+Decoration filtersDecoration = classicBlackGray;
 const Color filtersSwitchActiveColor = lightBlue;
 
 /* STATISTICS */

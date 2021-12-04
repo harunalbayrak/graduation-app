@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/colors.dart';
-import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/ui/settings/general_settings.dart';
@@ -110,7 +109,8 @@ Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
 }
 
 Widget buildListTile6(
-    BuildContext context, String str, IconData iconData, int val) {
+    BuildContext context, String str, IconData iconData, int val,
+    {double textSize2 = 15}) {
   return ListTile(
     contentPadding: padding6,
     leading: Icon(iconData, color: gray, size: 30),

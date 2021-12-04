@@ -40,15 +40,18 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
   }
 
   Widget buildListView() {
-    return ListView.builder(
-      itemCount: titles.length,
-      itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.zero,
-          decoration: blockedActivitiesDecoration,
-          child: buildListTiles(index),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: ListView.builder(
+        itemCount: titles.length,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: EdgeInsets.zero,
+            decoration: blockedActivitiesDecoration,
+            child: buildListTiles(index),
+          );
+        },
+      ),
     );
   }
 

@@ -28,9 +28,9 @@ samples, guidance on mobile development, and a full API reference.
 - Add Sizer
 - Add Splash Screen
 - Force the portrait up
+- Add Sizer to All Strings
 
 # TO DO
-- Add Sizer to All Strings
 - Add Initial Screens
 - Add All Settings Screens
 - Add Animations / Button animations 

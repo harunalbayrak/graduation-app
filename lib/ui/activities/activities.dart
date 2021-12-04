@@ -39,15 +39,18 @@ class _ActivitiesState extends State<Activities> {
   }
 
   Widget buildListView() {
-    return ListView.builder(
-      itemCount: titles.length,
-      itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.zero,
-          decoration: activitiesDecoration,
-          child: buildListTiles(index),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: ListView.builder(
+        itemCount: titles.length,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: EdgeInsets.zero,
+            decoration: activitiesDecoration,
+            child: buildListTiles(index),
+          );
+        },
+      ),
     );
   }
 

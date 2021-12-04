@@ -32,15 +32,18 @@ class _ApplicationsState extends State<Applications> {
   }
 
   Widget buildListView() {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: titles.length,
-      itemBuilder: (context, index) {
-        return Container(
-          decoration: applicationsDecoration,
-          child: buildExpansionTiles(index),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: titles.length,
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: applicationsDecoration,
+            child: buildExpansionTiles(index),
+          );
+        },
+      ),
     );
   }
 

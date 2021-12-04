@@ -8,7 +8,7 @@ import 'package:graduation_app/ui/settings/network_settings.dart';
 import 'package:graduation_app/ui/settings/backup_settings.dart';
 import 'package:graduation_app/ui/settings/advanced_settings.dart';
 import 'package:graduation_app/ui/settings/battery_settings.dart';
-import 'package:graduation_app/ui/home_page.dart';
+import 'package:graduation_app/ui/introduction_page.dart';
 import 'package:graduation_app/ui/main_menu/main_menu.dart';
 import 'package:graduation_app/ui/applications/applications.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         initialRoute: '/',
         routes: {
-          '/': (context) => const HomePage(),
+          '/': (context) => const IntroductionPage(),
           '/main_menu': (context) => const MainMenu(),
           '/applications': (context) => const Applications(),
           '/blocked_activities': (context) => const BlockedActivities(),

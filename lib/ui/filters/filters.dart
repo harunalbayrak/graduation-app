@@ -16,7 +16,7 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
-  double textSize2 = 14;
+  double textSize2 = 16;
 
   final titles = ["List 1", "List 2", "List 3"];
   final subtitles = [
@@ -40,15 +40,18 @@ class _FiltersState extends State<Filters> {
   }
 
   Widget buildListView() {
-    return ListView.builder(
-      itemCount: titles.length,
-      itemBuilder: (context, index) {
-        return Container(
-          padding: EdgeInsets.zero,
-          decoration: filtersDecoration,
-          child: buildListTiles(index),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: ListView.builder(
+        itemCount: titles.length,
+        itemBuilder: (context, index) {
+          return Container(
+            padding: EdgeInsets.zero,
+            decoration: filtersDecoration,
+            child: buildListTiles(index),
+          );
+        },
+      ),
     );
   }
 
