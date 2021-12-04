@@ -5,6 +5,7 @@ import 'package:graduation_app/constants/themes.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 /* GENERAL */
 const double paddingMin = 8.0;
@@ -26,21 +27,32 @@ const NavBarStyle bottomBarNavBarStyle = NavBarStyle.style13;
 ThemeData mainMenuMaterialAppTheme = denemeTheme;
 
 /* MAIN MENU */
+const mainButtonIcons = [
+  MaterialCommunityIcons.star_four_points_outline,
+  MaterialCommunityIcons.shield_link_variant,
+  MaterialCommunityIcons.rhombus_split,
+  MaterialCommunityIcons.octagram,
+  MaterialCommunityIcons.octagon,
+  MaterialCommunityIcons.hexagram,
+  MaterialCommunityIcons.hexagon,
+  MaterialCommunityIcons.hexagon_multiple,
+  MaterialCommunityIcons.hexagon_slice_6,
+  MaterialCommunityIcons.crown,
+  MaterialCommunityIcons.chess_queen,
+];
 const IconData mainMenuFiltersIcon = Icons.filter_list;
 const IconData mainMenuStatisticsIcon = Icons.query_stats;
 const IconData mainMenuSettingsIcon = Icons.settings;
-const double mainMenuText1Size = 25;
-const double mainMenuText2Size = mainMenuText1Size * 2 / 3;
-double mainMenuSpaceSize1 = 4.5.h;
-double mainMenuSpaceSize2 = 3.w;
-const Color mainMenuSwitchButtonColorP = lightBlue;
-const Color mainMenuSwitchButtonColorO = Colors.white;
 
 /* APPLICATIONS */
 const int applicationsIconDuration = 350;
 const IconData applicationsDropdownIcon = Icons.arrow_drop_down;
 const IconData applicationsWifiIcon = Icons.wifi;
-const IconData applicationsCellDataIcon = Icons.network_cell_sharp;
+const IconData applicationsWifiOffIcon = Icons.wifi_off;
+const IconData applicationsCellDataIcon =
+    MaterialCommunityIcons.network_strength_4;
+const IconData applicationsCellDataOffIcon =
+    MaterialCommunityIcons.network_strength_off;
 const IconData applicationsExtendedIcon1 = Icons.assistant_direction;
 const IconData applicationsExtendedIcon2 = Icons.badge_sharp;
 const Color applicationsTextIconColor = gray;

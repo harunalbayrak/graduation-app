@@ -24,18 +24,20 @@ samples, guidance on mobile development, and a full API reference.
 - Add Basic Statistics Screen
 - Add Basic Settings Screen
 - Add Environment Variables
-- Configure All Texts as JSON (Reevalute)
+- Configure All Texts as JSON (Localization) (Reevalute)
 - Add Sizer
 - Add Splash Screen
 - Force the portrait up
 - Add Sizer to All Strings
-
-# TO DO
 - Add Initial Screens
+- Add Applications
+- Design A Logo
+ 
+# TO DO
 - Add All Settings Screens
 - Add Animations / Button animations 
 - ? Fix Chart Sized Box ? Try another phones or something like that
-- Design A Logo
+- Add Buttons to AppBar (Search etc.)
 - Make All Screens Scrollable
 - Add Classes & Modals & Utils
 - Add Some Logic (Changing the theme, Button Logic etc.)

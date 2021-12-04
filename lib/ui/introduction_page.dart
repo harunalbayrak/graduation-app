@@ -4,6 +4,7 @@ import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/ui/home_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class IntroductionPage extends StatefulWidget {
@@ -14,9 +15,6 @@ class IntroductionPage extends StatefulWidget {
 }
 
 class _IntroductionPageState extends State<IntroductionPage> {
-  final PersistentTabController _controller =
-      PersistentTabController(initialIndex: 0);
-
   void _onIntroEnd(context) {
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
       builder: (context) {
@@ -53,30 +51,26 @@ class _IntroductionPageState extends State<IntroductionPage> {
     return [
       PageViewModel(
         image: introImage('assets/images/image5.png', 60.w, 20.h),
-        title: 'Personal Firewall',
-        body:
-            'Firewall protection is effective as possible against hackers, espionage, and known spy, dangerous servers.',
+        title: 'int1_t'.tr(),
+        body: 'int1_b'.tr(),
+        decoration: decoration,
+      ),
+      PageViewModel(
+        image: introImage('assets/images/image0.jpeg', 60.w, 25.h),
+        title: 'int2_t'.tr(),
+        body: 'int2_b'.tr(),
         decoration: decoration,
       ),
       PageViewModel(
         image: introImage('assets/images/image4.png', 60.w, 25.h),
-        title: "Block Apps with One Click",
-        body:
-            'Avoid unauthorized sending of personal data or connections to intelligence services, and control internet access depending on the network type.',
-        decoration: decoration,
-      ),
-      PageViewModel(
-        image: introImage('assets/images/image4.png', 60.w, 25.h),
-        title: "Monitor Activities",
-        body:
-            'Monitor internet access and statistics of your phone and applications on your phone. In this way, avoid unnecessary internet access.',
+        title: 'int3_t'.tr(),
+        body: 'int3_b'.tr(),
         decoration: decoration,
       ),
       PageViewModel(
         image: introImage('assets/images/image2.png', 60.w, 25.h),
-        title: "Filter DNS",
-        body:
-            'Restrict access to various known and dangerous hosts with domain filtering. Increase your security.',
+        title: 'int4_t'.tr(),
+        body: 'int4_b'.tr(),
         decoration: decoration,
       ),
     ];
@@ -89,19 +83,22 @@ class _IntroductionPageState extends State<IntroductionPage> {
     return IntroductionScreen(
       key: introKey,
       globalBackgroundColor: darkBlue,
-      globalHeader: const Align(
+      /*
+      globalHeader: Align(
         alignment: Alignment.topRight,
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(top: 16, right: 16),
-            child: Icon(Icons.ac_unit_outlined),
+            padding: const EdgeInsets.only(top: 16, right: 16),
+            child: Image.asset('assets/icons/app-icon-512.png', width: 10.w),
           ),
         ),
       ),
+      */
       //rtl: true, // Display as right-to-left
-      skip: const Text('Skip'),
+      skip: Text('int_s'.tr()),
       next: const Icon(Icons.arrow_forward),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      done: Text('int_d'.tr(),
+          style: const TextStyle(fontWeight: FontWeight.w700)),
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: EdgeInsets.all(5.w),
       controlsPadding: EdgeInsets.all(2.2.w),
