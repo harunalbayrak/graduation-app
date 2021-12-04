@@ -37,8 +37,8 @@ class _BlockedActivities2State extends State<BlockedActivities2> {
         children: [
           buildListTile1("www.telegram.org"),
           paddingBoldText(context, 'ba1'.tr()),
-          buildListTile2('ba2'.tr(), blockedActivities2Icon1),
-          buildListTile2('ba3'.tr(), blockedActivities2Icon2),
+          buildListTile2('ba2'.tr(), blockedActivities2Icon1, textSize2: 16),
+          buildListTile2('ba3'.tr(), blockedActivities2Icon2, textSize2: 16),
           paddingBoldText(context, 'ba4'.tr()),
           buildListTile3("Application", "Telegram"),
           buildListTile3("Asd asdas asdad", "Lorem ipsum"),

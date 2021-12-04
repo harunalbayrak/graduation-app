@@ -11,6 +11,8 @@ import 'package:graduation_app/ui/settings/advanced_settings.dart';
 import 'package:graduation_app/ui/settings/battery_settings.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 
+double textSize2 = 15;
+
 Widget buildListTile0(IconData iconData, String text1, String text2) {
   return ListTile(
     contentPadding: padding1,
@@ -18,8 +20,8 @@ Widget buildListTile0(IconData iconData, String text1, String text2) {
       iconData,
       color: gray,
     ),
-    title: Text(text1, style: textStyle2),
-    subtitle: Text(text2, style: textStyle2),
+    title: Text(text1, style: textStyle2(textSize2)),
+    subtitle: Text(text2, style: textStyle2(textSize2)),
     visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
   );
 }
@@ -33,21 +35,21 @@ Widget buildListTile1(String str) {
     ),
     title: AutoSizeText(
       str,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
   );
 }
 
-Widget buildListTile2(String str, IconData iconData) {
+Widget buildListTile2(String str, IconData iconData, {double textSize2 = 15}) {
   return ListTile(
-    contentPadding: padding7,
+    contentPadding: padding9,
     trailing: Icon(
       iconData,
       color: gray,
     ),
     title: AutoSizeText(
       str,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
   );
 }
@@ -57,25 +59,26 @@ Widget buildListTile3(String str1, String str2) {
     contentPadding: padding7,
     title: AutoSizeText(
       str1,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
     subtitle: AutoSizeText(
       str2,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
   );
 }
 
-Widget buildListTile4(String str1, String str2, IconData iconData) {
+Widget buildListTile4(String str1, String str2, IconData iconData,
+    {double textSize2 = 15}) {
   return ListTile(
-    contentPadding: padding7,
+    contentPadding: padding9,
     title: AutoSizeText(
       str1,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
     subtitle: AutoSizeText(
       str2,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
     trailing: Icon(
       iconData,
@@ -93,7 +96,7 @@ Widget buildListTile5(String str, Function onChanged, bool isSwitched) {
     ),
     title: AutoSizeText(
       str,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
     trailing: Switch(
       value: isSwitched,
@@ -113,7 +116,7 @@ Widget buildListTile6(
     leading: Icon(iconData, color: gray, size: 30),
     title: Text(
       str,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
     onTap: () {
       switch (val) {
@@ -144,7 +147,7 @@ Widget buildListTile7(String str) {
     contentPadding: padding7,
     title: AutoSizeText(
       str,
-      style: textStyle2,
+      style: textStyle2(textSize2),
     ),
   );
 }

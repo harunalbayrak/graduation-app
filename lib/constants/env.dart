@@ -54,7 +54,7 @@ double blockedActivitiesPaddingTB = 0.18.h;
 const Decoration blockedActivitiesDecoration = classicBlackGray;
 const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
 const Color blockedActivitiesIconColor = gray;
-const TextStyle blockedActivitiesTextStyle = textStyle2;
+//const TextStyle blockedActivitiesTextStyle = textStyle2;
 
 /* BLOCKED ACTIVITIES 2 */
 const IconData blockedActivities2Icon1 = Icons.done;
@@ -67,7 +67,7 @@ double activitiesPaddingTB = 0.18.h;
 const Decoration activitiesDecoration = classicBlackGray;
 const IconData activitiesBlockIcon = Icons.block;
 const Color activitiesIconColor = orange;
-const TextStyle activitiesTextStyle = textStyle2;
+//const TextStyle activitiesTextStyle = textStyle2;
 
 /* FILTERS */
 double filtersPaddingL = 3.5.w;

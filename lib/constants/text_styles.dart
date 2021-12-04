@@ -6,9 +6,12 @@ const TextStyle textStyle1 = TextStyle(
   color: white,
 );
 
-const TextStyle textStyle2 = TextStyle(
-  color: gray,
-);
+TextStyle textStyle2(double size) {
+  return TextStyle(
+    color: gray,
+    fontSize: size.sp,
+  );
+}
 
 const TextStyle textStyle3 = TextStyle(
   color: lightBlue,
@@ -28,22 +31,6 @@ TextStyle textStyle5(double size) {
   return TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.w700,
-    fontSize: size.sp,
-  );
-}
-
-TextStyle textStyle6(BuildContext context, int scale) {
-  var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
-  return TextStyle(
-    color: gray,
-    fontSize: textScaleFactor * scale,
-  );
-}
-
-TextStyle textStyle7(double size) {
-  return TextStyle(
-    color: gray,
     fontSize: size.sp,
   );
 }

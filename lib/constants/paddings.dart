@@ -25,6 +25,8 @@ double listViewPaddingB7 = 0.6.h;
 
 double listViewPaddingL8 = 16.w;
 
+double listViewPaddingR9 = 2.5.w;
+
 EdgeInsets padding0 = EdgeInsets.zero;
 
 EdgeInsets padding1 = EdgeInsets.fromLTRB(
@@ -81,4 +83,11 @@ EdgeInsets padding8 = EdgeInsets.fromLTRB(
   listViewPaddingT,
   0,
   0,
+);
+
+EdgeInsets padding9 = EdgeInsets.fromLTRB(
+  listViewPaddingL,
+  0,
+  listViewPaddingR9,
+  listViewPaddingB7,
 );

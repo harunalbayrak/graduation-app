@@ -6,6 +6,7 @@ import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -15,9 +16,7 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-  void onPressedFilters() {
-    return;
-  }
+  double space1 = 8.h;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +30,9 @@ class _MainMenuState extends State<MainMenu> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildTexts(),
-              SizedBox(height: mainMenuSpaceSize1),
+              SizedBox(height: space1),
               mainSwitchButton(context),
-              SizedBox(height: mainMenuSpaceSize1),
+              SizedBox(height: space1),
               buildRow(mainMenuSpaceSize2),
             ],
           )),
@@ -47,12 +46,12 @@ class _MainMenuState extends State<MainMenu> {
       children: [
         AutoSizeText(
           'mm1'.tr(),
-          style: textStyle5(mainMenuText1Size),
+          style: textStyle5(24),
           maxLines: 1,
         ),
         AutoSizeText(
           'mm2'.tr(),
-          style: textStyle5(mainMenuText2Size),
+          style: textStyle5(16),
           maxLines: 1,
         ),
       ],

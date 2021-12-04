@@ -16,6 +16,8 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
+  double textSize2 = 14;
+
   final titles = ["List 1", "List 2", "List 3"];
   final subtitles = [
     "Here is list 1 subtitle",
@@ -56,7 +58,7 @@ class _FiltersState extends State<Filters> {
         pageRoute(context, "/filters2", const Filters2());
       },
       contentPadding: padding4,
-      title: AutoSizeText(titles[index], style: textStyle2),
+      title: AutoSizeText(titles[index], style: textStyle2(textSize2)),
       leading: const CircleAvatar(
         backgroundImage: NetworkImage(
             "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),

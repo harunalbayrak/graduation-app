@@ -48,7 +48,7 @@ Widget rectangleButton(
             SizedBox(
               height: space,
             ),
-            AutoSizeText(str, maxLines: 1, style: textStyle7(15)),
+            AutoSizeText(str, maxLines: 1, style: textStyle2(15)),
           ],
         ),
       ),

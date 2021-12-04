@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
+import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -69,7 +70,7 @@ class _ApplicationsState extends State<Applications> {
       title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AutoSizeText(titles[index]),
+          AutoSizeText(titles[index], style: textStyle2(15.5)),
           AnimatedRotation(
             turns: isExpandeds[index] ? .5 : 0,
             duration: const Duration(milliseconds: applicationsIconDuration),

@@ -7,7 +7,7 @@ Widget paddingLightText(BuildContext context, String str) {
     padding: const EdgeInsets.all(paddingOverall),
     child: Text(
       str,
-      style: textStyle6(context, 15),
+      style: textStyle2(15),
     ),
   );
 }
