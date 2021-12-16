@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -19,6 +18,7 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   double space1 = 8.h;
+  bool isActive = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class _MainMenuState extends State<MainMenu> {
               buildTexts(),
               SizedBox(height: space1),
               LikeButton(
+                isLiked: isActive,
                 bubblesSize: 200,
                 size: 25.h,
                 circleColor: const CircleColor(
@@ -52,6 +53,10 @@ class _MainMenuState extends State<MainMenu> {
                     color: isLiked ? darkBlue : Colors.grey,
                     size: 35.w,
                   );
+                },
+                onTap: (value) async {
+                  isActive = !value;
+                  return !value;
                 },
               ),
               SizedBox(height: space1),
@@ -72,7 +77,7 @@ class _MainMenuState extends State<MainMenu> {
           maxLines: 1,
         ),
         AutoSizeText(
-          'mm2'.tr(),
+          'mm3'.tr(),
           style: textStyle5(16),
           maxLines: 1,
         ),

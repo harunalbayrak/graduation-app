@@ -15,30 +15,30 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-# Done
-- Add Basic Main Menu
-- Add All Applications Screen
-- Add All Blocked Activities Screen
-- Add All Activities Screen
-- Add All Filters Screen
-- Add Basic Statistics Screen
-- Add Basic Settings Screen
-- Add Environment Variables
-- Configure All Texts as JSON (Localization) (Reevalute)
-- Add Sizer
-- Add Splash Screen
-- Force the portrait up
-- Add Sizer to All Strings
-- Add Initial Screens
-- Add Applications
-- Design A Logo
- 
-# TO DO
-- Add All Settings Screens
-- Add Animations / Button animations 
-- ? Fix Chart Sized Box ? Try another phones or something like that
-- Add Buttons to AppBar (Search etc.)
-- Make All Screens Scrollable
-- Add Classes & Modals & Utils
-- Add Some Logic (Changing the theme, Button Logic etc.)
-- Add Database (SQLite/SQFLite)
+# Done​
+- CI/CD pipeline is added to Github Actions.​
+- Main screen is completed.
+- Applications screen are completed.​
+- Blocked activities screens are completed.​
+- Activities screens are completed.​
+- Filters screens are completed.​
+- Statistics screen is completed.​
+- Settings Screens are not completed.​
+- Environment Variables are added.​
+- All Texts are configured as JSON. (Localization)​
+- It is made responsive.​
+- Splash Screen is added.​
+- The portrait is forced up.​
+- Introduction screens are added.​
+- The logo is designed.​
+- Widget testing is applied.
+
+# To Do​
+- Settings screens will be completed.​
+- Some animations will be added. ​
+- Buttons will be added to the AppBar. (Search etc.)​
+- Classes & Modals & Utils will be added.​
+- Some Logic (Changing the theme, Button Logic etc.) will be added.​
+- SQLite CRUD operations will be implemented.​
+- The data will be moved to the database.
+- Try the applications on another smartphones.​
