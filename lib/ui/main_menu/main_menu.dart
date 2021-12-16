@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:graduation_app/widgets/build_background.dart';
+import 'package:graduation_app/widgets/popup_menu_dots.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -23,7 +24,12 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('hp1'.tr())),
+      appBar: AppBar(
+        title: Text('hp1'.tr()),
+        actions: <Widget>[
+          popupMenuDots(context),
+        ],
+      ),
       body: Stack(
         children: [
           buildBackground(),

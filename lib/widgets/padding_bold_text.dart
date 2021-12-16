@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/text_styles.dart';
-import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
 
 Widget paddingBoldText(BuildContext context, String str) {

@@ -12,6 +12,7 @@ const double paddingMin = 8.0;
 const double paddingOverall = 12.0;
 const double paddingMax = 20.0;
 const double borderRadiusMin = 4.0;
+const IconData appBarIconDots = Icons.more_vert;
 BoxDecoration blackGrayDecoration = classicBlackGray;
 
 /* BOTTOM BAR */

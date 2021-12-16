@@ -34,9 +34,9 @@ samples, guidance on mobile development, and a full API reference.
 - Widget testing is applied.
 
 # To Do​
+- Buttons will be added to the AppBar. (Search etc.)​
 - Settings screens will be completed.​
 - Some animations will be added. ​
-- Buttons will be added to the AppBar. (Search etc.)​
 - Classes & Modals & Utils will be added.​
 - Some Logic (Changing the theme, Button Logic etc.) will be added.​
 - SQLite CRUD operations will be implemented.​
