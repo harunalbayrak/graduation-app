@@ -32,3 +32,11 @@ TextStyle textStyle5(double size) {
     fontSize: size.sp,
   );
 }
+
+TextStyle textStyle6(double size, Color color) {
+  return TextStyle(
+    color: color,
+    fontWeight: FontWeight.w700,
+    fontSize: size.sp,
+  );
+}

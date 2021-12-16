@@ -9,6 +9,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:like_button/like_button.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -61,6 +62,9 @@ class _MainMenuState extends State<MainMenu> {
                   );
                 },
                 onTap: (value) async {
+                  setState(() {
+                    isActive = !value;
+                  });
                   isActive = !value;
                   return !value;
                 },
@@ -78,8 +82,10 @@ class _MainMenuState extends State<MainMenu> {
     return Column(
       children: [
         AutoSizeText(
-          'mm1'.tr(),
-          style: textStyle5(24),
+          isActive ? 'mm2'.tr() : 'mm1'.tr(),
+          style: isActive
+              ? textStyle6(24, Colors.green)
+              : textStyle6(24, Colors.red),
           maxLines: 1,
         ),
         AutoSizeText(
