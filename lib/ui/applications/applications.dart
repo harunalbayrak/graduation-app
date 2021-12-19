@@ -10,6 +10,8 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:graduation_app/widgets/popup_menu_dots.dart';
+import 'package:graduation_app/models/app.dart';
+import 'package:graduation_app/db/app_db.dart';
 
 class Applications extends StatefulWidget {
   const Applications({Key? key}) : super(key: key);
@@ -19,6 +21,9 @@ class Applications extends StatefulWidget {
 }
 
 class _ApplicationsState extends State<Applications> {
+  late List<App> apps;
+  bool isLoading = false;
+
   Icon cusIcon = const Icon(appBarIconSearch);
   Widget cusSearchBar = Text('hp2'.tr());
   final titles = ["List 1", "List 2", "List 3"];
@@ -47,6 +52,28 @@ class _ApplicationsState extends State<Applications> {
     }
 
     return filteredApps;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    refreshApps();
+  }
+
+  @override
+  void dispose() {
+    AppDatabase.instance.close();
+
+    super.dispose();
+  }
+
+  Future refreshApps() async {
+    setState(() => isLoading = true);
+
+    apps = await AppDatabase.instance.readAllApps();
+
+    setState(() => isLoading = false);
   }
 
   @override
@@ -95,43 +122,35 @@ class _ApplicationsState extends State<Applications> {
           popupMenuDots(context),
         ],
       ),
-      body: Stack(
-        children: [
-          buildBackground(),
-          buildListView(),
-        ],
-      ),
+      body: buildBody(),
+    );
+  }
+
+  Widget buildBody() {
+    return Stack(
+      children: [
+        buildBackground(),
+        isLoading
+            ? const CircularProgressIndicator()
+            : apps.isEmpty
+                ? Container(
+                    child: Text('There is no applications in the database'),
+                  )
+                : buildListView(),
+      ],
     );
   }
 
   Widget buildListView() {
     return Padding(
       padding: const EdgeInsets.all(0),
-      child: FutureBuilder(
-        future: isSearch ? filterApps(searchQuery) : getApps(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.none &&
-              snapshot.hasData == null) {
-            //print('project snapshot data is: ${projectSnap.data}');
-            return Container();
-          }
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(
-                backgroundColor: gray,
-                strokeWidth: 3,
-              ),
-            );
-          }
-          return ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: classicBlackGray,
-                child: buildExpansionTiles(index, snapshot.data[index]),
-              );
-            },
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: apps.length,
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: classicBlackGray,
+            child: buildExpansionTiles(index, apps[index]),
           );
         },
       ),
@@ -139,7 +158,7 @@ class _ApplicationsState extends State<Applications> {
   }
 
   Widget buildExpansionTiles(int index, var app) {
-    print(app);
+    //print(app);
 
     return ExpansionTile(
       onExpansionChanged: (value) {
@@ -160,8 +179,8 @@ class _ApplicationsState extends State<Applications> {
                 applicationsExtendedIcon1, 'ap1'.tr(), app.packageName),
             buildListTile0(
                 applicationsExtendedIcon2, 'ap2'.tr(), app.versionName),
-            buildListTile0(
-                applicationsExtendedIcon2, 'ap2'.tr(), app.category.toString()),
+            //buildListTile0(
+            //    applicationsExtendedIcon2, 'ap2'.tr(), app.category.toString()),
           ],
         ),
       ],
@@ -192,7 +211,8 @@ class _ApplicationsState extends State<Applications> {
       ),
       leading: Padding(
         padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-        child: Image.memory(app.icon),
+        child: Icon(Icons.ac_unit),
+        //child: Image.memory(app.icon),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

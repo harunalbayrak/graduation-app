@@ -1,8 +1,9 @@
-const String tableApplication = 'applications';
+const String tableApp = 'Apps';
 
-class ApplicationFields {
+class AppFields {
   static final List<String> values = [
     id,
+    appName,
     packageName,
     version,
     allowWifi,
@@ -13,6 +14,7 @@ class ApplicationFields {
   ];
 
   static const String id = '_id';
+  static const String appName = 'appName';
   static const String packageName = 'packageName';
   static const String version = 'version';
   static const String allowWifi = 'allowWifi';
@@ -22,8 +24,9 @@ class ApplicationFields {
   static const String totalActivities_7days = 'totalActivities_7days';
 }
 
-class Application {
+class App {
   final int? id;
+  final String appName;
   final String packageName;
   final String version;
   bool allowWifi;
@@ -32,8 +35,9 @@ class Application {
   bool notificationMode;
   int totalActivities_7days;
 
-  Application({
+  App({
     this.id,
+    required this.appName,
     required this.packageName,
     required this.version,
     required this.allowWifi,
@@ -44,30 +48,32 @@ class Application {
   });
 
   Map<String, Object?> toJson() => {
-        ApplicationFields.id: id,
-        ApplicationFields.packageName: packageName,
-        ApplicationFields.version: version,
-        ApplicationFields.allowWifi: allowWifi ? 1 : 0,
-        ApplicationFields.allowMobileNetwork: allowMobileNetwork ? 1 : 0,
-        ApplicationFields.isInWhitelist: isInWhitelist ? 1 : 0,
-        ApplicationFields.notificationMode: notificationMode ? 1 : 0,
-        ApplicationFields.totalActivities_7days: totalActivities_7days,
+        AppFields.id: id,
+        AppFields.appName: appName,
+        AppFields.packageName: packageName,
+        AppFields.version: version,
+        AppFields.allowWifi: allowWifi ? 1 : 0,
+        AppFields.allowMobileNetwork: allowMobileNetwork ? 1 : 0,
+        AppFields.isInWhitelist: isInWhitelist ? 1 : 0,
+        AppFields.notificationMode: notificationMode ? 1 : 0,
+        AppFields.totalActivities_7days: totalActivities_7days,
       };
 
-  static Application fromJson(Map<String, Object?> json) => Application(
-        id: json[ApplicationFields.id] as int?,
-        packageName: json[ApplicationFields.packageName] as String,
-        version: json[ApplicationFields.version] as String,
-        allowWifi: json[ApplicationFields.allowWifi] == 1,
-        allowMobileNetwork: json[ApplicationFields.allowMobileNetwork] == 1,
-        isInWhitelist: json[ApplicationFields.isInWhitelist] == 1,
-        notificationMode: json[ApplicationFields.notificationMode] == 1,
-        totalActivities_7days:
-            json[ApplicationFields.totalActivities_7days] as int,
+  static App fromJson(Map<String, Object?> json) => App(
+        id: json[AppFields.id] as int?,
+        appName: json[AppFields.appName] as String,
+        packageName: json[AppFields.packageName] as String,
+        version: json[AppFields.version] as String,
+        allowWifi: json[AppFields.allowWifi] == 1,
+        allowMobileNetwork: json[AppFields.allowMobileNetwork] == 1,
+        isInWhitelist: json[AppFields.isInWhitelist] == 1,
+        notificationMode: json[AppFields.notificationMode] == 1,
+        totalActivities_7days: json[AppFields.totalActivities_7days] as int,
       );
 
-  Application copy({
+  App copy({
     int? id,
+    String? appName,
     String? packageName,
     String? version,
     bool? allowWifi,
@@ -76,8 +82,9 @@ class Application {
     bool? notificationMode,
     int? totalActivities_7days,
   }) =>
-      Application(
+      App(
         id: id ?? this.id,
+        appName: appName ?? this.appName,
         packageName: packageName ?? this.packageName,
         version: version ?? this.version,
         allowWifi: allowWifi ?? this.allowWifi,
