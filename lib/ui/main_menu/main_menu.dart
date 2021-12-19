@@ -33,7 +33,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarOnlyDots(context, 'mm6'.tr()),
+      appBar: appBarOnlyDots(context, 'hp1'.tr()),
       body: Stack(
         children: [
           buildBackground(),

@@ -32,9 +32,10 @@ samples, guidance on mobile development, and a full API reference.
 - Introduction screens are added.​
 - The logo is designed.​
 - Widget testing is applied.
+- Three Dot button is added to the AppBar for all screens.  
 
 # To Do​
-- Buttons will be added to the AppBar. (Search etc.)​
+- Other Buttons will be added to the AppBar. (Search etc.)​
 - Settings screens will be completed.​
 - Some animations will be added. ​
 - Classes & Modals & Utils will be added.​
