@@ -1,6 +1,10 @@
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_app/db/app_db.dart';
+import 'package:graduation_app/models/app.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:graduation_app/ui/filters/filters_2.dart';
+import 'package:graduation_app/ui/home_page.dart';
 import 'package:graduation_app/ui/statistics/statistics.dart';
 import 'package:graduation_app/ui/settings/settings.dart';
 import 'package:graduation_app/ui/settings/general_settings.dart';
@@ -19,6 +23,34 @@ import 'package:graduation_app/constants/themes.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+int? initScreen;
+
+void initalizePreferences() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initScreen = await prefs.getInt("initScreen");
+  await prefs.setInt("initScreen", 1);
+}
+
+void initializeDatabase() async {
+  List apps = await DeviceApps.getInstalledApplications(includeAppIcons: true);
+
+  for (int i = 0; i < apps.length; i++) {
+    App app = App(
+      appName: apps[i].appName,
+      packageName: apps[i].packageName,
+      version: apps[i].versionName,
+      allowWifi: true,
+      allowMobileNetwork: true,
+      isInWhitelist: false,
+      notificationMode: false,
+      totalActivities_7days: 0,
+      icon: apps[i].icon,
+    );
+    await AppDatabase.instance.create(app);
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,22 +58,29 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
+
+  initalizePreferences();
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('tr')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
 
+@override
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (initScreen == 0 || initScreen == null) {
+      initializeDatabase();
+    }
     return ResponsiveSizer(builder: (context, orientation, deviceType) {
       return MaterialApp(
         title: 'Flutter Demo',
@@ -49,9 +88,11 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        initialRoute: '/',
+        initialRoute:
+            initScreen == 0 || initScreen == null ? '/' : '/home_page',
         routes: {
           '/': (context) => const IntroductionPage(),
+          '/home_page': (context) => const HomePage(),
           '/main_menu': (context) => const MainMenu(),
           '/applications': (context) => const Applications(),
           '/blocked_activities': (context) => const BlockedActivities(),

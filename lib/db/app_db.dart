@@ -1,6 +1,7 @@
 import 'package:graduation_app/models/app.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:device_apps/device_apps.dart';
 
 class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
@@ -40,7 +41,8 @@ CREATE TABLE $tableApp (
   ${AppFields.allowMobileNetwork} $boolType,
   ${AppFields.isInWhitelist} $boolType,
   ${AppFields.notificationMode} $boolType,
-  ${AppFields.totalActivities_7days} $integerType
+  ${AppFields.totalActivities_7days} $integerType,
+  ${AppFields.icon} $textType
   )
 ''');
   }
@@ -69,6 +71,24 @@ CREATE TABLE $tableApp (
     }
   }
 
+  Future<App> readAppWithAppName(String appName) async {
+    final db = await instance.database;
+
+    final maps = await db!.query(
+      tableApp,
+      columns: AppFields.values,
+      where: '${AppFields.appName} = ?',
+      whereArgs: [appName],
+    );
+
+    if (maps.isNotEmpty) {
+      return App.fromJson(maps.first);
+    } else {
+      //return null;
+      throw Exception('AppName: $appName is not found');
+    }
+  }
+
   Future<List<App>> readAllApps() async {
     final db = await instance.database;
 
@@ -76,6 +96,27 @@ CREATE TABLE $tableApp (
     final result = await db!.query(tableApp, orderBy: orderBy);
 
     return result.map((json) => App.fromJson(json)).toList();
+  }
+
+  Future deleteRemovedApps() async {
+    List<App> databaseApps = await readAllApps();
+
+    List apps =
+        await DeviceApps.getInstalledApplications(includeAppIcons: true);
+
+    int flag = 0;
+    for (int i = 0; i < databaseApps.length; i++) {
+      flag = 0;
+      for (int j = 0; j < apps.length; j++) {
+        if (apps[j].appName == databaseApps[i].appName) {
+          flag = 1;
+          break;
+        }
+      }
+      if (flag == 0) {
+        await deleteWithAppName(databaseApps[i].appName);
+      }
+    }
   }
 
   Future<int> update(App app) async {
@@ -96,6 +137,16 @@ CREATE TABLE $tableApp (
       tableApp,
       where: '${AppFields.id} = ?',
       whereArgs: [id],
+    );
+  }
+
+  Future<int> deleteWithAppName(String appName) async {
+    final db = await instance.database;
+
+    return await db!.delete(
+      tableApp,
+      where: '${AppFields.appName} = ?',
+      whereArgs: [appName],
     );
   }
 

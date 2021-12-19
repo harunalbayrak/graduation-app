@@ -131,10 +131,11 @@ class _ApplicationsState extends State<Applications> {
       children: [
         buildBackground(),
         isLoading
-            ? const CircularProgressIndicator()
+            ? const Center(child: CircularProgressIndicator())
             : apps.isEmpty
                 ? Container(
-                    child: Text('There is no applications in the database'),
+                    child:
+                        const Text('There is no applications in the database'),
                   )
                 : buildListView(),
       ],
@@ -177,8 +178,7 @@ class _ApplicationsState extends State<Applications> {
           children: [
             buildListTile0(
                 applicationsExtendedIcon1, 'ap1'.tr(), app.packageName),
-            buildListTile0(
-                applicationsExtendedIcon2, 'ap2'.tr(), app.versionName),
+            buildListTile0(applicationsExtendedIcon2, 'ap2'.tr(), app.version),
             //buildListTile0(
             //    applicationsExtendedIcon2, 'ap2'.tr(), app.category.toString()),
           ],
@@ -211,8 +211,8 @@ class _ApplicationsState extends State<Applications> {
       ),
       leading: Padding(
         padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-        child: Icon(Icons.ac_unit),
-        //child: Image.memory(app.icon),
+        //child: Icon(Icons.ac_unit),
+        child: Image.memory(app.icon),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

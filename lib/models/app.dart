@@ -10,7 +10,8 @@ class AppFields {
     allowMobileNetwork,
     isInWhitelist,
     notificationMode,
-    totalActivities_7days
+    totalActivities_7days,
+    icon
   ];
 
   static const String id = '_id';
@@ -22,6 +23,7 @@ class AppFields {
   static const String isInWhitelist = 'isInWhitelist';
   static const String notificationMode = 'notificationMode';
   static const String totalActivities_7days = 'totalActivities_7days';
+  static const String icon = 'icon';
 }
 
 class App {
@@ -34,6 +36,7 @@ class App {
   bool isInWhitelist;
   bool notificationMode;
   int totalActivities_7days;
+  dynamic icon;
 
   App({
     this.id,
@@ -45,6 +48,7 @@ class App {
     required this.isInWhitelist,
     required this.notificationMode,
     required this.totalActivities_7days,
+    required this.icon,
   });
 
   Map<String, Object?> toJson() => {
@@ -57,6 +61,7 @@ class App {
         AppFields.isInWhitelist: isInWhitelist ? 1 : 0,
         AppFields.notificationMode: notificationMode ? 1 : 0,
         AppFields.totalActivities_7days: totalActivities_7days,
+        AppFields.icon: icon,
       };
 
   static App fromJson(Map<String, Object?> json) => App(
@@ -69,6 +74,7 @@ class App {
         isInWhitelist: json[AppFields.isInWhitelist] == 1,
         notificationMode: json[AppFields.notificationMode] == 1,
         totalActivities_7days: json[AppFields.totalActivities_7days] as int,
+        icon: json[AppFields.icon] as dynamic,
       );
 
   App copy({
@@ -81,6 +87,7 @@ class App {
     bool? isInWhitelist,
     bool? notificationMode,
     int? totalActivities_7days,
+    dynamic icon,
   }) =>
       App(
         id: id ?? this.id,
@@ -93,5 +100,6 @@ class App {
         notificationMode: notificationMode ?? this.notificationMode,
         totalActivities_7days:
             totalActivities_7days ?? this.totalActivities_7days,
+        icon: icon ?? this.icon,
       );
 }

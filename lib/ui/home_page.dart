@@ -1,5 +1,8 @@
+import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:graduation_app/db/app_db.dart';
+import 'package:graduation_app/models/app.dart';
 import 'package:graduation_app/ui/main_menu/main_menu.dart';
 import 'package:graduation_app/ui/applications/applications.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
@@ -54,6 +57,46 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: bottomBarInActiveColor,
       ),
     ];
+  }
+
+  void checkApps() async {
+    List apps =
+        await DeviceApps.getInstalledApplications(includeAppIcons: true);
+
+    for (int i = 0; i < apps.length; i++) {
+      App theApp =
+          await AppDatabase.instance.readAppWithAppName(apps[i].appName);
+
+      if (theApp.version != apps[i].versionName) {
+        App newVersionedApp = App(
+          id: theApp.id,
+          appName: apps[i].appName,
+          packageName: apps[i].packageName,
+          version: apps[i].versionName,
+          allowWifi: true,
+          allowMobileNetwork: true,
+          isInWhitelist: false,
+          notificationMode: false,
+          totalActivities_7days: 0,
+          icon: apps[i].icon,
+        );
+
+        print(
+            "--------------- update ----------------: ${apps[i].versionName} -- ${apps[i].appName}");
+
+        AppDatabase.instance.update(newVersionedApp);
+      }
+    }
+
+    int x = await AppDatabase.instance.deleteRemovedApps();
+    print("----- $x");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    checkApps();
   }
 
   @override
