@@ -9,6 +9,7 @@ import 'package:graduation_app/ui/statistics/statistics_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({Key? key}) : super(key: key);
@@ -67,7 +68,7 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('mm5'.tr())),
+      appBar: appBarOnlyDots(context, 'mm5'.tr()),
       body: Stack(
         children: [
           buildBackground(),

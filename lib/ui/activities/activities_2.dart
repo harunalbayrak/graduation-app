@@ -5,6 +5,7 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Activities2 extends StatefulWidget {
   const Activities2({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _Activities2State extends State<Activities2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('hp4'.tr())),
+      appBar: appBarOnlyDots(context, 'hp4'.tr()),
       body: Stack(
         children: [
           buildBackground(),

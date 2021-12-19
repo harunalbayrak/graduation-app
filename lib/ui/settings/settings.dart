@@ -4,6 +4,7 @@ import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('mm6'.tr())),
+      appBar: appBarOnlyDots(context, 'mm6'.tr()),
       body: Stack(
         children: [
           buildBackground(),

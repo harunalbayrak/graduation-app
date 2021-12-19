@@ -3,6 +3,7 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class NetworkSettings extends StatefulWidget {
   const NetworkSettings({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _NetworkSettingsState extends State<NetworkSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('mm6'.tr())),
+      appBar: appBarOnlyDots(context, 'mm6'.tr()),
       body: Stack(
         children: [
           buildBackground(),

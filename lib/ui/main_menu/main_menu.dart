@@ -9,7 +9,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:like_button/like_button.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -22,15 +22,18 @@ class _MainMenuState extends State<MainMenu> {
   double space1 = 8.h;
   bool isActive = false;
 
+  void openVPN() {
+    print("open");
+  }
+
+  void closeVPN() {
+    print("close");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('hp1'.tr()),
-        actions: <Widget>[
-          popupMenuDots(context),
-        ],
-      ),
+      appBar: appBarOnlyDots(context, 'mm6'.tr()),
       body: Stack(
         children: [
           buildBackground(),
@@ -65,7 +68,11 @@ class _MainMenuState extends State<MainMenu> {
                   setState(() {
                     isActive = !value;
                   });
-                  isActive = !value;
+                  if (isActive == true) {
+                    openVPN();
+                  } else {
+                    closeVPN();
+                  }
                   return !value;
                 },
               ),

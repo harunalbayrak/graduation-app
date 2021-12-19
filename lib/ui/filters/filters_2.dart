@@ -6,6 +6,7 @@ import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
 import 'package:graduation_app/widgets/padding_light_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Filters2 extends StatefulWidget {
   const Filters2({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _Filters2State extends State<Filters2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('mm4'.tr())),
+      appBar: appBarOnlyDots(context, 'mm4'.tr()),
       body: Stack(
         children: [
           buildBackground(),

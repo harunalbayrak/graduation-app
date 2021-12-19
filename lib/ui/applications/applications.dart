@@ -139,6 +139,8 @@ class _ApplicationsState extends State<Applications> {
   }
 
   Widget buildExpansionTiles(int index, var app) {
+    print(app);
+
     return ExpansionTile(
       onExpansionChanged: (value) {
         /*setState(() {
@@ -155,9 +157,11 @@ class _ApplicationsState extends State<Applications> {
         Column(
           children: [
             buildListTile0(
-                applicationsExtendedIcon1, 'ap1'.tr(), "com.package.name"),
+                applicationsExtendedIcon1, 'ap1'.tr(), app.packageName),
             buildListTile0(
-                applicationsExtendedIcon2, 'ap2'.tr(), "com.package.name"),
+                applicationsExtendedIcon2, 'ap2'.tr(), app.versionName),
+            buildListTile0(
+                applicationsExtendedIcon2, 'ap2'.tr(), app.category.toString()),
           ],
         ),
       ],

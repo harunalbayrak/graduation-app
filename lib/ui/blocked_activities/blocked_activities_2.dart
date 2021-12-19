@@ -5,6 +5,7 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:graduation_app/widgets/padding_bold_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class BlockedActivities2 extends StatefulWidget {
   const BlockedActivities2({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _BlockedActivities2State extends State<BlockedActivities2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('hp3'.tr())),
+      appBar: appBarOnlyDots(context, 'hp3'.tr()),
       body: Stack(
         children: [
           buildBackground(),

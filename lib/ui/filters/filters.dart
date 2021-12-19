@@ -7,6 +7,7 @@ import 'package:graduation_app/ui/filters/filters_2.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Filters extends StatefulWidget {
   const Filters({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _FiltersState extends State<Filters> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('mm4'.tr())),
+      appBar: appBarOnlyDots(context, 'mm4'.tr()),
       body: Stack(
         children: [
           buildBackground(),
