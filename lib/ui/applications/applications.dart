@@ -10,8 +10,10 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:graduation_app/widgets/popup_menu_dots.dart';
-import 'package:graduation_app/models/app.dart';
-import 'package:graduation_app/db/app_db.dart';
+import 'package:graduation_app/models/app2.dart';
+import 'package:graduation_app/boxes.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Applications extends StatefulWidget {
   const Applications({Key? key}) : super(key: key);
@@ -21,7 +23,6 @@ class Applications extends StatefulWidget {
 }
 
 class _ApplicationsState extends State<Applications> {
-  late List<App> apps;
   bool isLoading = false;
 
   Icon cusIcon = const Icon(appBarIconSearch);
@@ -58,22 +59,14 @@ class _ApplicationsState extends State<Applications> {
   void initState() {
     super.initState();
 
-    refreshApps();
+    //refreshApps();
   }
 
   @override
   void dispose() {
-    AppDatabase.instance.close();
+    Hive.box('app2s').close();
 
     super.dispose();
-  }
-
-  Future refreshApps() async {
-    setState(() => isLoading = true);
-
-    apps = await AppDatabase.instance.readAllApps();
-
-    setState(() => isLoading = false);
   }
 
   @override
@@ -130,6 +123,8 @@ class _ApplicationsState extends State<Applications> {
     return Stack(
       children: [
         buildBackground(),
+        buildListView2(),
+        /*
         isLoading
             ? const Center(child: CircularProgressIndicator())
             : apps.isEmpty
@@ -137,11 +132,35 @@ class _ApplicationsState extends State<Applications> {
                     child:
                         const Text('There is no applications in the database'),
                   )
-                : buildListView(),
+                : buildListView(),*/
       ],
     );
   }
 
+  Widget buildListView2() {
+    return ValueListenableBuilder<Box<App2>>(
+      valueListenable: Boxes.getApp2s().listenable(),
+      builder: (context, box, _) {
+        final List<App2> app2s = box.values.toList().cast<App2>();
+
+        return Padding(
+          padding: const EdgeInsets.all(0),
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: app2s.length,
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: classicBlackGray,
+                child: buildExpansionTiles(index, app2s[index]),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  /*
   Widget buildListView() {
     return Padding(
       padding: const EdgeInsets.all(0),
@@ -157,6 +176,7 @@ class _ApplicationsState extends State<Applications> {
       ),
     );
   }
+  */
 
   Widget buildExpansionTiles(int index, var app) {
     //print(app);

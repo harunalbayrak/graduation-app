@@ -1,8 +1,6 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:graduation_app/db/app_db.dart';
-import 'package:graduation_app/models/app.dart';
 import 'package:graduation_app/ui/main_menu/main_menu.dart';
 import 'package:graduation_app/ui/applications/applications.dart';
 import 'package:graduation_app/ui/blocked_activities/blocked_activities.dart';
@@ -10,6 +8,10 @@ import 'package:graduation_app/ui/activities/activities.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/models/app2.dart';
+import 'package:graduation_app/boxes.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -63,39 +65,30 @@ class _HomePageState extends State<HomePage> {
     List apps =
         await DeviceApps.getInstalledApplications(includeAppIcons: true);
 
-    for (int i = 0; i < apps.length; i++) {
-      App theApp =
-          await AppDatabase.instance.readAppWithAppName(apps[i].appName);
+    List<App2> app2s = Boxes.getApp2s().values.toList().cast<App2>();
 
-      if (theApp.version != apps[i].versionName) {
-        App newVersionedApp = App(
-          id: theApp.id,
-          appName: apps[i].appName,
-          packageName: apps[i].packageName,
-          version: apps[i].versionName,
-          allowWifi: true,
-          allowMobileNetwork: true,
-          isInWhitelist: false,
-          notificationMode: false,
-          totalActivities_7days: 0,
-          icon: apps[i].icon,
-        );
-
-        print(
-            "--------------- update ----------------: ${apps[i].versionName} -- ${apps[i].appName}");
-
-        AppDatabase.instance.update(newVersionedApp);
+    int flag;
+    for (int i = 0; i < app2s.length; ++i) {
+      flag = 0;
+      for (int j = 0; j < apps.length; ++j) {
+        if (app2s[i].appName == apps[j].appName) {
+          flag = 1;
+          if (app2s[i].version != apps[j].versionName) {
+            app2s[i].version = apps[j].versionName;
+            app2s[i].save();
+          }
+          break;
+        }
+      }
+      if (flag == 0) {
+        app2s[i].delete();
       }
     }
-
-    int x = await AppDatabase.instance.deleteRemovedApps();
-    print("----- $x");
   }
 
   @override
   void initState() {
     super.initState();
-
     checkApps();
   }
 
