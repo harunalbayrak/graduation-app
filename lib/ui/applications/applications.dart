@@ -7,10 +7,11 @@ import 'package:graduation_app/widgets/list_tiles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:device_apps/device_apps.dart';
 import 'package:graduation_app/widgets/popup_menu_dots.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/boxes.dart';
+import 'package:graduation_app/widgets/popup_menu_sort.dart';
+import 'package:graduation_app/utils/enums.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -22,13 +23,12 @@ class Applications extends StatefulWidget {
 }
 
 class _ApplicationsState extends State<Applications> {
-  List<App2>? app2s;
-  bool isLoading = false;
+  // For Sorting
+  Sort sort = Sort.name;
 
+  // For Searching
   Icon cusIcon = const Icon(appBarIconSearch);
   Widget cusSearchBar = Text('hp2'.tr());
-  final titles = ["List 1", "List 2", "List 3"];
-  final isExpandeds = [false, false, false];
   bool isSearch = false;
   String searchQuery = "";
 
@@ -99,6 +99,7 @@ class _ApplicationsState extends State<Applications> {
             },
             icon: cusIcon,
           ),
+          popupMenuSort(context, sort),
           popupMenuDots(context),
         ],
       ),
@@ -128,18 +129,18 @@ class _ApplicationsState extends State<Applications> {
     return ValueListenableBuilder<Box<App2>>(
       valueListenable: Boxes.getApp2s().listenable(),
       builder: (context, box, _) {
-        app2s = getApp(box);
+        List<App2> app2s = getApp(box);
 
         return Padding(
           padding: const EdgeInsets.all(0),
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: app2s!.length,
+            itemCount: app2s.length,
             itemBuilder: (context, index) {
               return Container(
                 decoration: classicBlackGray,
-                child: buildExpansionTiles(index, app2s![index]),
+                child: buildExpansionTiles(index, app2s[index]),
               );
             },
           ),

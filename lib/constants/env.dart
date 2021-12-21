@@ -13,8 +13,10 @@ const double paddingOverall = 12.0;
 const double paddingMax = 20.0;
 const double borderRadiusMin = 4.0;
 const IconData appBarIconDots = Icons.more_vert;
+const IconData appBarIconSort = Icons.sort;
 const IconData appBarIconSearch = Icons.search;
 const IconData appBarIconSearchCancel = Icons.cancel;
+const Color appBarDropdownActiveColor = orange;
 BoxDecoration blackGrayDecoration = classicBlackGray;
 
 /* BOTTOM BAR */

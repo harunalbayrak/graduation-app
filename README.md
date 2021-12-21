@@ -37,7 +37,7 @@ samples, guidance on mobile development, and a full API reference.
 - Search button is added.
 
 # To Do​
-- Other Buttons will be added to the AppBar. (Search etc.)​
+- Other Buttons will be added to the AppBar. (Filter etc.)​
 - Settings screens will be completed.​
 - Some animations will be added. ​
 - Classes & Modals & Utils will be added.​
