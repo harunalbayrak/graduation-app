@@ -41,6 +41,8 @@ samples, guidance on mobile development, and a full API reference.
 - Allow wifi & mobile network button is added to the database. 
 - Filter model is implemented.
 - Filters is added to the database.
+- Statistic model is implemented.
+- Activity model is implemented.
 
 # To Do​
 - Other Buttons will be added to the AppBar. (Filter etc.)​

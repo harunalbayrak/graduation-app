@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/models/filter.dart';
+import 'package:graduation_app/models/statistic.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:graduation_app/ui/filters/filters_2.dart';
 import 'package:graduation_app/ui/home_page.dart';
@@ -40,6 +41,7 @@ void initalizePreferences() async {
 void initializeDatabase() async {
   final boxApp2s = Boxes.getApp2s();
   final boxFilters = Boxes.getFilters();
+  final boxStatistics = Boxes.getStatistics();
 
   List apps = await DeviceApps.getInstalledApplications(includeAppIcons: true);
 
@@ -62,6 +64,8 @@ void initializeDatabase() async {
   boxFilters.add(filter1);
   boxFilters.add(filter2);
   boxFilters.add(filter3);
+
+  boxStatistics.put('totalAndBlocked', Statistic());
 }
 
 void main() async {
@@ -76,8 +80,10 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(App2Adapter());
   Hive.registerAdapter(FilterAdapter());
+  Hive.registerAdapter(StatisticAdapter());
   await Hive.openBox<App2>('app2s');
   await Hive.openBox<Filter>('filters');
+  await Hive.openBox<Statistic>('statistics');
 
   runApp(
     EasyLocalization(
