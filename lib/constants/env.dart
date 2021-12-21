@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /* GENERAL */
 const double paddingMin = 8.0;
@@ -78,14 +80,27 @@ const Color activitiesIconColor = orange;
 
 /* FILTERS */
 const Color filtersSwitchActiveColor = lightBlue;
-const String filters0Name = "Adware/Malware";
-const dynamic filters0Icon = Icons.ac_unit;
-const String filters1Name = "Fakenews";
-const dynamic filters1Icon = Icons.ac_unit;
-const String filters2Name = "Gambling";
-const dynamic filters2Icon = Icons.ac_unit;
-const String filters3Name = "Social";
-const dynamic filters3Icon = Icons.ac_unit;
+const int filtersSize = 4;
+final Filter filter0 = Filter()
+  ..name = "Adware/Malware"
+  ..information = 'filter0Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
+final Filter filter1 = Filter()
+  ..name = "Fakenews"
+  ..information = 'filter1Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
+final Filter filter2 = Filter()
+  ..name = "Gambling"
+  ..information = 'filter2Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
+final Filter filter3 = Filter()
+  ..name = "Social"
+  ..information = 'filter3Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
 
 /* STATISTICS */
 double statisticsHeight = 2.h;

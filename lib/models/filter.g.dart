@@ -8,7 +8,7 @@ part of 'filter.dart';
 
 class FilterAdapter extends TypeAdapter<Filter> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Filter read(BinaryReader reader) {
@@ -19,7 +19,7 @@ class FilterAdapter extends TypeAdapter<Filter> {
     return Filter()
       ..name = fields[0] as String
       ..information = fields[1] as String
-      ..icon = fields[2] as dynamic
+      ..icon = fields[2] as int
       ..isEnable = fields[3] as bool;
   }
 

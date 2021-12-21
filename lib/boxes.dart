@@ -5,5 +5,5 @@ import 'package:graduation_app/models/filter.dart';
 
 class Boxes {
   static Box<App2> getApp2s() => Hive.box<App2>('app2s');
-  static Box<Filter> getFilters() => Hive.box<Filter>('filter');
+  static Box<Filter> getFilters() => Hive.box<Filter>('filters');
 }

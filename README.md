@@ -39,10 +39,10 @@ samples, guidance on mobile development, and a full API reference.
 - Applications is added to the Hive NoSQL database.
 - When the app is started, installed & removed apps is checked and added to the database.
 - Allow wifi & mobile network button is added to the database. 
+- Filter model is implemented.
+- Filters is added to the database.
 
 # To Do​
-- Filters model will be implemented.
-- Filters will be added to the database.
 - Other Buttons will be added to the AppBar. (Filter etc.)​
 - Settings screens will be completed.​
 - Some animations will be added. ​

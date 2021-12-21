@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 part 'filter.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class Filter extends HiveObject {
   @HiveField(0)
   late String name;
@@ -10,7 +10,7 @@ class Filter extends HiveObject {
   late String information;
 
   @HiveField(2)
-  late dynamic icon;
+  late int icon;
 
   @HiveField(3)
   late bool isEnable;

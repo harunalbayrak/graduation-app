@@ -1,5 +1,6 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
@@ -37,7 +38,8 @@ void initalizePreferences() async {
 }
 
 void initializeDatabase() async {
-  final box = Boxes.getApp2s();
+  final boxApp2s = Boxes.getApp2s();
+  final boxFilters = Boxes.getFilters();
 
   List apps = await DeviceApps.getInstalledApplications(includeAppIcons: true);
 
@@ -53,8 +55,13 @@ void initializeDatabase() async {
       ..totalActivities_7days = 0
       ..icon = apps[i].icon;
 
-    box.add(app2);
+    boxApp2s.add(app2);
   }
+
+  boxFilters.add(filter0);
+  boxFilters.add(filter1);
+  boxFilters.add(filter2);
+  boxFilters.add(filter3);
 }
 
 void main() async {
@@ -70,7 +77,7 @@ void main() async {
   Hive.registerAdapter(App2Adapter());
   Hive.registerAdapter(FilterAdapter());
   await Hive.openBox<App2>('app2s');
-  await Hive.openBox<App2>('filter');
+  await Hive.openBox<Filter>('filters');
 
   runApp(
     EasyLocalization(
@@ -111,7 +118,7 @@ class MyApp extends StatelessWidget {
           '/activities': (context) => const Activities(),
           '/activities2': (context) => const Activities2(),
           '/filters': (context) => const Filters(),
-          '/filters2': (context) => const Filters2(),
+          '/filters2': (context) => Filters2(filter: filter0),
           '/statistics': (context) => const Statistics(),
           '/settings': (context) => const Settings(),
           '/general_settings': (context) => const GeneralSettings(),
