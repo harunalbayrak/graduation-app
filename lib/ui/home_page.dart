@@ -10,8 +10,6 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/boxes.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -62,6 +60,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void checkApps() async {
+    final box = Boxes.getApp2s();
+
     List apps =
         await DeviceApps.getInstalledApplications(includeAppIcons: true);
 
@@ -82,6 +82,30 @@ class _HomePageState extends State<HomePage> {
       }
       if (flag == 0) {
         app2s[i].delete();
+      }
+    }
+
+    for (int i = 0; i < apps.length; ++i) {
+      flag = 0;
+      for (int j = 0; j < app2s.length; ++j) {
+        if (apps[i].appName == app2s[j].appName) {
+          flag = 1;
+          break;
+        }
+      }
+      if (flag == 0) {
+        final App2 app2 = App2()
+          ..appName = apps[i].appName
+          ..packageName = apps[i].packageName
+          ..version = apps[i].versionName
+          ..allowWifi = true
+          ..allowMobileNetwork = true
+          ..isInWhitelist = false
+          ..notificationMode = false
+          ..totalActivities_7days = 0
+          ..icon = apps[i].icon;
+
+        box.add(app2);
       }
     }
   }

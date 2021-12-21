@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
-import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/constants/text_styles.dart';
@@ -23,6 +22,7 @@ class Applications extends StatefulWidget {
 }
 
 class _ApplicationsState extends State<Applications> {
+  List<App2>? app2s;
   bool isLoading = false;
 
   Icon cusIcon = const Icon(appBarIconSearch);
@@ -32,27 +32,14 @@ class _ApplicationsState extends State<Applications> {
   bool isSearch = false;
   String searchQuery = "";
 
-  Future getApps() async {
-    List apps =
-        await DeviceApps.getInstalledApplications(includeAppIcons: true);
-
-    return apps;
-  }
-
-  Future filterApps(String searchQuery) async {
-    List apps =
-        await DeviceApps.getInstalledApplications(includeAppIcons: true);
-
-    List filteredApps = [];
-
-    for (int i = 0; i < apps.length; ++i) {
-      if (apps[i].appName.toLowerCase().contains(searchQuery) ||
-          apps[i].appName.contains(searchQuery)) {
-        filteredApps.add(apps[i]);
-      }
-    }
-
-    return filteredApps;
+  List<App2> getApp(Box<App2> box) {
+    return isSearch
+        ? box.values
+            .toList()
+            .where((c) => c.appName.toLowerCase().contains(searchQuery))
+            .toList()
+            .cast<App2>()
+        : box.values.toList().cast<App2>();
   }
 
   @override
@@ -141,17 +128,18 @@ class _ApplicationsState extends State<Applications> {
     return ValueListenableBuilder<Box<App2>>(
       valueListenable: Boxes.getApp2s().listenable(),
       builder: (context, box, _) {
-        final List<App2> app2s = box.values.toList().cast<App2>();
+        app2s = getApp(box);
 
         return Padding(
           padding: const EdgeInsets.all(0),
           child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: app2s.length,
+            itemCount: app2s!.length,
             itemBuilder: (context, index) {
               return Container(
                 decoration: classicBlackGray,
-                child: buildExpansionTiles(index, app2s[index]),
+                child: buildExpansionTiles(index, app2s![index]),
               );
             },
           ),

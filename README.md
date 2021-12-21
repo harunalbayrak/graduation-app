@@ -33,6 +33,8 @@ samples, guidance on mobile development, and a full API reference.
 - The logo is designed.​
 - Widget testing is applied.
 - Three Dot button is added to the AppBar for all screens.  
+- Hive NoSQL database is started to use instead of SQlite.
+- Search button is added.
 
 # To Do​
 - Other Buttons will be added to the AppBar. (Search etc.)​
