@@ -10,7 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/widgets/popup_menu_dots.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/boxes.dart';
-import 'package:graduation_app/widgets/popup_menu_sort.dart';
 import 'package:graduation_app/utils/enums.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,7 +23,7 @@ class Applications extends StatefulWidget {
 
 class _ApplicationsState extends State<Applications> {
   // For Sorting
-  Sort sort = Sort.name;
+  Sort? sort = Sort.name;
 
   // For Searching
   Icon cusIcon = const Icon(appBarIconSearch);
@@ -33,20 +32,29 @@ class _ApplicationsState extends State<Applications> {
   String searchQuery = "";
 
   List<App2> getApp(Box<App2> box) {
-    return isSearch
+    List<App2> app = isSearch
         ? box.values
             .toList()
             .where((c) => c.appName.toLowerCase().contains(searchQuery))
             .toList()
             .cast<App2>()
         : box.values.toList().cast<App2>();
-  }
 
-  @override
-  void initState() {
-    super.initState();
+    switch (sort) {
+      case Sort.name:
+        app.sort((a, b) => a.appName.compareTo(b.appName));
+        break;
 
-    //refreshApps();
+      case Sort.other:
+        print("sort other");
+        app.sort((a, b) => a.appName.compareTo(b.appName));
+        break;
+
+      default:
+        app.sort((a, b) => a.appName.compareTo(b.appName));
+    }
+
+    return app;
   }
 
   @override
@@ -99,7 +107,7 @@ class _ApplicationsState extends State<Applications> {
             },
             icon: cusIcon,
           ),
-          popupMenuSort(context, sort),
+          popupMenuSort(),
           popupMenuDots(context),
         ],
       ),
@@ -112,15 +120,6 @@ class _ApplicationsState extends State<Applications> {
       children: [
         buildBackground(),
         buildListView2(),
-        /*
-        isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : apps.isEmpty
-                ? Container(
-                    child:
-                        const Text('There is no applications in the database'),
-                  )
-                : buildListView(),*/
       ],
     );
   }
@@ -149,25 +148,7 @@ class _ApplicationsState extends State<Applications> {
     );
   }
 
-  /*
-  Widget buildListView() {
-    return Padding(
-      padding: const EdgeInsets.all(0),
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: apps.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: classicBlackGray,
-            child: buildExpansionTiles(index, apps[index]),
-          );
-        },
-      ),
-    );
-  }
-  */
-
-  Widget buildExpansionTiles(int index, var app) {
+  Widget buildExpansionTiles(int index, App2 app) {
     //print(app);
 
     return ExpansionTile(
@@ -228,15 +209,89 @@ class _ApplicationsState extends State<Applications> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(applicationsWifiIcon),
+            onPressed: () {
+              app.allowWifi = !app.allowWifi;
+              app.save();
+            },
+            icon: app.allowWifi
+                ? const Icon(applicationsWifiIcon)
+                : const Icon(applicationsWifiOffIcon),
           ),
           IconButton(
-            onPressed: () {},
-            icon: const Icon(applicationsCellDataIcon),
+            onPressed: () {
+              app.allowMobileNetwork = !app.allowMobileNetwork;
+              app.save();
+            },
+            icon: app.allowMobileNetwork
+                ? const Icon(applicationsCellDataIcon)
+                : const Icon(applicationsCellDataOffIcon),
           ),
         ],
       ),
+    );
+  }
+
+  Widget popupMenuSort() {
+    return PopupMenuButton<String>(
+      color: Colors.black87,
+      icon: const Icon(appBarIconSort),
+      onSelected: (String result) {
+        switch (result) {
+          case 'sort_dropdown_1':
+            setState(() {
+              sort = Sort.name;
+            });
+            break;
+          case 'sort_dropdown_2':
+            setState(() {
+              sort = Sort.other;
+            });
+            break;
+          default:
+        }
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        PopupMenuItem(
+          value: 'sort_dropdown_1',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Radio<Sort>(
+                value: Sort.name,
+                activeColor: appBarDropdownActiveColor,
+                groupValue: sort,
+                onChanged: (Sort? value) {
+                  setState(() {
+                    sort = value;
+                  });
+                },
+              ),
+              Text('sort_dropdown_1'.tr(), style: textStyle2(15)),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'sort_dropdown_2',
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Radio<Sort>(
+                value: Sort.other,
+                activeColor: appBarDropdownActiveColor,
+                groupValue: sort,
+                onChanged: (Sort? value) {
+                  setState(() {
+                    sort = value;
+                  });
+                },
+              ),
+              Text('sort_dropdown_2'.tr(), style: textStyle2(15)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

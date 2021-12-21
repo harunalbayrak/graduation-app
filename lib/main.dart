@@ -1,6 +1,7 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_app/models/app2.dart';
+import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:graduation_app/ui/filters/filters_2.dart';
 import 'package:graduation_app/ui/home_page.dart';
@@ -67,7 +68,9 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(App2Adapter());
+  Hive.registerAdapter(FilterAdapter());
   await Hive.openBox<App2>('app2s');
+  await Hive.openBox<App2>('filter');
 
   runApp(
     EasyLocalization(

@@ -78,6 +78,14 @@ const Color activitiesIconColor = orange;
 
 /* FILTERS */
 const Color filtersSwitchActiveColor = lightBlue;
+const String filters0Name = "Adware/Malware";
+const dynamic filters0Icon = Icons.ac_unit;
+const String filters1Name = "Fakenews";
+const dynamic filters1Icon = Icons.ac_unit;
+const String filters2Name = "Gambling";
+const dynamic filters2Icon = Icons.ac_unit;
+const String filters3Name = "Social";
+const dynamic filters3Icon = Icons.ac_unit;
 
 /* STATISTICS */
 double statisticsHeight = 2.h;
