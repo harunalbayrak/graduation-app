@@ -16,21 +16,22 @@ class StatisticAdapter extends TypeAdapter<Statistic> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Statistic()
-      ..totalMN = fields[0] as int
-      ..totalTE = fields[1] as int
-      ..totalWD = fields[2] as int
-      ..totalTU = fields[3] as int
-      ..totalFR = fields[4] as int
-      ..totalST = fields[5] as int
-      ..totalSN = fields[6] as int
-      ..blockedMN = fields[7] as int
-      ..blockedTE = fields[8] as int
-      ..blockedWD = fields[9] as int
-      ..blockedTU = fields[10] as int
-      ..blockedFR = fields[11] as int
-      ..blockedST = fields[12] as int
-      ..blockedSN = fields[13] as int;
+    return Statistic(
+      fields[0] as int,
+      fields[1] as int,
+      fields[2] as int,
+      fields[3] as int,
+      fields[4] as int,
+      fields[5] as int,
+      fields[6] as int,
+      fields[7] as int,
+      fields[8] as int,
+      fields[9] as int,
+      fields[10] as int,
+      fields[11] as int,
+      fields[12] as int,
+      fields[13] as int,
+    );
   }
 
   @override

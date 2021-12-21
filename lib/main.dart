@@ -4,6 +4,7 @@ import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/models/statistic.dart';
+import 'package:graduation_app/models/activity.dart';
 import 'package:graduation_app/ui/filters/filters.dart';
 import 'package:graduation_app/ui/filters/filters_2.dart';
 import 'package:graduation_app/ui/home_page.dart';
@@ -34,7 +35,7 @@ int? initScreen;
 
 void initalizePreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = await prefs.getInt("initScreen");
+  initScreen = prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
 }
 
@@ -81,23 +82,25 @@ void main() async {
   Hive.registerAdapter(App2Adapter());
   Hive.registerAdapter(FilterAdapter());
   Hive.registerAdapter(StatisticAdapter());
+  Hive.registerAdapter(ActivityAdapter());
   await Hive.openBox<App2>('app2s');
   await Hive.openBox<Filter>('filters');
   await Hive.openBox<Statistic>('statistics');
+  await Hive.openBox<Activity>('actvities');
 
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('tr')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 @override
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override

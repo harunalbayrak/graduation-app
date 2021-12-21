@@ -46,7 +46,7 @@ class _ApplicationsState extends State<Applications> {
         break;
 
       case Sort.other:
-        print("sort other");
+        //print("sort other");
         app.sort((a, b) => a.appName.compareTo(b.appName));
         break;
 

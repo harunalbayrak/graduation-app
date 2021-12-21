@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';

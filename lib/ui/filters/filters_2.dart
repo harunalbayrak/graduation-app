@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -10,9 +9,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Filters2 extends StatefulWidget {
-  Filter? filter;
+  final Filter? filter;
 
-  Filters2({Key? key, @required this.filter}) : super(key: key);
+  const Filters2({Key? key, @required this.filter}) : super(key: key);
 
   @override
   _Filters2State createState() => _Filters2State();

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
