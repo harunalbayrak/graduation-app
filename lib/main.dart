@@ -88,6 +88,10 @@ void main() async {
   await Hive.openBox<Statistic>('statistics');
   await Hive.openBox<Activity>('actvities');
 
+  // const platform = MethodChannel('LOCAL_VPN_CHANNEL');
+  // var dd = platform.invokeMethod('method0', {'text': 'hello world'});
+  // print(dd);
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('tr')],
