@@ -3,7 +3,7 @@ import 'package:graduation_app/utils/get_rules.dart';
 
 const platform = MethodChannel('LOCAL_VPN_CHANNEL');
 
-int sendRules() {
+int invokeRules() {
   var wifiRules;
   var mobileNetworkRules;
 
@@ -28,7 +28,7 @@ int sendRules() {
   return 0;
 }
 
-int sendOneRule(Map<String, dynamic> rule) {
+int invokeOneRule(Map<String, dynamic> rule) {
   try {
     platform.invokeMethod('method1', <String, dynamic>{
       'rule': rule,
@@ -38,5 +38,15 @@ int sendOneRule(Map<String, dynamic> rule) {
     return -3;
   }
 
+  return 0;
+}
+
+Future<int> invokeConnectVPN() async {
+  try {
+    var value = await platform.invokeMethod('connectVPN');
+  } catch (e) {
+    print("Error Code: -4");
+    return -4;
+  }
   return 0;
 }

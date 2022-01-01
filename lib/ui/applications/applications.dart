@@ -64,7 +64,7 @@ class _ApplicationsState extends State<Applications> {
   void initState() {
     super.initState();
 
-    sendRules();
+    // sendRules();
     // print(dd);
   }
 
