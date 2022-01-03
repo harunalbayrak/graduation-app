@@ -26,8 +26,8 @@ public class SinkService extends VpnService {
     private static final String EXTRA_COMMAND = "Command";
     private enum Command {start, reload, stop}
 
-    private static HashMap<String, Boolean> _wifiRules = null;
-    private static HashMap<String, Boolean> _mobileNetworkRules = null;
+    private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
+    private static HashMap<String, Boolean> _mobileNetworkRules = new HashMap<String, Boolean>();
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -68,12 +68,20 @@ public class SinkService extends VpnService {
         return START_STICKY;
     }
 
-    private int saveRules(){
-
-        return 0;
+    public static void clearRules(){
+        _wifiRules = new HashMap<String, Boolean>();
+        _mobileNetworkRules = new HashMap<String, Boolean>();
     }
 
-    private int changeRule(){
+    public static HashMap<String, Boolean> getWifiRules(){
+        return _wifiRules;
+    }
+
+    public static HashMap<String, Boolean> getMobileNetworkRules(){
+        return _mobileNetworkRules;
+    }
+
+    public int changeRule(){
 
         return 0;
     }
@@ -89,7 +97,9 @@ public class SinkService extends VpnService {
         builder.addRoute("0.0.0.0", 0);
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
-        setInitialRules(builder);
+        if(setInitialRules(builder) != 0){
+            Log.e(TAG, "Set Initial Rules Error\n");
+        }
 
         // Build configure intent
         Intent configure = new Intent(this, MainActivity.class);
@@ -99,7 +109,6 @@ public class SinkService extends VpnService {
         // Start VPN service
         try {
             return builder.establish();
-
         } catch (Throwable ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
 
@@ -126,16 +135,33 @@ public class SinkService extends VpnService {
             _map = _mobileNetworkRules;
         }
 
+        System.out.println("Size: " + _map.size());
+
         for (HashMap.Entry<String, Boolean> entry : _map.entrySet()) {
             String key = entry.getKey();
+            Boolean value = entry.getValue();
+
+            System.out.println("-> " + key + ": " + value.toString());
             
             try {
-                builder.addDisallowedApplication(key);
+                if(value == false){
+                    builder.addAllowedApplication(key);
+                } else{
+                    builder.addDisallowedApplication(key);
+                }
+                /*if(value == true){
+                    builder.addDisallowedApplication(key);
+                } else{
+                    builder.addAllowedApplication(key);
+                    //System.out.println(key);
+                }*/
             } catch (PackageManager.NameNotFoundException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 return -1;
             }
         }
+
+        return 0;
     }
 
     private void vpnStop(ParcelFileDescriptor pfd) {
@@ -154,7 +180,7 @@ public class SinkService extends VpnService {
             Util.logExtras(TAG, intent);
             if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
                     intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI)
-                reload(null, SinkService.this, _wifiRules, _mobileNetworkRules);
+                reload(null, SinkService.this);
         }
     };
 
@@ -163,7 +189,7 @@ public class SinkService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            reload(null, SinkService.this, _wifiRules, _mobileNetworkRules);
+            reload(null, SinkService.this);
         }
     };
 
@@ -215,21 +241,15 @@ public class SinkService extends VpnService {
         super.onRevoke();
     }
 
-    public static void start(Context context, HashMap<String, Boolean> wifiRules, HashMap<String, Boolean> mobileNetworkRules) {
-        _wifiRules = wifiRules;
-        _mobileNetworkRules = mobileNetworkRules;
-
+    public static void start(Context context) {
         Log.e(TAG,"LESS GOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
         Intent intent = new Intent(context, SinkService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);
     }
 
-    public static void reload(String network, Context context, HashMap<String, Boolean> wifiRules, HashMap<String, Boolean> mobileNetworkRules) {
-        _wifiRules = wifiRules;
-        _mobileNetworkRules = mobileNetworkRules;
-
-        if (network == null || ("wifi".equals(network) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
+    public static void reload(String network, Context context) {
+        if (network == null || ("Wifi".equals(network) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
             Intent intent = new Intent(context, SinkService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             context.startService(intent);

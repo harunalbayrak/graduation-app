@@ -28,11 +28,8 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";
     private val TAG = "Firewall.Main";
-    private val running = true;
+    private var running = true;
     private val REQUEST_VPN = 1;
-
-    var wifiRules : java.util.HashMap<String,Boolean> = HashMap<String,Boolean>() 
-    var mobileNetworkRules : java.util.HashMap<String,Boolean> = HashMap<String,Boolean>() 
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
@@ -40,32 +37,53 @@ class MainActivity: FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
             call, result ->
             when (call.method) {
-                "method0" -> {
+                "connectVPN" -> {
+                    connectVPN()
+                }
+                "initialRules" -> {
                     var args1 = call.argument("wifiRules") as? HashMap<String, Boolean>?
                     var args2 = call.argument("mobileNetworkRules") as? HashMap<String, Boolean>?
 
                     try{
-                        wifiRules.putAll(args1 as HashMap<String, Boolean>)
-                        mobileNetworkRules.putAll(args2 as HashMap<String, Boolean>)
+                        SinkService.getWifiRules().putAll(args1 as HashMap<String, Boolean>)
+                        SinkService.getMobileNetworkRules().putAll(args2 as HashMap<String, Boolean>)
                     } catch(e: Throwable){
                         println(e.message);
                         println(e.cause);
                         result.success(-1)
                     }
-
                     result.success(0)
                 }
-                "connectVPN" -> {
-                    connectVPN()
-                }
-                "initialRules" -> {
+                "editRule" -> {
+                    val args1 = call.argument("package") as String?;
+                    val args2 = call.argument("networkType") as String?;
+                    val args3 = call.argument("ruleBool") as Boolean?;
 
-                }
-                "editWifiRule" -> {
+                    println(args1 as String)
+                    println(args2 as String)
+                    println(args3 as Boolean)
 
-                }
-                "editMobileNetworkRule" -> {
-                    
+                    if (running) {
+                        if(args2 is String && args2.equals("Wifi")){
+                            SinkService.getWifiRules().replace(args1 as String, args3 as Boolean);
+                        } else{
+                            SinkService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
+                        }
+                        SinkService.reload(args2,this);
+                    }
+
+                    //someTask().execute()
+
+                    /*doAsync {
+                        if (running) {
+                            if(args2 is String && args2.equals("Wifi")){
+                                SinkService.getWifiRules().replace(args1 as String, args3 as Boolean);
+                            } else{
+                                SinkService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
+                            }
+                            SinkService.reload(args2,this);
+                        }
+                    }.execute()*/
                 }
                 "addWhitelist" -> {
                     val args1 = call.argument("rule") as? HashMap<String, Boolean>?
@@ -77,21 +95,13 @@ class MainActivity: FlutterActivity() {
                     
                     reset(args1 as String)
                 }
-                "setRuleReload" -> {
-                    val args1 = call.argument("package") as String?;
-                    val args2 = call.argument("networkType") as String?;
-                    val args3 = call.argument("ruleBool") as Boolean?;
-
-                    doAsync {
-                        if (running) {
-                            var prefs = this.getSharedPreferences(args2 as String, Context.MODE_PRIVATE);
-                            prefs.edit().putBoolean(args1 as String, args3 as Boolean).apply();
-                            SinkService.reload(args2,this,wifiRules,mobileNetworkRules);
-                        }
-                    }.execute()
-                }
                 "disconnectVPN" -> {
                     SinkService.stop(this);
+                    SinkService.clearRules();
+                    running = false;
+                }
+                "clearRules" -> {
+                    SinkService.clearRules();
                 }
                 else -> {
                     Log.d("MainActivity", "fail");
@@ -109,7 +119,7 @@ class MainActivity: FlutterActivity() {
 
             // Start service
             if (resultCode == RESULT_OK)
-                SinkService.start(this,wifiRules,mobileNetworkRules);
+                SinkService.start(this);
 
         } else
             super.onActivityResult(requestCode, resultCode, data);
@@ -149,7 +159,7 @@ class MainActivity: FlutterActivity() {
         try{
             for ((key, value) in map as Map<String, Boolean>) {
                 prefs.edit().putBoolean("whitelist_"+key, value).apply();
-                SinkService.reload(key,this,wifiRules,mobileNetworkRules);
+                SinkService.reload(key,this);
             }
         } catch (e: Throwable) {
             println(e.message);
@@ -169,7 +179,7 @@ class MainActivity: FlutterActivity() {
             for (key in other.getAll().keys)
                 edit.remove(key);
             edit.apply();
-            SinkService.reload(network,this,wifiRules,mobileNetworkRules);
+            SinkService.reload(network,this);
         } catch (e: Throwable) {
             println(e.message);
             println(e.cause);
@@ -184,5 +194,26 @@ class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
     override fun doInBackground(vararg params: Void?): Void? {
         handler()
         return null
+    }
+}
+
+class someTask() : AsyncTask<Void, Void, String>() {
+    override fun doInBackground(vararg params: Void?): String? {
+        println("DENEME0")
+
+        return "deneme"
+        // ...
+    }
+
+    override fun onPreExecute() {
+        super.onPreExecute()
+        // ...
+    }
+
+    override fun onPostExecute(result: String?) {
+        super.onPostExecute(result)
+        println("DENEME")
+        // ...
+        //SinkService.reload(nwkType,MainActivity.this);
     }
 }

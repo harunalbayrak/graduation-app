@@ -63,10 +63,6 @@ class _ApplicationsState extends State<Applications> {
   @override
   void initState() {
     super.initState();
-
-    // invokeConnectVPN();
-    // invokeRules();
-    // print(dd);
   }
 
   @override
@@ -161,7 +157,19 @@ class _ApplicationsState extends State<Applications> {
   }
 
   Widget buildExpansionTiles(int index, App2 app) {
-    //print(app);
+    Future<int> clickWifiButton(App2 app) async {
+      app.allowWifi = !app.allowWifi;
+      app.save();
+
+      return invokeWifiRule(app.packageName, app.allowWifi);
+    }
+
+    Future<int> clickMobileNetworkButton(App2 app) async {
+      app.allowMobileNetwork = !app.allowMobileNetwork;
+      app.save();
+
+      return invokeMobileNetworkRule(app.packageName, app.allowMobileNetwork);
+    }
 
     return ExpansionTile(
       onExpansionChanged: (value) {
@@ -221,18 +229,16 @@ class _ApplicationsState extends State<Applications> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            onPressed: () {
-              app.allowWifi = !app.allowWifi;
-              app.save();
+            onPressed: () async {
+              await clickWifiButton(app);
             },
             icon: app.allowWifi
                 ? const Icon(applicationsWifiIcon)
                 : const Icon(applicationsWifiOffIcon),
           ),
           IconButton(
-            onPressed: () {
-              app.allowMobileNetwork = !app.allowMobileNetwork;
-              app.save();
+            onPressed: () async {
+              await clickMobileNetworkButton(app);
             },
             icon: app.allowMobileNetwork
                 ? const Icon(applicationsCellDataIcon)

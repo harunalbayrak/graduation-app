@@ -19,12 +19,13 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+  int openVPNCount = 0;
   double space1 = 8.h;
   bool isActive = false;
 
   Future<void> openVPN() async {
+    await invokeInitialRules();
     await invokeConnectVPN();
-    await invokeRules();
     //print("open");
   }
 
@@ -70,6 +71,7 @@ class _MainMenuState extends State<MainMenu> {
                 onTap: (value) async {
                   setState(() {
                     isActive = !value;
+                    openVPNCount++;
                   });
                   if (isActive == true) {
                     openVPN();

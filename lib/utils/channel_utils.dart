@@ -3,7 +3,7 @@ import 'package:graduation_app/utils/get_rules.dart';
 
 const platform = MethodChannel('LOCAL_VPN_CHANNEL');
 
-int invokeRules() {
+Future<int> invokeInitialRules() async {
   var wifiRules;
   var mobileNetworkRules;
 
@@ -16,7 +16,7 @@ int invokeRules() {
   }
 
   try {
-    platform.invokeMethod('method0', <String, dynamic>{
+    await platform.invokeMethod('initialRules', <String, dynamic>{
       'wifiRules': wifiRules,
       'mobileNetworkRules': mobileNetworkRules,
     });
@@ -41,11 +41,12 @@ int invokeWhitelist(Map<String, dynamic> rule) {
   return 0;
 }
 
-int invokeWifiRule(Map<String, dynamic> rule) {
+int invokeWifiRule(String package, bool rule) {
   try {
-    platform.invokeMethod('method1', <String, dynamic>{
-      'rule': rule,
+    platform.invokeMethod('editRule', <String, dynamic>{
+      'package': package,
       'networkType': "Wifi",
+      'ruleBool': rule,
     });
   } catch (E) {
     print("Error Code: -3");
@@ -55,11 +56,12 @@ int invokeWifiRule(Map<String, dynamic> rule) {
   return 0;
 }
 
-int invokeMobileNetworkRule(Map<String, dynamic> rule) {
+int invokeMobileNetworkRule(String package, bool rule) {
   try {
-    platform.invokeMethod('method1', <String, dynamic>{
-      'rule': rule,
+    platform.invokeMethod('editRule', <String, dynamic>{
+      'package': package,
       'networkType': "MobileNetwork",
+      'ruleBool': rule,
     });
   } catch (E) {
     print("Error Code: -3");
@@ -98,6 +100,16 @@ Future<int> invokeDisconnectVPN() async {
   } catch (E) {
     print("Error Code: -5");
     return -5;
+  }
+  return 0;
+}
+
+Future<int> invokeClearRules() async {
+  try {
+    await platform.invokeMethod('clearRules');
+  } catch (E) {
+    print("Error Code: -6");
+    return -6;
   }
   return 0;
 }
