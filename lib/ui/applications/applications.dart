@@ -161,14 +161,15 @@ class _ApplicationsState extends State<Applications> {
       app.allowWifi = !app.allowWifi;
       app.save();
 
-      return invokeWifiRule(app.packageName, app.allowWifi);
+      return invokeChangeRule(app.packageName, "Wifi", app.allowWifi);
     }
 
     Future<int> clickMobileNetworkButton(App2 app) async {
       app.allowMobileNetwork = !app.allowMobileNetwork;
       app.save();
 
-      return invokeMobileNetworkRule(app.packageName, app.allowMobileNetwork);
+      return invokeChangeRule(
+          app.packageName, "MobileNetwork", app.allowMobileNetwork);
     }
 
     return ExpansionTile(

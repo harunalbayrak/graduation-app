@@ -100,9 +100,6 @@ class MainActivity: FlutterActivity() {
                     SinkService.clearRules();
                     running = false;
                 }
-                "clearRules" -> {
-                    SinkService.clearRules();
-                }
                 else -> {
                     Log.d("MainActivity", "fail");
                 }

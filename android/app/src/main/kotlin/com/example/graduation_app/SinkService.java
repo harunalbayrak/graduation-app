@@ -21,17 +21,17 @@ import java.util.HashMap;
 
 @SuppressLint("NewApi")
 public class SinkService extends VpnService {
-    private static final String TAG = "LOCAL_VPN.Service";
     private ParcelFileDescriptor vpn = null;
+    private static final String TAG = "LOCAL_VPN.Service";
     private static final String EXTRA_COMMAND = "Command";
-    private enum Command {start, reload, stop}
-
     private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> _mobileNetworkRules = new HashMap<String, Boolean>();
+    private HashMap<String, Boolean> mapHostsBlocked = new HashMap<>();
+
+    private enum Command {start, reload, stop}
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "pika");
         // Get enabled
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
@@ -81,17 +81,12 @@ public class SinkService extends VpnService {
         return _mobileNetworkRules;
     }
 
-    public int changeRule(){
-
-        return 0;
-    }
-
     private ParcelFileDescriptor vpnStart() {
         Log.i(TAG, "Starting");
 
         // Build VPN service
         final Builder builder = new Builder();
-        builder.setSession("local_vpn");
+        builder.setSession("LocalVPN");
         builder.addAddress("10.1.10.1", 32);
         builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 128);
         builder.addRoute("0.0.0.0", 0);
@@ -135,26 +130,14 @@ public class SinkService extends VpnService {
             _map = _mobileNetworkRules;
         }
 
-        System.out.println("Size: " + _map.size());
-
         for (HashMap.Entry<String, Boolean> entry : _map.entrySet()) {
             String key = entry.getKey();
             Boolean value = entry.getValue();
 
-            System.out.println("-> " + key + ": " + value.toString());
-            
             try {
-                if(value == false){
-                    builder.addAllowedApplication(key);
-                } else{
+                if(value == true){
                     builder.addDisallowedApplication(key);
                 }
-                /*if(value == true){
-                    builder.addDisallowedApplication(key);
-                } else{
-                    builder.addAllowedApplication(key);
-                    //System.out.println(key);
-                }*/
             } catch (PackageManager.NameNotFoundException ex) {
                 Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                 return -1;
@@ -242,7 +225,7 @@ public class SinkService extends VpnService {
     }
 
     public static void start(Context context) {
-        Log.e(TAG,"LESS GOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+        Log.e(TAG,"VPN Service Started");
         Intent intent = new Intent(context, SinkService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);

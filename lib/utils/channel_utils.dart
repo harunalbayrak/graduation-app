@@ -41,26 +41,11 @@ int invokeWhitelist(Map<String, dynamic> rule) {
   return 0;
 }
 
-int invokeWifiRule(String package, bool rule) {
+int invokeChangeRule(String package, String networkType, bool rule) {
   try {
     platform.invokeMethod('editRule', <String, dynamic>{
       'package': package,
-      'networkType': "Wifi",
-      'ruleBool': rule,
-    });
-  } catch (E) {
-    print("Error Code: -3");
-    return -3;
-  }
-
-  return 0;
-}
-
-int invokeMobileNetworkRule(String package, bool rule) {
-  try {
-    platform.invokeMethod('editRule', <String, dynamic>{
-      'package': package,
-      'networkType': "MobileNetwork",
+      'networkType': networkType,
       'ruleBool': rule,
     });
   } catch (E) {
@@ -100,16 +85,6 @@ Future<int> invokeDisconnectVPN() async {
   } catch (E) {
     print("Error Code: -5");
     return -5;
-  }
-  return 0;
-}
-
-Future<int> invokeClearRules() async {
-  try {
-    await platform.invokeMethod('clearRules');
-  } catch (E) {
-    print("Error Code: -6");
-    return -6;
   }
   return 0;
 }
