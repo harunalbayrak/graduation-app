@@ -18,7 +18,7 @@ public class Receiver extends BroadcastReceiver {
         // Start service
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             if (VpnService.prepare(context) == null)
-                SinkService.start(context);
+                SinkService.start(context,null,null);
         }
     }
 }

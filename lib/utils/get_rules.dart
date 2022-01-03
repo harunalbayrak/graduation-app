@@ -8,7 +8,11 @@ dynamic getWifiRules() {
   for (int i = 0; i < app2s.length; i++) {
     var value1 = {app2s[i].packageName: app2s[i].allowWifi};
 
-    packagesAllowWifi.addAll(value1);
+    try {
+      packagesAllowWifi.addAll(value1);
+    } catch (E) {
+      print("Error getWifiRules");
+    }
   }
 
   return packagesAllowWifi;
@@ -21,7 +25,11 @@ dynamic getMobileNetworkRules() {
   for (int i = 0; i < app2s.length; i++) {
     var value2 = {app2s[i].packageName: app2s[i].allowMobileNetwork};
 
-    packagesAllowMobileNetwork.addAll(value2);
+    try {
+      packagesAllowMobileNetwork.addAll(value2);
+    } catch (E) {
+      print("Error getMobileNetworkRules");
+    }
   }
 
   return packagesAllowMobileNetwork;

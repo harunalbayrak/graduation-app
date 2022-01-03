@@ -17,14 +17,17 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.HashMap;
 
 @SuppressLint("NewApi")
 public class SinkService extends VpnService {
-    private static final String TAG = "Sentinel.Service";
+    private static final String TAG = "LOCAL_VPN.Service";
     private ParcelFileDescriptor vpn = null;
     private static final String EXTRA_COMMAND = "Command";
-
     private enum Command {start, reload, stop}
+
+    private static HashMap<String, Boolean> _wifiRules = null;
+    private static HashMap<String, Boolean> _mobileNetworkRules = null;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -65,35 +68,28 @@ public class SinkService extends VpnService {
         return START_STICKY;
     }
 
+    private int saveRules(){
+
+        return 0;
+    }
+
+    private int changeRule(){
+
+        return 0;
+    }
+
     private ParcelFileDescriptor vpnStart() {
         Log.i(TAG, "Starting");
 
-        // Check if Wi-Fi
-        boolean wifi = Util.isWifiActive(this);
-        Log.i(TAG, "wifi=" + wifi);
-
         // Build VPN service
         final Builder builder = new Builder();
-        builder.setSession("sentinel");
+        builder.setSession("local_vpn");
         builder.addAddress("10.1.10.1", 32);
         builder.addAddress("fd00:1:fd00:1:fd00:1:fd00:1", 128);
         builder.addRoute("0.0.0.0", 0);
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
-        // TODO
-        // Add list of allowed applications
-        /*
-        for (Rule rule : Rule.getRules(this)){
-            if (!(wifi ? rule.wifi_blocked : rule.other_blocked)) {
-                Log.i(TAG, "Allowing " + rule.info.packageName);
-                try {
-                    builder.addDisallowedApplication(rule.info.packageName);
-                } catch (PackageManager.NameNotFoundException ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            }
-        }
-        */
+        setInitialRules(builder);
 
         // Build configure intent
         Intent configure = new Intent(this, MainActivity.class);
@@ -118,6 +114,30 @@ public class SinkService extends VpnService {
         }
     }
 
+    private int setInitialRules(Builder builder){
+        // Check if Wi-Fi
+        boolean wifi = Util.isWifiActive(this);
+        Log.i(TAG, "wifi=" + wifi);
+
+        HashMap<String, Boolean> _map = null;
+        if(wifi) {
+            _map = _wifiRules;
+        } else{
+            _map = _mobileNetworkRules;
+        }
+
+        for (HashMap.Entry<String, Boolean> entry : _map.entrySet()) {
+            String key = entry.getKey();
+            
+            try {
+                builder.addDisallowedApplication(key);
+            } catch (PackageManager.NameNotFoundException ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                return -1;
+            }
+        }
+    }
+
     private void vpnStop(ParcelFileDescriptor pfd) {
         Log.i(TAG, "Stopping");
         try {
@@ -134,7 +154,7 @@ public class SinkService extends VpnService {
             Util.logExtras(TAG, intent);
             if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
                     intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI)
-                reload(null, SinkService.this);
+                reload(null, SinkService.this, _wifiRules, _mobileNetworkRules);
         }
     };
 
@@ -143,7 +163,7 @@ public class SinkService extends VpnService {
         public void onReceive(Context context, Intent intent) {
             Log.i(TAG, "Received " + intent);
             Util.logExtras(TAG, intent);
-            reload(null, SinkService.this);
+            reload(null, SinkService.this, _wifiRules, _mobileNetworkRules);
         }
     };
 
@@ -195,15 +215,20 @@ public class SinkService extends VpnService {
         super.onRevoke();
     }
 
-    public static void start(Context context) {
-        Log.e(TAG,"LESS GOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    public static void start(Context context, HashMap<String, Boolean> wifiRules, HashMap<String, Boolean> mobileNetworkRules) {
+        _wifiRules = wifiRules;
+        _mobileNetworkRules = mobileNetworkRules;
 
+        Log.e(TAG,"LESS GOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
         Intent intent = new Intent(context, SinkService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);
     }
 
-    public static void reload(String network, Context context) {
+    public static void reload(String network, Context context, HashMap<String, Boolean> wifiRules, HashMap<String, Boolean> mobileNetworkRules) {
+        _wifiRules = wifiRules;
+        _mobileNetworkRules = mobileNetworkRules;
+
         if (network == null || ("wifi".equals(network) ? Util.isWifiActive(context) : !Util.isWifiActive(context))) {
             Intent intent = new Intent(context, SinkService.class);
             intent.putExtra(EXTRA_COMMAND, Command.reload);

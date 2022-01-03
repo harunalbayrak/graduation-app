@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/constants/text_styles.dart';
@@ -21,11 +22,14 @@ class _MainMenuState extends State<MainMenu> {
   double space1 = 8.h;
   bool isActive = false;
 
-  void openVPN() {
+  Future<void> openVPN() async {
+    await invokeConnectVPN();
+    await invokeRules();
     //print("open");
   }
 
-  void closeVPN() {
+  Future<void> closeVPN() async {
+    await invokeDisconnectVPN();
     //print("close");
   }
 

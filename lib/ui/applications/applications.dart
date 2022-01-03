@@ -64,7 +64,8 @@ class _ApplicationsState extends State<Applications> {
   void initState() {
     super.initState();
 
-    // sendRules();
+    // invokeConnectVPN();
+    // invokeRules();
     // print(dd);
   }
 
