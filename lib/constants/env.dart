@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/themes.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
-import 'package:graduation_app/constants/text_styles.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+/* GENERAL */
+const double paddingMin = 8.0;
+const double paddingOverall = 12.0;
+const double paddingMax = 20.0;
+const double borderRadiusMin = 4.0;
+const IconData appBarIconDots = Icons.more_vert;
+const IconData appBarIconSort = Icons.sort;
+const IconData appBarIconSearch = Icons.search;
+const IconData appBarIconSearchCancel = Icons.cancel;
+const Color appBarDropdownActiveColor = orange;
+BoxDecoration blackGrayDecoration = classicBlackGray;
 
 /* BOTTOM BAR */
 const IconData bottomBarMainMenuIcon = Icons.home;
@@ -20,59 +35,76 @@ const NavBarStyle bottomBarNavBarStyle = NavBarStyle.style13;
 ThemeData mainMenuMaterialAppTheme = denemeTheme;
 
 /* MAIN MENU */
+const mainButtonIcons = [
+  MaterialCommunityIcons.star_four_points_outline,
+  MaterialCommunityIcons.shield_link_variant,
+  MaterialCommunityIcons.rhombus_split,
+  MaterialCommunityIcons.octagram,
+  MaterialCommunityIcons.octagon,
+  MaterialCommunityIcons.hexagram,
+  MaterialCommunityIcons.hexagon,
+  MaterialCommunityIcons.hexagon_multiple,
+  MaterialCommunityIcons.hexagon_slice_6,
+  MaterialCommunityIcons.crown,
+  MaterialCommunityIcons.chess_queen,
+];
 const IconData mainMenuFiltersIcon = Icons.filter_list;
 const IconData mainMenuStatisticsIcon = Icons.query_stats;
 const IconData mainMenuSettingsIcon = Icons.settings;
-const double mainMenuText1Size = 40;
-const double mainMenuText2Size = mainMenuText1Size / 2;
-double mainMenuSpaceSize1(BuildContext context) {
-  return MediaQuery.of(context).size.height / 40;
-}
-
-double mainMenuSpaceSize2(BuildContext context) {
-  return mainMenuSpaceSize1(context) / 2;
-}
 
 /* APPLICATIONS */
-const double applicationsPaddingLW = 6.0;
-const double applicationsPaddingTB = 1.0;
 const int applicationsIconDuration = 350;
 const IconData applicationsDropdownIcon = Icons.arrow_drop_down;
 const IconData applicationsWifiIcon = Icons.wifi;
-const IconData applicationsCellDataIcon = Icons.network_cell_sharp;
+const IconData applicationsWifiOffIcon = Icons.wifi_off;
+const IconData applicationsCellDataIcon =
+    MaterialCommunityIcons.network_strength_4;
+const IconData applicationsCellDataOffIcon =
+    MaterialCommunityIcons.network_strength_off;
 const IconData applicationsExtendedIcon1 = Icons.assistant_direction;
 const IconData applicationsExtendedIcon2 = Icons.badge_sharp;
 const Color applicationsTextIconColor = gray;
-const Decoration applicationsDecoration = classicBlackGray;
 
 /* BLOCKED ACTIVITIES */
-const double blockedActivitiesPadding = 12.0;
-const Decoration blockedActivitiesDecoration = classicBlackGray;
 const IconData blockedActivitiesRemoveIcon = Icons.highlight_remove;
 const Color blockedActivitiesIconColor = gray;
-const TextStyle blockedActivitiesTextStyle = textStyle2;
 
 /* BLOCKED ACTIVITIES 2 */
 const IconData blockedActivities2Icon1 = Icons.done;
 const IconData blockedActivities2Icon2 = Icons.copy_all;
 
 /* ACTIVITIES */
-const double activitiesPadding = 12.0;
-const Decoration activitiesDecoration = classicBlackGray;
 const IconData activitiesBlockIcon = Icons.block;
 const Color activitiesIconColor = orange;
-const TextStyle activitiesTextStyle = textStyle2;
+//const TextStyle activitiesTextStyle = textStyle2;
 
 /* FILTERS */
-const Decoration filtersDecoration = classicBlackGray;
-const double filtersPaddingLR = 12.0;
-const double filtersPaddingTB = 8.0;
 const Color filtersSwitchActiveColor = lightBlue;
+const int filtersSize = 4;
+final Filter filter0 = Filter()
+  ..name = "Adware/Malware"
+  ..information = 'filter0Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
+final Filter filter1 = Filter()
+  ..name = "Fakenews"
+  ..information = 'filter1Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
+final Filter filter2 = Filter()
+  ..name = "Gambling"
+  ..information = 'filter2Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
+final Filter filter3 = Filter()
+  ..name = "Social"
+  ..information = 'filter3Information'.tr()
+  ..icon = Icons.ac_unit.codePoint
+  ..isEnable = false;
 
 /* STATISTICS */
-const double statisticsPadding = 12.0;
-const double statisticsTextSize = 20;
-const double statisticsBarWidth = 7;
+double statisticsHeight = 2.h;
+double statisticsBarWidth = 2.w;
 
 /* SETTINGS */
 const IconData generalSettingsIcon = Icons.app_settings_alt_outlined;
@@ -80,10 +112,6 @@ const IconData networkSettingsIcon = Icons.perm_data_setting_sharp;
 const IconData backupSettingsIcon = Icons.settings_backup_restore;
 const IconData advancedSettingsIcon = Icons.admin_panel_settings;
 const IconData batterySettingsIcon = Icons.power_settings_new_sharp;
-
-const double paddingMin = 8.0;
-const double paddingOverall = 12.0;
-const double borderRadiusMin = 4.0;
 
 /* BAR CHARTS */
 const double chartAspectRatio = 1.5;
@@ -94,18 +122,3 @@ const List<Color> chart1Colors_2 = [lightBlue, blue];
 const List<Color> chart2Colors = [lightBlue, orange];
 const double barChart1MaxY = 20;
 const double barChart2MaxY = 20;
-double chartTopPadding(BuildContext context) {
-  return MediaQuery.of(context).size.height / 60;
-}
-
-double chartLeftPadding(BuildContext context) {
-  return MediaQuery.of(context).size.width / 6.22;
-}
-
-double chartIconSizedBox(BuildContext context) {
-  return MediaQuery.of(context).size.width / 21.3;
-}
-
-double chartLeftMargin(BuildContext context) {
-  return MediaQuery.of(context).size.width / 42;
-}

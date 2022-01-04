@@ -1,34 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 const TextStyle textStyle1 = TextStyle(
   color: white,
 );
 
-const TextStyle textStyle2 = TextStyle(
-  color: gray,
-);
+TextStyle textStyle2(double size) {
+  return TextStyle(
+    color: gray,
+    fontSize: size.sp,
+  );
+}
 
 const TextStyle textStyle3 = TextStyle(
   color: lightBlue,
 );
 
-TextStyle textStyle4(BuildContext context) {
-  var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
+TextStyle textStyle4(double size) {
   return TextStyle(
     color: gray,
     fontWeight: FontWeight.w700,
-    fontSize: textScaleFactor * 20,
+    fontSize: size.sp,
   );
 }
 
-TextStyle textStyle5(BuildContext context, double scale) {
-  var textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
+TextStyle textStyle5(double size) {
   return TextStyle(
     color: Colors.black,
     fontWeight: FontWeight.w700,
-    fontSize: textScaleFactor * scale,
+    fontSize: size.sp,
+  );
+}
+
+TextStyle textStyle6(double size, Color color) {
+  return TextStyle(
+    color: color,
+    fontWeight: FontWeight.w700,
+    fontSize: size.sp,
   );
 }

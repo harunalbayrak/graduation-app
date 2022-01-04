@@ -3,6 +3,8 @@ import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/constants/box_decorations.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/widgets/list_tiles.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: appBarOnlyDots(context, 'mm6'.tr()),
       body: Stack(
         children: [
           buildBackground(),
@@ -33,11 +35,11 @@ class _SettingsState extends State<Settings> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildListTile6(context, "General Settings", generalSettingsIcon, 1),
-          buildListTile6(context, "Network Settings", networkSettingsIcon, 2),
-          buildListTile6(context, "Backup Settings", backupSettingsIcon, 3),
-          buildListTile6(context, "Advanced Settings", advancedSettingsIcon, 4),
-          buildListTile6(context, "Battery Settings", batterySettingsIcon, 5),
+          buildListTile6(context, 'st1'.tr(), generalSettingsIcon, 1),
+          buildListTile6(context, 'st2'.tr(), networkSettingsIcon, 2),
+          buildListTile6(context, 'st3'.tr(), backupSettingsIcon, 3),
+          buildListTile6(context, 'st4'.tr(), advancedSettingsIcon, 4),
+          buildListTile6(context, 'st5'.tr(), batterySettingsIcon, 5),
         ],
       ),
     );

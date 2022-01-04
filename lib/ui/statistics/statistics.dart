@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart_2.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart.dart';
 import 'package:graduation_app/ui/statistics/statistics_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics({Key? key}) : super(key: key);
@@ -65,7 +68,7 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Statistics')),
+      appBar: appBarOnlyDots(context, 'mm5'.tr()),
       body: Stack(
         children: [
           buildBackground(),
@@ -74,26 +77,31 @@ class _StatisticsState extends State<Statistics> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(paddingOverall),
+                  padding: padding5,
                   child: AutoSizeText(
-                    "Total/Blocked Activities per day",
-                    style: textStyle5(context, statisticsTextSize),
+                    's1'.tr(),
+                    style: textStyle5(17),
+                    maxLines: 1,
                   ),
                 ),
                 buildVerticalBarChart(context, showingBarGroups),
+                SizedBox(height: statisticsHeight),
                 Padding(
-                  padding: const EdgeInsets.all(paddingOverall),
+                  padding: padding5,
                   child: AutoSizeText(
-                    "Most Blocked Apps (Last 7 Days)",
-                    style: textStyle5(context, statisticsTextSize),
+                    's2'.tr(args: ['7']),
+                    style: textStyle5(17),
+                    maxLines: 1,
                   ),
                 ),
                 buildVerticalBarChart2(context, showingBarGroups2),
+                SizedBox(height: statisticsHeight),
                 Padding(
-                  padding: const EdgeInsets.all(paddingOverall),
+                  padding: padding5,
                   child: AutoSizeText(
-                    "Most Blocked Apps (Last 7 Days)",
-                    style: textStyle5(context, statisticsTextSize),
+                    's3'.tr(args: ['7']),
+                    style: textStyle5(17),
+                    maxLines: 1,
                   ),
                 ),
                 buildVerticalBarChart2(context, showingBarGroups2),

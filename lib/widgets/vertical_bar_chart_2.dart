@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:graduation_app/constants/colors.dart';
 import 'package:graduation_app/constants/env.dart';
+import 'package:graduation_app/constants/paddings.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 Widget buildVerticalBarChart2(
     BuildContext context, List<BarChartGroupData> showingBarGroups) {
-  double leftPadding = chartLeftPadding(context);
-  double topPadding = chartTopPadding(context);
-  double sizedBoxWidth = chartIconSizedBox(context);
+  double sizedBoxWidth = 4.65.w;
 
   return AspectRatio(
     aspectRatio: chartAspectRatio,
@@ -17,14 +17,14 @@ Widget buildVerticalBarChart2(
           borderRadius: BorderRadius.circular(borderRadiusMin)),
       color: darkBlue,
       child: Padding(
-        padding: const EdgeInsets.all(paddingMin),
+        padding: padding4,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             SizedBox(
-              height: topPadding,
+              height: 2.5.h,
             ),
             Expanded(
               child: BarChart(
@@ -43,11 +43,11 @@ Widget buildVerticalBarChart2(
                     bottomTitles: SideTitles(showTitles: false),
                     leftTitles: SideTitles(
                       showTitles: true,
-                      getTextStyles: (context, value) => const TextStyle(
+                      getTextStyles: (context, value) => TextStyle(
                           color: gray,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                      margin: chartLeftMargin(context),
+                          fontSize: 16.sp),
+                      margin: 2.5.w,
                       reservedSize: chartLeftReservedSize,
                       interval: chartLeftInterval,
                       getTitles: (value) {
@@ -72,7 +72,7 @@ Widget buildVerticalBarChart2(
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(leftPadding, topPadding, 0, 0),
+              padding: padding8,
               child: Row(
                 children: [
                   const Icon(Icons.ac_unit),
@@ -92,7 +92,7 @@ Widget buildVerticalBarChart2(
               ),
             ),
             SizedBox(
-              height: topPadding / 2 + 2,
+              height: 2.h,
             ),
           ],
         ),
