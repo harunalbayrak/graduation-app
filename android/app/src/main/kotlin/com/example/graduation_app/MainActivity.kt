@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import org.jetbrains.anko.doAsync
 
 // import java.io.File;
 // import java.util.ArrayList;
@@ -58,32 +59,18 @@ class MainActivity: FlutterActivity() {
                     val args1 = call.argument("package") as String?;
                     val args2 = call.argument("networkType") as String?;
                     val args3 = call.argument("ruleBool") as Boolean?;
+                    var Context = this;
 
-                    println(args1 as String)
-                    println(args2 as String)
-                    println(args3 as Boolean)
-
-                    if (running) {
-                        if(args2 is String && args2.equals("Wifi")){
-                            SinkService.getWifiRules().replace(args1 as String, args3 as Boolean);
-                        } else{
-                            SinkService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
-                        }
-                        SinkService.reload(args2,this);
-                    }
-
-                    //someTask().execute()
-
-                    /*doAsync {
+                    doAsync{
                         if (running) {
                             if(args2 is String && args2.equals("Wifi")){
                                 SinkService.getWifiRules().replace(args1 as String, args3 as Boolean);
                             } else{
                                 SinkService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
                             }
-                            SinkService.reload(args2,this);
+                            SinkService.reload(args2,Context);
                         }
-                    }.execute()*/
+                    }
                 }
                 "addWhitelist" -> {
                     val args1 = call.argument("rule") as? HashMap<String, Boolean>?
@@ -184,33 +171,5 @@ class MainActivity: FlutterActivity() {
         }
 
         return 0;
-    }
-}
-
-class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
-    override fun doInBackground(vararg params: Void?): Void? {
-        handler()
-        return null
-    }
-}
-
-class someTask() : AsyncTask<Void, Void, String>() {
-    override fun doInBackground(vararg params: Void?): String? {
-        println("DENEME0")
-
-        return "deneme"
-        // ...
-    }
-
-    override fun onPreExecute() {
-        super.onPreExecute()
-        // ...
-    }
-
-    override fun onPostExecute(result: String?) {
-        super.onPostExecute(result)
-        println("DENEME")
-        // ...
-        //SinkService.reload(nwkType,MainActivity.this);
     }
 }

@@ -22,6 +22,7 @@ import java.util.HashMap;
 @SuppressLint("NewApi")
 public class SinkService extends VpnService {
     private ParcelFileDescriptor vpn = null;
+    private Thread vpnThread;
     private static final String TAG = "LOCAL_VPN.Service";
     private static final String EXTRA_COMMAND = "Command";
     private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
@@ -36,34 +37,45 @@ public class SinkService extends VpnService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
 
-        // Get command
-        Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-        Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
+        vpnThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    // Get command
+                    Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+                    Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
-        // Process command
-        switch (cmd) {
-            case start:
-                if (enabled && vpn == null)
-                    vpn = vpnStart();
-                break;
+                    // Process command
+                    switch (cmd) {
+                        case start:
+                            if (enabled && vpn == null)
+                                vpn = vpnStart();
+                            break;
 
-            case reload:
-                // Seamless handover
-                ParcelFileDescriptor prev = vpn;
-                if (enabled)
-                    vpn = vpnStart();
-                if (prev != null)
-                    vpnStop(prev);
-                break;
+                        case reload:
+                            // Seamless handover
+                            ParcelFileDescriptor prev = vpn;
+                            if (enabled)
+                                vpn = vpnStart();
+                            if (prev != null)
+                                vpnStop(prev);
+                            break;
 
-            case stop:
-                if (vpn != null) {
-                    vpnStop(vpn);
-                    vpn = null;
+                        case stop:
+                            if (vpn != null) {
+                                vpnStop(vpn);
+                                vpn = null;
+                            }
+                            stopSelf();
+                            break;
+                    }
+                } catch(Exception e){
+                    System.out.println(e.getMessage());
                 }
-                stopSelf();
-                break;
-        }
+            }
+        }, "BlockThisVPNRunnable");
+
+        vpnThread.start();
 
         return START_STICKY;
     }
@@ -200,6 +212,11 @@ public class SinkService extends VpnService {
         if (vpn != null) {
             vpnStop(vpn);
             vpn = null;
+        }
+
+        if (vpnThread != null) {
+            Log.i(TAG, "interrupted");
+            vpnThread.interrupt();
         }
 
         unregisterReceiver(connectivityChangedReceiver);
