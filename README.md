@@ -43,8 +43,13 @@ samples, guidance on mobile development, and a full API reference.
 - Filters is added to the database.
 - Statistic model is implemented.
 - Activity model is implemented.
+- VPNService is implemented.
+- Internet access of applications can be manageable thanks to vpnservice.
 
 # To Do​
+- DNS Filtering/Blocking based on hosts file will be added.
+- Get activities of applications will be added.
+- Some services (LogService, StatisticService, etc.) will be implemented.
 - Other Buttons will be added to the AppBar. (Filter etc.)​
 - Settings screens will be completed.​
 - Some animations will be added. ​
