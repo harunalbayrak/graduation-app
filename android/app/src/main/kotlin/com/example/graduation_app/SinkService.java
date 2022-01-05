@@ -22,11 +22,12 @@ import java.util.HashMap;
 public class SinkService extends VpnService {
     private static LogService logService = new LogService();
     private ParcelFileDescriptor vpn = null;
-    private Thread vpnThread;
+    //private Thread vpnThread;
     private static final String EXTRA_COMMAND = "Command";
     private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> _mobileNetworkRules = new HashMap<String, Boolean>();
     private HashMap<String, Boolean> mapHostsBlocked = new HashMap<>();
+    private HostUtil hostUtil = new HostUtil(this);
 
     private enum Command {start, reload, stop}
 
@@ -36,45 +37,33 @@ public class SinkService extends VpnService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enabled = prefs.getBoolean("enabled", false);
 
-        vpnThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    // Get command
-                    Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-                    logService.LogI_1("Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
+        Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
+        logService.LogI_1("Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
-                    // Process command
-                    switch (cmd) {
-                        case start:
-                            if (enabled && vpn == null)
-                                vpn = vpnStart();
-                            break;
+        // Process command
+        switch (cmd) {
+            case start:
+                if (enabled && vpn == null)
+                    vpn = vpnStart();
+                break;
 
-                        case reload:
-                            // Seamless handover
-                            ParcelFileDescriptor prev = vpn;
-                            if (enabled)
-                                vpn = vpnStart();
-                            if (prev != null)
-                                vpnStop(prev);
-                            break;
+            case reload:
+                // Seamless handover
+                ParcelFileDescriptor prev = vpn;
+                if (enabled)
+                    vpn = vpnStart();
+                if (prev != null)
+                    vpnStop(prev);
+                break;
 
-                        case stop:
-                            if (vpn != null) {
-                                vpnStop(vpn);
-                                vpn = null;
-                            }
-                            stopSelf();
-                            break;
-                    }
-                } catch(Exception e){
-                    System.out.println(e.getMessage());
+            case stop:
+                if (vpn != null) {
+                    vpnStop(vpn);
+                    vpn = null;
                 }
-            }
-        }, "BlockThisVPNRunnable");
-
-        vpnThread.start();
+                stopSelf();
+                break;
+        }
 
         return START_STICKY;
     }
@@ -93,6 +82,8 @@ public class SinkService extends VpnService {
     }
 
     private ParcelFileDescriptor vpnStart() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         logService.LogI_1("Starting");
 
         // Build VPN service
@@ -119,7 +110,6 @@ public class SinkService extends VpnService {
             logService.LogE_1(ex.toString());
 
             // Disable firewall
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             prefs.edit().putBoolean("enabled", false).apply();
 
             // Feedback
@@ -128,6 +118,9 @@ public class SinkService extends VpnService {
             return null;
         }
     }
+
+    // private Builder getBuilder(){
+    // }
 
     private int setInitialRules(Builder builder){
         // Check if Wi-Fi
@@ -213,11 +206,6 @@ public class SinkService extends VpnService {
             vpn = null;
         }
 
-        if (vpnThread != null) {
-            logService.LogI_1("interrupted");
-            vpnThread.interrupt();
-        }
-
         unregisterReceiver(connectivityChangedReceiver);
         unregisterReceiver(packageAddedReceiver);
 
@@ -226,6 +214,8 @@ public class SinkService extends VpnService {
 
     @Override
     public void onRevoke() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        
         logService.LogI_1("Revoke");
 
         if (vpn != null) {
@@ -234,7 +224,6 @@ public class SinkService extends VpnService {
         }
 
         // Disable firewall
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.edit().putBoolean("enabled", false).apply();
 
         super.onRevoke();

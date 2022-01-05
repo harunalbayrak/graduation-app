@@ -37,6 +37,7 @@ void initalizePreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
+  await prefs.setString("vpn4", "10.1.10.1");
 }
 
 void initializeDatabase() async {
