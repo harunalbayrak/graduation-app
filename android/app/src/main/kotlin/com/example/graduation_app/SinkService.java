@@ -12,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -21,9 +20,9 @@ import java.util.HashMap;
 
 @SuppressLint("NewApi")
 public class SinkService extends VpnService {
+    private static LogService logService = new LogService();
     private ParcelFileDescriptor vpn = null;
     private Thread vpnThread;
-    private static final String TAG = "LOCAL_VPN.Service";
     private static final String EXTRA_COMMAND = "Command";
     private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> _mobileNetworkRules = new HashMap<String, Boolean>();
@@ -43,7 +42,7 @@ public class SinkService extends VpnService {
                 try{
                     // Get command
                     Command cmd = (intent == null ? Command.start : (Command) intent.getSerializableExtra(EXTRA_COMMAND));
-                    Log.i(TAG, "Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
+                    logService.LogI_1("Start intent=" + intent + " command=" + cmd + " enabled=" + enabled + " vpn=" + (vpn != null));
 
                     // Process command
                     switch (cmd) {
@@ -94,7 +93,7 @@ public class SinkService extends VpnService {
     }
 
     private ParcelFileDescriptor vpnStart() {
-        Log.i(TAG, "Starting");
+        logService.LogI_1("Starting");
 
         // Build VPN service
         final Builder builder = new Builder();
@@ -105,7 +104,7 @@ public class SinkService extends VpnService {
         builder.addRoute("0:0:0:0:0:0:0:0", 0);
 
         if(setInitialRules(builder) != 0){
-            Log.e(TAG, "Set Initial Rules Error\n");
+            logService.LogE_1("Set Initial Rules Error\n");
         }
 
         // Build configure intent
@@ -117,7 +116,7 @@ public class SinkService extends VpnService {
         try {
             return builder.establish();
         } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            logService.LogE_1(ex.toString());
 
             // Disable firewall
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -133,7 +132,7 @@ public class SinkService extends VpnService {
     private int setInitialRules(Builder builder){
         // Check if Wi-Fi
         boolean wifi = Util.isWifiActive(this);
-        Log.i(TAG, "wifi=" + wifi);
+        logService.LogI_1("wifi=" + wifi);
 
         HashMap<String, Boolean> _map = null;
         if(wifi) {
@@ -151,7 +150,7 @@ public class SinkService extends VpnService {
                     builder.addDisallowedApplication(key);
                 }
             } catch (PackageManager.NameNotFoundException ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                logService.LogE_1(ex.toString());
                 return -1;
             }
         }
@@ -160,19 +159,19 @@ public class SinkService extends VpnService {
     }
 
     private void vpnStop(ParcelFileDescriptor pfd) {
-        Log.i(TAG, "Stopping");
+        logService.LogI_1("Stopping");
         try {
             pfd.close();
         } catch (IOException ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            logService.LogE_1(ex.toString());
         }
     }
 
     private BroadcastReceiver connectivityChangedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            logService.LogI_1("Received " + intent);
+            //Util.logExtras(intent);
             if (intent.hasExtra(ConnectivityManager.EXTRA_NETWORK_TYPE) &&
                     intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, ConnectivityManager.TYPE_DUMMY) == ConnectivityManager.TYPE_WIFI)
                 reload(null, SinkService.this);
@@ -182,8 +181,8 @@ public class SinkService extends VpnService {
     private BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "Received " + intent);
-            Util.logExtras(TAG, intent);
+            logService.LogI_1("Received " + intent);
+            //Util.logExtras(intent);
             reload(null, SinkService.this);
         }
     };
@@ -191,7 +190,7 @@ public class SinkService extends VpnService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "Create");
+        logService.LogI_1("Create");
 
         // Listen for connectivity updates
         IntentFilter ifConnectivity = new IntentFilter();
@@ -207,7 +206,7 @@ public class SinkService extends VpnService {
 
     @Override
     public void onDestroy() {
-        Log.i(TAG, "Destroy");
+        logService.LogI_1("Destroy");
 
         if (vpn != null) {
             vpnStop(vpn);
@@ -215,7 +214,7 @@ public class SinkService extends VpnService {
         }
 
         if (vpnThread != null) {
-            Log.i(TAG, "interrupted");
+            logService.LogI_1("interrupted");
             vpnThread.interrupt();
         }
 
@@ -227,7 +226,7 @@ public class SinkService extends VpnService {
 
     @Override
     public void onRevoke() {
-        Log.i(TAG, "Revoke");
+        logService.LogI_1("Revoke");
 
         if (vpn != null) {
             vpnStop(vpn);
@@ -242,7 +241,7 @@ public class SinkService extends VpnService {
     }
 
     public static void start(Context context) {
-        Log.e(TAG,"VPN Service Started");
+        logService.LogI_1("VPN Service Started");
         Intent intent = new Intent(context, SinkService.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         context.startService(intent);

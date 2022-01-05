@@ -13,18 +13,15 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
-import org.jetbrains.anko.doAsync
-
-// import java.io.File;
-// import java.util.ArrayList;
-
-import java.util.HashMap;
+import org.jetbrains.anko.doAsync;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+
+import java.util.HashMap;
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";

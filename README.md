@@ -56,4 +56,4 @@ samples, guidance on mobile development, and a full API reference.
 - Classes & Modals & Utils will be added.​
 - Some Logic (Changing the theme, Button Logic etc.) will be added.​
 - The data will be moved to the database.
-- Try the applications on another smartphones.​
+- Try the application on another smartphones.​
