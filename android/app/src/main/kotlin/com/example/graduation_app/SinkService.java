@@ -27,9 +27,24 @@ public class SinkService extends VpnService {
     private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> _mobileNetworkRules = new HashMap<String, Boolean>();
     private HashMap<String, Boolean> mapHostsBlocked = new HashMap<>();
+
+    private static Object jni_lock = new Object();
+    private static long jni_context = 0;
+
     private HostUtil hostUtil = new HostUtil(this);
 
     private enum Command {start, reload, stop}
+
+    private native long jni_init(int sdk);
+    private native void jni_start(long context, int loglevel);
+    private native void jni_run(long context, int tun, boolean fwd53, int rcode);
+    private native void jni_stop(long context);
+    private native void jni_clear(long context);
+    private native int jni_get_mtu();
+    private native int[] jni_get_stats(long context);
+    private static native void jni_pcap(String name, int record_size, int file_size);
+    private native void jni_socks5(String addr, int port, String username, String password);
+    private native void jni_done(long context);
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -249,4 +264,5 @@ public class SinkService extends VpnService {
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         context.startService(intent);
     }
+    
 }

@@ -1,0 +1,23 @@
+                    Executable : /home/harunalbayrak/Android/Sdk/cmake/3.10.2.4988404/bin/cmake
+arguments : 
+-H/home/harunalbayrak/Development/graduation_app/android/app
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=19
+-DANDROID_ABI=x86_64
+-DCMAKE_ANDROID_ARCH_ABI=x86_64
+-DANDROID_NDK=/home/harunalbayrak/Android/Sdk/ndk/21.1.6352462
+-DCMAKE_ANDROID_NDK=/home/harunalbayrak/Android/Sdk/ndk/21.1.6352462
+-DCMAKE_TOOLCHAIN_FILE=/home/harunalbayrak/Android/Sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/home/harunalbayrak/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/home/harunalbayrak/Development/graduation_app/build/app/intermediates/cxx/Debug/163w4f3i/obj/x86_64
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/harunalbayrak/Development/graduation_app/build/app/intermediates/cxx/Debug/163w4f3i/obj/x86_64
+-DCMAKE_BUILD_TYPE=Debug
+-B/home/harunalbayrak/Development/graduation_app/android/app/.cxx/Debug/163w4f3i/x86_64
+-GNinja
+-DANDROID_PLATFORM=android-22
+jvmArgs : 
+
+
+                    Build command args: []
+                    Version: 2

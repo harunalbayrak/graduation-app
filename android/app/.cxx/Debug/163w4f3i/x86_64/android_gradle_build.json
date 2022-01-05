@@ -1,0 +1,40 @@
+{
+  "stringTable": {},
+  "buildFiles": [
+    "/home/harunalbayrak/Development/graduation_app/android/app/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/harunalbayrak/Android/Sdk/cmake/3.10.2.4988404/bin/ninja",
+      "-C",
+      "/home/harunalbayrak/Development/graduation_app/android/app/.cxx/Debug/163w4f3i/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/harunalbayrak/Android/Sdk/cmake/3.10.2.4988404/bin/ninja",
+    "-C",
+    "/home/harunalbayrak/Development/graduation_app/android/app/.cxx/Debug/163w4f3i/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "netguard-Debug-x86_64": {
+      "buildCommandComponents": [
+        "/home/harunalbayrak/Android/Sdk/cmake/3.10.2.4988404/bin/ninja",
+        "-C",
+        "/home/harunalbayrak/Development/graduation_app/android/app/.cxx/Debug/163w4f3i/x86_64",
+        "netguard"
+      ],
+      "buildType": "debug",
+      "abi": "x86_64",
+      "artifactName": "netguard",
+      "output": "/home/harunalbayrak/Development/graduation_app/build/app/intermediates/cxx/Debug/163w4f3i/obj/x86_64/libnetguard.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {},
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}
