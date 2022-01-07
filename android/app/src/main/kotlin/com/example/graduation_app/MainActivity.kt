@@ -21,6 +21,9 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
+import com.minhui.vpn.utils.VpnServiceHelper;
+import com.minhui.vpn.ProxyConfig;
+
 import java.util.HashMap;
 
 class MainActivity: FlutterActivity() {
@@ -36,7 +39,8 @@ class MainActivity: FlutterActivity() {
             call, result ->
             when (call.method) {
                 "connectVPN" -> {
-                    connectVPN()
+                    startVPN()
+                    //connectVPN()
                 }
                 "initialRules" -> {
                     var args1 = call.argument("wifiRules") as? HashMap<String, Boolean>?
@@ -80,9 +84,10 @@ class MainActivity: FlutterActivity() {
                     reset(args1 as String)
                 }
                 "disconnectVPN" -> {
-                    SinkService.stop(this);
-                    SinkService.clearRules();
-                    running = false;
+                    closeVpn()
+                    //SinkService.stop(this);
+                    //SinkService.clearRules();
+                    //running = false;
                 }
                 else -> {
                     Log.d("MainActivity", "fail");
@@ -106,33 +111,41 @@ class MainActivity: FlutterActivity() {
             super.onActivityResult(requestCode, resultCode, data);
     }
 
-    fun connectVPN(){
-        var prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        var isChecked = true;
-
-        if (isChecked) {
-            Log.i(TAG, "Switch on");
-            var prepare = VpnService.prepare(this);
-            if (prepare == null) {
-                Log.e(TAG, "Prepare done");
-                onActivityResult(REQUEST_VPN, RESULT_OK, null);
-            } else {
-                Log.i(TAG, "Start intent=" + prepare);
-                try {
-                    startActivityForResult(prepare, REQUEST_VPN);
-                } catch (e: Throwable) {
-                    //Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    println("null");
-                    onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
-                    //Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else {
-            Log.i(TAG, "Switch off");
-            prefs.edit().putBoolean("enabled", false).apply();
-            SinkService.stop(this);
-        }
+    fun closeVpn() {
+        VpnServiceHelper.changeVpnRunningStatus(this,false);
     }
+
+    fun startVPN() {
+        VpnServiceHelper.changeVpnRunningStatus(this,true);
+    }
+
+    // fun connectVPN(){
+    //     var prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    //     var isChecked = true;
+
+    //     if (isChecked) {
+    //         Log.i(TAG, "Switch on");
+    //         var prepare = VpnService.prepare(this);
+    //         if (prepare == null) {
+    //             Log.e(TAG, "Prepare done");
+    //             onActivityResult(REQUEST_VPN, RESULT_OK, null);
+    //         } else {
+    //             Log.i(TAG, "Start intent=" + prepare);
+    //             try {
+    //                 startActivityForResult(prepare, REQUEST_VPN);
+    //             } catch (e: Throwable) {
+    //                 //Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+    //                 println("null");
+    //                 onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
+    //                 //Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+    //             }
+    //         }
+    //     } else {
+    //         Log.i(TAG, "Switch off");
+    //         prefs.edit().putBoolean("enabled", false).apply();
+    //         SinkService.stop(this);
+    //     }
+    // }
 
     fun whiteList(map: Map<String, Boolean>?): Int{
         var prefs = PreferenceManager.getDefaultSharedPreferences(this);

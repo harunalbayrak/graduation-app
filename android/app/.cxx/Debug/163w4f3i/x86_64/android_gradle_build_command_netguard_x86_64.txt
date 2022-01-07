@@ -1,7 +1,0 @@
-Executable : /home/harunalbayrak/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
-arguments : 
--C
-/home/harunalbayrak/Development/graduation_app/android/app/.cxx/Debug/163w4f3i/x86_64
-netguard
-jvmArgs : 
-

@@ -1,5 +1,6 @@
 package com.example.graduation_app;
 
+import android.database.Cursor;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -13,10 +14,25 @@ import android.net.VpnService;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
+import android.text.TextUtils;
+import android.util.Log;
 
+import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.net.InetAddress;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @SuppressLint("NewApi")
 public class SinkService extends VpnService {
@@ -26,25 +42,8 @@ public class SinkService extends VpnService {
     private static final String EXTRA_COMMAND = "Command";
     private static HashMap<String, Boolean> _wifiRules = new HashMap<String, Boolean>();
     private static HashMap<String, Boolean> _mobileNetworkRules = new HashMap<String, Boolean>();
-    private HashMap<String, Boolean> mapHostsBlocked = new HashMap<>();
-
-    private static Object jni_lock = new Object();
-    private static long jni_context = 0;
-
-    private HostUtil hostUtil = new HostUtil(this);
 
     private enum Command {start, reload, stop}
-
-    private native long jni_init(int sdk);
-    private native void jni_start(long context, int loglevel);
-    private native void jni_run(long context, int tun, boolean fwd53, int rcode);
-    private native void jni_stop(long context);
-    private native void jni_clear(long context);
-    private native int jni_get_mtu();
-    private native int[] jni_get_stats(long context);
-    private static native void jni_pcap(String name, int record_size, int file_size);
-    private native void jni_socks5(String addr, int port, String username, String password);
-    private native void jni_done(long context);
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -264,31 +263,5 @@ public class SinkService extends VpnService {
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         context.startService(intent);
     }
-
-    public static void setPcap(boolean enabled, Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        int record_size = 64;
-        try {
-            String r = prefs.getString("pcap_record_size", null);
-            if (TextUtils.isEmpty(r))
-                r = "64";
-            record_size = Integer.parseInt(r);
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-
-        int file_size = 2 * 1024 * 1024;
-        try {
-            String f = prefs.getString("pcap_file_size", null);
-            if (TextUtils.isEmpty(f))
-                f = "2";
-            file_size = Integer.parseInt(f) * 1024 * 1024;
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-
-        File pcap = (enabled ? new File(context.getDir("data", MODE_PRIVATE), "netguard.pcap") : null);
-        jni_pcap(pcap == null ? null : pcap.getAbsolutePath(), record_size, file_size);
-    }
+   
 }
