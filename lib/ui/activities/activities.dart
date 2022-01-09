@@ -37,6 +37,18 @@ class _ActivitiesState extends State<Activities> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Hive.box('activities').close();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarOnlyDots(context, 'hp4'.tr()),

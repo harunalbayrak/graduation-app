@@ -82,7 +82,6 @@ sec5Timer() {
       timer.cancel();
     }
     List<Object?> values = await invokeGetFromQueue();
-    print("----------DART");
     values.forEach((value) {
       String str = value.toString();
       str = str.replaceAll('{', '').replaceAll('}', '');
@@ -93,16 +92,20 @@ sec5Timer() {
         String ip = listStr[1];
 
         final Activity act = Activity()
+          ..application = "none"
           ..host = host
-          ..ip = ip;
+          ..ip = ip
+          ..isBlocked = false
+          ..times = List.of([DateTime.now()])
+          ..total_1day = 0
+          ..total_7days = 0
+          ..appIcon = null;
 
         if (boxActivities.length < 200) {
           boxActivities.add(act);
         }
       }
     });
-    //.forEach((hashValue, hashKey) => print(hashValue + " - " + hashKey)));
-    print("----------DART");
     await invokeClearQueue();
   });
 }
@@ -124,7 +127,7 @@ void main() async {
   await Hive.openBox<App2>('app2s');
   await Hive.openBox<Filter>('filters');
   await Hive.openBox<Statistic>('statistics');
-  await Hive.openBox<Activity>('actvities');
+  await Hive.openBox<Activity>('activities');
 
   // const platform = MethodChannel('LOCAL_VPN_CHANNEL');
   // var dd = platform.invokeMethod('method0', {'text': 'hello world'});

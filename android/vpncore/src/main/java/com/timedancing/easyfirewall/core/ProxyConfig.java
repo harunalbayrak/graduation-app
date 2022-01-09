@@ -53,7 +53,7 @@ public class ProxyConfig {
 	}
 
 	public static Queue<HashMap<String,String>> getQueue(){
-		System.out.println("returning Queue: " + hostQ.toString());
+		// System.out.println("returning Queue: " + hostQ.toString());
 		return hostQ;
 	}
 
