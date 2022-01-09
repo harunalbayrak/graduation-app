@@ -82,8 +82,14 @@ public class TcpProxyServer implements Runnable {
 	public void run() {
 		try {
 			while (true) {
-				mSelector.select();
-				Iterator<SelectionKey> keyIterator = mSelector.selectedKeys().iterator();
+				Iterator<SelectionKey> keyIterator;
+
+				try{
+					mSelector.select();
+					keyIterator = mSelector.selectedKeys().iterator();
+				} catch (Exception ex){
+					break;
+				}
 				while (keyIterator.hasNext()) {
 					SelectionKey key = keyIterator.next();
 					if (key.isValid()) {

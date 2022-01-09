@@ -14,12 +14,16 @@ import com.timedancing.easyfirewall.core.tcpip.CommonMethods;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by zengzheying on 16/1/6.
@@ -29,9 +33,18 @@ public class BlackListFilter implements DomainFilter {
 	private Map<String, Integer> mDomainMap = new HashMap<>();
 	private SparseIntArray mIpMask = new SparseIntArray();
 	private static Context mainContext;
+	private static Map<String, Integer> mDomainMap2 = new HashMap<>();
 
 	public static void setMainContext(Context mContext){
 		mainContext = mContext;
+	}
+
+	public static void addBlockedHost(String host){
+		mDomainMap2.put(host,0);
+	}
+
+	public static void removeBlockedHost(String host){
+		mDomainMap2.remove(host);
 	}
 
 	@Override
@@ -47,9 +60,11 @@ public class BlackListFilter implements DomainFilter {
 		try {
 			while ((line = reader.readLine()) != null) {
 				line = line.trim();
-				if (line.startsWith("#")
-						|| !TextUtils.isDigitsOnly(String.valueOf(line.charAt(0)))) {
-					continue;
+				if(line.length() > 0){
+					if (line.startsWith("#")
+							|| !TextUtils.isDigitsOnly(String.valueOf(line.charAt(0)))) {
+						continue;
+					}
 				}
 
 				String[] parts = line.split(" ");
@@ -100,16 +115,59 @@ public class BlackListFilter implements DomainFilter {
 				mDomainMap.put(key, ip);
 				mIpMask.put(ip, 1);
 			}
+		} else if (mDomainMap2.containsKey(key)) {
+			filter = true;
+			int oldIP = mDomainMap2.get(key);
+			if (!ProxyConfig.isFakeIP(ip) && ip != oldIP) {
+				mDomainMap2.put(key, ip);
+				mIpMask.put(ip, 1);
+			}
 		}
 
-		return filter;
+		return filter; 
+	}
+
+	private void downloadHostFile(){
+		try {
+			URL url = new URL("https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
+			URLConnection conexion = url.openConnection();
+			conexion.connect();
+			int lenghtOfFile = conexion.getContentLength();
+			InputStream is = url.openStream();
+			FileOutputStream fos = new FileOutputStream(mainContext.getExternalCacheDir() + "/host.txt");
+			byte data[] = new byte[1024];
+			long total = 0;
+			int count = 0;
+			while ((count = is.read(data)) != -1) {
+				total += count;
+				int progress_temp = (int) total * 100 / lenghtOfFile;
+				/*publishProgress("" + progress_temp); //only for asynctask
+				if (progress_temp % 10 == 0 && progress != progress_temp) {
+					progress = progress_temp;
+				}*/
+				fos.write(data, 0, count);
+			}
+			is.close();
+			fos.close();
+		} catch (Exception e) {
+			System.out.println("Unable to download - " + e.getMessage());
+			// Log.e("ERROR DOWNLOADING", "Unable to download" + e.getMessage());
+		}
 	}
 
 	private InputStream getHostInputStream() {
+		File file = new File(mainContext.getExternalCacheDir(), "/host.txt");
+
+		if(!file.exists()) {
+			downloadHostFile();
+		}
+
 		InputStream in = null;
 		// Değişiklik!
 		// Context context = GlobalApplication.getInstance();
-		File file = new File(mainContext.getExternalCacheDir(), "host.txt");
+		System.out.println("****************************");
+		System.out.println(mainContext.getExternalCacheDir());
+		System.out.println("****************************");
 		if (file.exists()) {
 			try {
 				in = new FileInputStream(file);

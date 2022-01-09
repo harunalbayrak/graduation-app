@@ -58,36 +58,36 @@ public class AppCache {
 		}
 	}
 
-	public static void syncAndIncreaseBlockWithLeanCloud(final Context context) {
-		try {
-			AVQuery<AVObject> query = new AVQuery<>("BlockInfo");
-			long nanoTime = System.nanoTime();
-			// 10秒之内不要重复计数
-			if ((nanoTime - lastIncrementNanoTime) > MIN_INCREMENT_GAP) {
-				query.getInBackground(ApiConstant.BLOCK_COUNT_ID, new GetCallback<AVObject>() {
-					@Override
-					public void done(AVObject avObject, AVException e) {
-						if (avObject == null) {
-							if (AppDebug.IS_DEBUG) {
-								e.printStackTrace(System.err);
-							}
-							return;
-						}
-						int count = avObject.getLong("count") > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) avObject
-								.getLong("count");
-						avObject.increment("count");
-						avObject.saveInBackground();
-						setBlockCount(context, count + 1);
-					}
-				});
-				lastIncrementNanoTime = nanoTime;
-			}
-		} catch (Exception ex) {
-			if (AppDebug.IS_DEBUG) {
-				ex.printStackTrace(System.err);
-			}
-		}
-	}
+	// public static void syncAndIncreaseBlockWithLeanCloud(final Context context) {
+	// 	try {
+	// 		AVQuery<AVObject> query = new AVQuery<>("BlockInfo");
+	// 		long nanoTime = System.nanoTime();
+	// 		// 10秒之内不要重复计数
+	// 		if ((nanoTime - lastIncrementNanoTime) > MIN_INCREMENT_GAP) {
+	// 			query.getInBackground(ApiConstant.BLOCK_COUNT_ID, new GetCallback<AVObject>() {
+	// 				@Override
+	// 				public void done(AVObject avObject, AVException e) {
+	// 					if (avObject == null) {
+	// 						if (AppDebug.IS_DEBUG) {
+	// 							e.printStackTrace(System.err);
+	// 						}
+	// 						return;
+	// 					}
+	// 					int count = avObject.getLong("count") > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) avObject
+	// 							.getLong("count");
+	// 					avObject.increment("count");
+	// 					avObject.saveInBackground();
+	// 					setBlockCount(context, count + 1);
+	// 				}
+	// 			});
+	// 			lastIncrementNanoTime = nanoTime;
+	// 		}
+	// 	} catch (Exception ex) {
+	// 		if (AppDebug.IS_DEBUG) {
+	// 			ex.printStackTrace(System.err);
+	// 		}
+	// 	}
+	// }
 
 	public static void setIfSinceModifiedSince(Context context, String ifSinceModifiedSince) {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);

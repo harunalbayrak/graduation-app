@@ -6,6 +6,7 @@ import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/models/activity.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
+import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/widgets/app_bar_only_dots.dart';
@@ -33,7 +34,7 @@ class _ActivitiesState extends State<Activities> {
   List<Activity> getActivities(Box<Activity> box) {
     List<Activity> app = box.values.toList().cast<Activity>();
 
-    return app;
+    return List.from(app.reversed);
   }
 
   @override
@@ -101,7 +102,9 @@ class _ActivitiesState extends State<Activities> {
             "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
       ),
       trailing: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          invokeAddBlockedHost(activity.host);
+        },
         icon: const Icon(
           activitiesBlockIcon,
           color: activitiesIconColor,

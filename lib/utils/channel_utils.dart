@@ -114,3 +114,29 @@ Future<int> invokeClearQueue() async {
   }
   return 0;
 }
+
+int invokeAddBlockedHost(String host) {
+  try {
+    platform.invokeMethod('addBlockedHost', <String, String>{
+      'blockedHost': host,
+    });
+  } catch (E) {
+    print("Error Code: -8");
+    return -8;
+  }
+
+  return 0;
+}
+
+int invokeRemoveBlockedHost(String host) {
+  try {
+    platform.invokeMethod('removeBlockedHost', <String, String>{
+      'blockedHost': host,
+    });
+  } catch (E) {
+    print("Error Code: -8");
+    return -8;
+  }
+
+  return 0;
+}

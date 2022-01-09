@@ -27,7 +27,8 @@ import de.greenrobot.event.EventBus;
  */
 public class HostHelper {
 
-	private static final String HOST_URL = "http://dn-mwsl-hosts.qbox.me/hosts.txt";
+	// private static final String HOST_URL = "http://dn-mwsl-hosts.qbox.me/hosts.txt";
+	private static final String HOST_URL = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts";
 
 	public static void updateHost(final Context context) {
 
@@ -37,7 +38,6 @@ public class HostHelper {
 			public void run() {
 				InputStream inputStream = null;
 				BufferedReader reader = null;
-
 
 				try {
 					EventBus.getDefault().post(new HostUpdateEvent(HostUpdateEvent.Status.Updating));
@@ -104,6 +104,7 @@ public class HostHelper {
 		BufferedWriter writer = null;
 		try {
 			file = new File(context.getExternalCacheDir(), "host.txt");
+
 			if (file.exists()) {
 				file.delete();
 			}

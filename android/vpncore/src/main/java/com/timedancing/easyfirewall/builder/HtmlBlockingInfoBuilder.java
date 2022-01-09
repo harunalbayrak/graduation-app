@@ -41,7 +41,7 @@ public class HtmlBlockingInfoBuilder implements BlockingInfoBuilder {
 		if (!TextUtils.isEmpty(mHtmlContent)) {
 
 			//AppCache.syncAndIncreaseBlockWithLeanCloud(GlobalApplication.getInstance());
-			AppCache.syncAndIncreaseBlockWithLeanCloud(mainContext.getApplicationContext());
+			//AppCache.syncAndIncreaseBlockWithLeanCloud(mainContext.getApplicationContext());
 
 			//int count = AppCache.getBlockCount(GlobalApplication.getInstance());
 			int count = AppCache.getBlockCount(mainContext.getApplicationContext());

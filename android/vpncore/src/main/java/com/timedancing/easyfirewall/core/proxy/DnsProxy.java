@@ -91,7 +91,11 @@ public class DnsProxy implements Runnable {
 
 			while (mClient != null && !mClient.isClosed()) {
 				packet.setLength(RECEIVE_BUFFER.length - (ipHeaderLength + udpHeaderLenght));
-				mClient.receive(packet);
+				try{
+					mClient.receive(packet);
+				} catch(Exception ex){
+					break;
+				}
 
 				dnsBuffer.clear();
 				dnsBuffer.limit(packet.getLength());

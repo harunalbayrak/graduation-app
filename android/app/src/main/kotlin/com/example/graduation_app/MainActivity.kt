@@ -35,6 +35,8 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 import com.timedancing.easyfirewall.core.util.VpnServiceHelper;
 import com.timedancing.easyfirewall.core.service.FirewallVpnService;
 import com.timedancing.easyfirewall.core.ProxyConfig;
+import com.timedancing.easyfirewall.core.filter.DomainFilter;
+import com.timedancing.easyfirewall.filter.BlackListFilter;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -105,6 +107,16 @@ class MainActivity: FlutterActivity() {
                 }
                 "clearQueue" -> {
                     hostQ.clear();
+                }
+                "addBlockedHost" -> {
+                    val args1 = call.argument("blockedHost") as String?;
+
+                    BlackListFilter.addBlockedHost(args1);
+                }
+                "removeBlockedHost" -> {
+                    val args1 = call.argument("blockedHost") as String?;
+
+                    BlackListFilter.removeBlockedHost(args1);
                 }
                 "disconnectVPN" -> {
                     try{

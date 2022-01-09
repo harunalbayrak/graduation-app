@@ -111,7 +111,12 @@ public abstract class Tunnel {
 		try {
 			ByteBuffer buffer = GL_BUFFER;
 			buffer.clear();
-			int bytesRead = mInnerChannel.read(buffer);
+			int bytesRead = 0;
+			try{
+				bytesRead = mInnerChannel.read(buffer);
+			} catch(IOException e) {
+				return;
+			}
 			if (bytesRead > 0) {
 				buffer.flip();
 				afterReceived(buffer); //先让子类处理，例如解密数据
