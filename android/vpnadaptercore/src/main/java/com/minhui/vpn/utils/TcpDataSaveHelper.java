@@ -44,6 +44,8 @@ public class TcpDataSaveHelper {
     }
 
     private void appendFileData(SaveData data) {
+        VPNLog.i(TAG, data.toString());
+
         RandomAccessFile randomAccessFile;
         try {
             randomAccessFile = new RandomAccessFile(lastSaveFile.getAbsolutePath(), "rw");
@@ -71,7 +73,6 @@ public class TcpDataSaveHelper {
 
         VPNLog.i(TAG, data.toString());
 
-        /*
         if (data.isRequest) {
             saveNum = requestNum;
             requestNum++;
@@ -96,7 +97,6 @@ public class TcpDataSaveHelper {
         } finally {
             close(fileOutputStream);
         }
-        */
     }
     
 

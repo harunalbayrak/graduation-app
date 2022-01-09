@@ -1,5 +1,7 @@
 package com.example.graduation_app
 
+import android.Manifest;
+import androidx.core.app.ActivityCompat;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,16 +24,41 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
-import com.minhui.vpn.utils.VpnServiceHelper;
-import com.minhui.vpn.ProxyConfig;
+// import com.minhui.vpn.processparse.AppInfo;
+// import com.minhui.vpn.nat.NatSession;
+// import com.minhui.vpn.service.FirewallVpnService;
+// import com.minhui.vpn.utils.VpnServiceHelper;
+// import com.minhui.vpn.ProxyConfig;
+// import com.minhui.vpn.VPNConstants;
+// import com.minhui.vpn.utils.ThreadProxy;
+
+import com.timedancing.easyfirewall.core.util.VpnServiceHelper;
+import com.timedancing.easyfirewall.core.service.FirewallVpnService;
+import com.timedancing.easyfirewall.core.ProxyConfig;
 
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.Queue;
+import java.util.LinkedList;
+//import java.util.Iterator;
+
+import kotlin.concurrent.fixedRateTimer;
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";
-    private val TAG = "Firewall.Main";
     private var running = true;
-    private val REQUEST_VPN = 1;
+
+    // var hostQ : Queue<HashMap<String,String>> = LinkedList();
+    var hostQ : Queue<HashMap<String,String>> = LinkedList();
+    val timer = Timer()
+    // private val REQUEST_VPN = 1;
+    // private var handler : Handler = Handler();
+    // lateinit var allNetConnection: MutableList<NatSession>;
+    // lateinit var timer: ScheduledExecutorService;
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
@@ -40,15 +68,14 @@ class MainActivity: FlutterActivity() {
             when (call.method) {
                 "connectVPN" -> {
                     startVPN()
-                    //connectVPN()
                 }
                 "initialRules" -> {
                     var args1 = call.argument("wifiRules") as? HashMap<String, Boolean>?
                     var args2 = call.argument("mobileNetworkRules") as? HashMap<String, Boolean>?
 
                     try{
-                        SinkService.getWifiRules().putAll(args1 as HashMap<String, Boolean>)
-                        SinkService.getMobileNetworkRules().putAll(args2 as HashMap<String, Boolean>)
+                        FirewallVpnService.getWifiRules().putAll(args1 as HashMap<String, Boolean>)
+                        FirewallVpnService.getMobileNetworkRules().putAll(args2 as HashMap<String, Boolean>)
                     } catch(e: Throwable){
                         println(e.message);
                         println(e.cause);
@@ -60,34 +87,33 @@ class MainActivity: FlutterActivity() {
                     val args1 = call.argument("package") as String?;
                     val args2 = call.argument("networkType") as String?;
                     val args3 = call.argument("ruleBool") as Boolean?;
-                    var Context = this;
 
                     doAsync{
                         if (running) {
                             if(args2 is String && args2.equals("Wifi")){
-                                SinkService.getWifiRules().replace(args1 as String, args3 as Boolean);
+                                FirewallVpnService.getWifiRules().replace(args1 as String, args3 as Boolean);
                             } else{
-                                SinkService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
+                                FirewallVpnService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
                             }
-                            SinkService.reload(args2,Context);
+                            reloadVPN();
                         }
                     }
                 }
-                "addWhitelist" -> {
-                    val args1 = call.argument("rule") as? HashMap<String, Boolean>?
-                    
-                    whiteList(args1)
+                "getFromQueue" -> {
+                    getQueueFromProxyConfig()
+                    result.success(hostQ);
                 }
-                "resetRules" -> {
-                    val args1 = call.argument("rule") as? String?
-                    
-                    reset(args1 as String)
+                "clearQueue" -> {
+                    hostQ.clear();
                 }
                 "disconnectVPN" -> {
-                    closeVpn()
-                    //SinkService.stop(this);
-                    //SinkService.clearRules();
-                    //running = false;
+                    try{
+                        closeVPN()
+                    } catch(e: Exception) {
+                        println(e.message);
+                        result.success(-1)
+                    }
+                    result.success(0)
                 }
                 else -> {
                     Log.d("MainActivity", "fail");
@@ -96,90 +122,131 @@ class MainActivity: FlutterActivity() {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        if (requestCode == REQUEST_VPN) {
-            // Update enabled state
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
+    fun startVPN(){
+        var PERMISSION_EXTERNAL_STORAGE = 1;
+        ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION_EXTERNAL_STORAGE);
 
-            // Start service
-            if (resultCode == RESULT_OK)
-                SinkService.start(this);
+        VpnServiceHelper.setMainContext(this);
 
-        } else
-            super.onActivityResult(requestCode, resultCode, data);
+        VpnServiceHelper.changeVpnRunningStatus(this, true);
+        running = true;
     }
 
-    fun closeVpn() {
-        VpnServiceHelper.changeVpnRunningStatus(this,false);
+    fun reloadVPN() {
+        VpnServiceHelper.reloadVPN(this);
     }
 
-    fun startVPN() {
-        VpnServiceHelper.changeVpnRunningStatus(this,true);
+    fun closeVPN(){
+        VpnServiceHelper.changeVpnRunningStatus(this, false);
+        running = false;
     }
 
-    // fun connectVPN(){
-    //     var prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    //     var isChecked = true;
+    fun getQueueFromProxyConfig(){
+        var _queue = ProxyConfig.getQueue();
+        copyQueueAndAdd(_queue);
+        ProxyConfig.clearQueue();
+    }
 
-    //     if (isChecked) {
-    //         Log.i(TAG, "Switch on");
-    //         var prepare = VpnService.prepare(this);
-    //         if (prepare == null) {
-    //             Log.e(TAG, "Prepare done");
-    //             onActivityResult(REQUEST_VPN, RESULT_OK, null);
-    //         } else {
-    //             Log.i(TAG, "Start intent=" + prepare);
-    //             try {
-    //                 startActivityForResult(prepare, REQUEST_VPN);
-    //             } catch (e: Throwable) {
-    //                 //Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-    //                 println("null");
-    //                 onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
-    //                 //Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
-    //             }
+    fun copyQueueAndAdd(queue: Queue<HashMap<String, String>>) {
+        for(q in queue){
+            var xx = q.clone();
+            hostQ.add(xx as HashMap<String, String>);
+        }
+    }
+    
+    // fun closeVPN() {
+    //     // VpnServiceHelper.changeVpnRunningStatus(this,false);
+    //     VpnServiceHelper.stopVPN();
+    // }
+
+    // fun startVPN() {
+    //     var PERMISSION_EXTERNAL_STORAGE = 1;
+    //     ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION_EXTERNAL_STORAGE);
+
+    //     VpnServiceHelper.changeVpnRunningStatus(this,true);
+
+    //     val fixedRateTimer = fixedRateTimer("timer",false,0,5000){
+    //         this@MainActivity.runOnUiThread {
+    //             getDataX()
     //         }
-    //     } else {
-    //         Log.i(TAG, "Switch off");
-    //         prefs.edit().putBoolean("enabled", false).apply();
-    //         SinkService.stop(this);
     //     }
     // }
 
-    fun whiteList(map: Map<String, Boolean>?): Int{
-        var prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    // fun reloadVPN() {
+    //     VpnServiceHelper.reloadVPN(this);
+    // }
 
-        try{
-            for ((key, value) in map as Map<String, Boolean>) {
-                prefs.edit().putBoolean("whitelist_"+key, value).apply();
-                SinkService.reload(key,this);
-            }
-        } catch (e: Throwable) {
-            println(e.message);
-            println(e.cause);
-            return -1;
-        }
+    // fun getDataX() {
+    //     ThreadProxy.getInstance().execute(object : Runnable {
+    //         override fun run() {
+    //             getData();
+    //         }
+    //     })
+    // };
 
-        return 0;
-    }
+    // fun getData() {
+    //     try{
+    //         allNetConnection = VpnServiceHelper.getAllSession();
+    //     } catch(e: Exception){
+    //         return;
+    //     }
+    //     if (allNetConnection == null) {
+    //         handler.post(object: Runnable{
+    //             override fun run() {
+    //                 refreshView(allNetConnection);
+    //             }
+    //         });
+    //         return;
+    //     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    fun reset(network: String): Int {
-        var other = getSharedPreferences(network, Context.MODE_PRIVATE);
-        var edit = other.edit();
-        
-        try{
-            for (key in other.getAll().keys)
-                edit.remove(key);
-            edit.apply();
-            SinkService.reload(network,this);
-        } catch (e: Throwable) {
-            println(e.message);
-            println(e.cause);
-            return -1;
-        }
+    //     var iterator : MutableIterator<NatSession> = allNetConnection.iterator();
+    //     var packageName : String = context.getPackageName();
 
-        return 0;
-    }
+    //     var sp = getContext().getSharedPreferences(VPNConstants.VPN_SP_NAME, Context.MODE_PRIVATE);
+    //     var isShowUDP : Boolean = sp.getBoolean(VPNConstants.IS_UDP_SHOW, false);
+    //     var selectPackage : String? = sp.getString("default_package_id", null);
+
+    //     while(iterator.hasNext()) {
+    //         var next : NatSession = iterator.next();
+    //         if (next.bytesSent == 0 && next.receiveByteNum == 0L) {
+    //             iterator.remove();
+    //             continue;
+    //         }
+    //         if (NatSession.UDP.equals(next.type) && !isShowUDP) {
+    //             iterator.remove();
+    //             continue;
+    //         }
+
+    //         var appInfo : AppInfo = next.appInfo;
+
+    //         if (appInfo != null) {
+    //             var appPackageName : String = appInfo.pkgs.getAt(0);
+    //             if (packageName.equals(appPackageName)) {
+    //                 iterator.remove();
+    //                 continue;
+    //             }
+    //             if((selectPackage != null && !selectPackage.equals(appPackageName))){
+    //                 iterator.remove();
+    //             }
+    //         }
+    //     }
+    //     if (handler == null) {
+    //         return;
+    //     }
+    //     handler.post(object: Runnable {
+    //         override fun run() {
+    //             refreshView(allNetConnection);
+    //         }
+    //     });
+    // }
+
+    // fun refreshView(allNetConnection: MutableList<NatSession>) {
+    //     println("---")
+    //     for(x in allNetConnection){
+    //         println("leaderAppName: " + x.getAppInfo().leaderAppName);
+    //         println("RemoteHost: " + x.getRemoteHost());
+    //         println("RequestURL: " + x.getRequestUrl());
+    //     }
+    //     println("---")
+    // }
 }

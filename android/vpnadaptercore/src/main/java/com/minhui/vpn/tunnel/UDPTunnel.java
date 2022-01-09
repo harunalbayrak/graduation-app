@@ -76,6 +76,9 @@ public class UDPTunnel implements KeyHandler {
             helper = new TcpDataSaveHelper(helperDir);
         }
 
+        System.out.println("Packet: " + packet.toString());
+
+        // System.out.println("UDPTUNNEL: " + session.toString());
     }
 
 

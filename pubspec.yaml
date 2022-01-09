@@ -57,6 +57,7 @@ dependencies:
   hive: ^2.0.5
   hive_flutter: ^1.0.0
   flutter_packet_capture: ^1.0.0
+  # permission_handler: ^8.3.0
 
 dev_dependencies:
   flutter_test:

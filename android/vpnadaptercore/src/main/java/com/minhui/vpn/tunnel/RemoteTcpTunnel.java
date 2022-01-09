@@ -36,6 +36,9 @@ public class RemoteTcpTunnel extends RawTcpTunnel {
                 .append(session.getUniqueName())
                 .toString();
 
+        // System.out.println("RemoteTCPTUNNEL: " + session.getIpAndPort() + " " + session.getRemoteHost());
+        System.out.println("Serveraddress: " + serverAddress.toString());
+
         helper = new TcpDataSaveHelper(helperDir);
         handler = new Handler(Looper.getMainLooper());
 

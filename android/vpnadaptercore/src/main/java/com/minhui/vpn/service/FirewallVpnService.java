@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 
-
 import com.minhui.vpn.Packet;
 import com.minhui.vpn.ProxyConfig;
 import com.minhui.vpn.R;
@@ -28,6 +27,7 @@ import com.minhui.vpn.utils.DebugLog;
 import com.minhui.vpn.utils.ThreadProxy;
 import com.minhui.vpn.utils.TimeFormatUtil;
 import com.minhui.vpn.utils.VpnServiceHelper;
+import com.minhui.vpn.utils.NetworkUtil;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,6 +39,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.HashMap;
 
 import static com.minhui.vpn.VPNConstants.DEFAULT_PACKAGE_ID;
+import static com.minhui.vpn.VPNConstants.VPN_SP_NAME;
 import static com.minhui.vpn.VPNConstants.VPN_SP_NAME;
 
 
@@ -146,9 +147,8 @@ public class FirewallVpnService extends VpnService implements Runnable {
 
     private int setInitialRules(Builder builder){
         // Check if Wi-Fi
-        // boolean wifi = Util.isWifiActive(this);
-        // Log.i(TAG,"wifi=" + wifi);
-        boolean wifi = true;
+        boolean wifi = NetworkUtil.isWifiActive(this);
+        DebugLog.i("wifi = %s\n", ID);
 
         HashMap<String, Boolean> _map = null;
         if(wifi) {
@@ -182,20 +182,31 @@ public class FirewallVpnService extends VpnService implements Runnable {
         startStream();
     }
 
+    public void reloadVPN() throws Exception{
+        ParcelFileDescriptor prev = mVPNInterface;
+        if (IsRunning)
+            mVPNInterface = establishVPN();
+        if (prev != null)
+            prev.close();
+    }
+
     private void startStream() throws Exception {
         int size = 0;
         mVPNOutputStream = new FileOutputStream(mVPNInterface.getFileDescriptor());
         in = new FileInputStream(mVPNInterface.getFileDescriptor());
         while (size != -1 && IsRunning) {
             boolean hasWrite = false;
-            size = in.read(mPacket);
+            try{
+                size = in.read(mPacket);
+            } catch(IOException e){
+                return;
+            }
             if (size > 0) {
                 if (mTcpProxyServer.Stopped) {
                     in.close();
                     throw new Exception("LocalServer stopped.");
                 }
                 hasWrite = onIPPacketReceived(mIPHeader, size);
-
             }
             if (!hasWrite) {
                 Packet packet = udpQueue.poll();
@@ -223,7 +234,6 @@ public class FirewallVpnService extends VpnService implements Runnable {
                 break;
             case IPHeader.UDP:
                 onUdpPacketReceived(ipHeader, size);
-
 
                 break;
             default:
@@ -263,6 +273,8 @@ public class FirewallVpnService extends VpnService implements Runnable {
         byteBuffer.limit(size);
         Packet packet = new Packet(byteBuffer);
         udpServer.processUDPPacket(packet, portKey);
+
+        System.out.println("FirewallVPNService-UDPHEADER1: " + session.toString());
     }
 
     private boolean onTcpPacketReceived(IPHeader ipHeader, int size) throws IOException {
@@ -307,6 +319,9 @@ public class FirewallVpnService extends VpnService implements Runnable {
                 });
             }
 
+            // System.out.println("FirewallVPNService-TCPHEADER1: " + session.toString());
+            // System.out.println("FirewallVPNService-TCPHEADER1: " + session.pathUrl);
+            
             session.lastRefreshTime = System.currentTimeMillis();
             session.packetSent++; //注意顺序
             int tcpDataSize = ipHeader.getDataLength() - tcpHeader.getHeaderLength();
@@ -332,7 +347,9 @@ public class FirewallVpnService extends VpnService implements Runnable {
                         tcpDataSize);
                 session.requestUrl = "http://" + session.remoteHost + "/" + session.pathUrl;
 
-
+                // DebugLog.i("Host: %s\n", session.remoteHost);
+                // DebugLog.i("Requesturl: %s\n", session.requestUrl);
+                // DebugLog.i("Request: %s %s\n", session.method, session.requestUrl);
             }
 
             //转发给本地TCP服务器
@@ -345,7 +362,11 @@ public class FirewallVpnService extends VpnService implements Runnable {
             //注意顺序
             session.bytesSent += tcpDataSize;
             mSentBytes += size;
+
+            // System.out.println("FirewallVPNService-TCPHEADER2: " + session.toString());
+            // System.out.println("FirewallVPNService-TCPHEADER2: " + session.pathUrl);
         }
+
         hasWrite = true;
         return hasWrite;
     }
@@ -391,6 +412,10 @@ public class FirewallVpnService extends VpnService implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if(setInitialRules(builder) != 0){
+            DebugLog.e("Set initial rules error\n");
         }
 
         builder.setSession(getString(R.string.app_name));

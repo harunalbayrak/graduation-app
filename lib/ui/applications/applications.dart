@@ -140,17 +140,21 @@ class _ApplicationsState extends State<Applications> {
 
         return Padding(
           padding: const EdgeInsets.all(0),
-          child: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemCount: app2s.length,
-            itemBuilder: (context, index) {
-              return Container(
-                decoration: classicBlackGray,
-                child: buildExpansionTiles(index, app2s[index]),
-              );
-            },
-          ),
+          child: buildListViewBuilder(app2s),
+        );
+      },
+    );
+  }
+
+  Widget buildListViewBuilder(List<App2> app2s) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsets.zero,
+      itemCount: app2s.length,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: classicBlackGray,
+          child: buildExpansionTiles(index, app2s[index]),
         );
       },
     );

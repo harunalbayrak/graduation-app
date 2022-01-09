@@ -10,6 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:like_button/like_button.dart';
 import 'package:graduation_app/widgets/app_bar_only_dots.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -24,6 +25,9 @@ class _MainMenuState extends State<MainMenu> {
   bool isActive = false;
 
   Future<void> openVPN() async {
+    // bool req = await Permission.storage.request().isGranted;
+    // print(req);
+
     await invokeInitialRules();
     await invokeConnectVPN();
     //print("open");

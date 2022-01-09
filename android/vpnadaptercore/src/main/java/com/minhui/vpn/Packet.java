@@ -127,6 +127,8 @@ public class Packet implements Serializable {
             sb.append(", udpHeader=").append(udpHeader);
         }
         sb.append(", payloadSize=").append(backingBuffer.limit() - backingBuffer.position());
+        sb.append(", hostname=").append(hostName);
+        sb.append(", requestUrl=").append(requestUrl);
         sb.append('}');
         return sb.toString();
     }
@@ -288,6 +290,9 @@ public class Packet implements Serializable {
             sourcePort = tcpHeader.sourcePort;
             ipAndrPort = "TCP:" + destinationAddress.getHostAddress() + ":" + destinationPort + " " + sourcePort;
         }
+
+        System.out.println("GetIPAndPort: " + destinationAddress.getHostAddress());
+
         return ipAndrPort;
     }
 

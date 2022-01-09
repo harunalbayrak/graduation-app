@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
+import android.os.ParcelFileDescriptor;
 
 import com.minhui.vpn.VPNConstants;
 import com.minhui.vpn.nat.NatSession;
@@ -90,18 +90,31 @@ public class VpnServiceHelper {
             sVpnService.setVpnRunningStatus(stopStatus);
         }
     }
+
+    public static void reloadVPN(Context context) throws Exception {
+        sVpnService.reloadVPN();
+    }
+
+    public static void stopVPN() throws Exception {
+        sVpnService.onDestroy();
+    }
+
     public static List<NatSession> getAllSession() {
         if (FirewallVpnService.lastVpnStartTimeFormat == null) {
             return null;
         }
         try {
-            File file = new File(VPNConstants.CONFIG_DIR +FirewallVpnService. lastVpnStartTimeFormat);
+            // System.out.println(FirewallVpnService.lastVpnStartTimeFormat);
+            File file = new File(VPNConstants.CONFIG_DIR + FirewallVpnService.lastVpnStartTimeFormat);
+            // System.out.println("configdir: " + VPNConstants.CONFIG_DIR);
+            // System.out.println("lastvpnstart: " + FirewallVpnService.lastVpnStartTimeFormat);
             ACache aCache = ACache.get(file);
             String[] list = file.list();
             ArrayList<NatSession> baseNetSessions = new ArrayList<>();
-            if(list!=null){
 
+            if(list!=null){
                 for (String fileName : list) {
+                    // System.out.println("filename::: " + fileName);
                     NatSession netConnection = (NatSession) aCache.getAsObject(fileName);
                     baseNetSessions.add(netConnection);
                 }
@@ -109,12 +122,15 @@ public class VpnServiceHelper {
 
             PortHostService portHostService = PortHostService.getInstance();
             if (portHostService != null) {
+                // System.out.println("porthostservice!=null");
                 List<NatSession> aliveConnInfo = portHostService.getAndRefreshSessionInfo();
                 if (aliveConnInfo != null) {
                     baseNetSessions.addAll(aliveConnInfo);
                 }
             }
             Collections.sort(baseNetSessions, new NatSession.NatSesionComparator());
+
+            // System.out.println("BaseNetSessionsLength: " + baseNetSessions.size());
             return baseNetSessions;
         }catch (Exception e){
             return null;

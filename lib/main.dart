@@ -30,8 +30,12 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:graduation_app/utils/channel_utils.dart';
+import 'dart:async';
+import 'dart:collection';
 
 int? initScreen;
+bool isStopped = false; //global
 
 void initalizePreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -70,6 +74,39 @@ void initializeDatabase() async {
   boxStatistics.put('totalAndBlocked', Statistic());
 }
 
+sec5Timer() {
+  final boxActivities = Boxes.getActivities();
+
+  Timer.periodic(Duration(seconds: 5), (timer) async {
+    if (isStopped) {
+      timer.cancel();
+    }
+    List<Object?> values = await invokeGetFromQueue();
+    print("----------DART");
+    values.forEach((value) {
+      String str = value.toString();
+      str = str.replaceAll('{', '').replaceAll('}', '');
+      List<String> listStr = str.split(':');
+
+      if (listStr.length >= 2) {
+        String host = listStr[0];
+        String ip = listStr[1];
+
+        final Activity act = Activity()
+          ..host = host
+          ..ip = ip;
+
+        if (boxActivities.length < 200) {
+          boxActivities.add(act);
+        }
+      }
+    });
+    //.forEach((hashValue, hashKey) => print(hashValue + " - " + hashKey)));
+    print("----------DART");
+    await invokeClearQueue();
+  });
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -92,6 +129,8 @@ void main() async {
   // const platform = MethodChannel('LOCAL_VPN_CHANNEL');
   // var dd = platform.invokeMethod('method0', {'text': 'hello world'});
   // print(dd);
+
+  sec5Timer();
 
   runApp(
     EasyLocalization(

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:graduation_app/utils/get_rules.dart';
+import 'dart:collection';
 
 const platform = MethodChannel('LOCAL_VPN_CHANNEL');
 
@@ -85,6 +88,29 @@ Future<int> invokeDisconnectVPN() async {
   } catch (E) {
     print("Error Code: -5");
     return -5;
+  }
+  return 0;
+}
+
+FutureOr<List<Object?>> invokeGetFromQueue() async {
+  List<Object?> data;
+
+  try {
+    data = await platform.invokeMethod('getFromQueue');
+  } catch (E) {
+    print("Error Code: -6");
+    return List.of([]);
+  }
+
+  return data;
+}
+
+Future<int> invokeClearQueue() async {
+  try {
+    await platform.invokeMethod('clearQueue');
+  } catch (E) {
+    print("Error Code: -7");
+    return -1;
   }
   return 0;
 }

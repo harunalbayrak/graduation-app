@@ -67,12 +67,16 @@ public abstract class TcpTunnel implements KeyHandler {
 
     @Override
     public void onKeyReady(SelectionKey key) {
-        if (key.isReadable()) {
-            onReadable(key);
-        } else if (key.isWritable()) {
-            onWritable(key);
-        } else if (key.isConnectable()) {
-            onConnectable();
+        try{
+            if (key.isReadable()) {
+                onReadable(key);
+            } else if (key.isWritable()) {
+                onWritable(key);
+            } else if (key.isConnectable()) {
+                onConnectable();
+            }
+        } catch(Exception ex){
+            DebugLog.e("onKeyReady catch an exception: %s", ex);
         }
     }
 
