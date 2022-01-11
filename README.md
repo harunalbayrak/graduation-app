@@ -46,10 +46,10 @@ samples, guidance on mobile development, and a full API reference.
 - VPNService is implemented.
 - Internet access of applications can be manageable thanks to vpnservice.
 - Activities of apps (hosts) can be trackable thanks to dns proxy.
-
-# To Do​
 - Activities leading icon will be change to the number of times occurred the activity.
 - Activities of apps will be edited in terms of elements of class. (number of times etc.)
+
+# To Do​
 - Second screen of the activities and the blocked activites screen will be edited accordingly.
 - Statistics screen will be updated.
 - Settings screen will be updated.

@@ -42,14 +42,14 @@ public class BlackListFilter implements DomainFilter {
 	public static void addBlockedHost(String host){
 		mDomainMap2.put(host,0);
 
-		System.out.println("Adding");
 		System.out.println(mDomainMap2.toString());
 	}
 
 	public static void removeBlockedHost(String host){
 		mDomainMap2.remove(host);
+		
+		System.out.println(mDomainMap2);
 
-		System.out.println("Removing");
 		System.out.println(mDomainMap2.toString());
 	}
 
@@ -122,12 +122,19 @@ public class BlackListFilter implements DomainFilter {
 				mIpMask.put(ip, 1);
 			}
 		} else if (mDomainMap2.containsKey(key)) {
-			filter = true;
-			int oldIP = mDomainMap2.get(key);
-			if (!ProxyConfig.isFakeIP(ip) && ip != oldIP) {
-				mDomainMap2.put(key, ip);
-				mIpMask.put(ip, 1);
+			System.out.println("mdomain2 contains the keyyyyyyyyyyyy");
+
+			for (int i = 0; i < mDomainMap2.size(); ++i){
+				System.out.println(mDomainMap2.size());
+				System.out.println(mDomainMap2);
 			}
+
+			filter = true;
+			// int oldIP = mDomainMap2.get(key);
+			// if (!ProxyConfig.isFakeIP(ip) && ip != oldIP) {
+			// 	mDomainMap2.put(key, ip);
+			// 	mIpMask.put(ip, 1);
+			// }
 		}
 
 		return filter; 

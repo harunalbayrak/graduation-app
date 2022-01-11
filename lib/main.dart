@@ -74,6 +74,20 @@ void initializeDatabase() async {
   boxStatistics.put('totalAndBlocked', Statistic());
 }
 
+Activity? getActivity(Box<Activity> box, String host, String ip) {
+  List<Activity> app = box.values
+      .toList()
+      .where((c) => c.host == host && c.ip == ip)
+      .toList()
+      .cast<Activity>();
+
+  if (app.isEmpty) {
+    return null;
+  }
+
+  return app.first;
+}
+
 sec5Timer() {
   final boxActivities = Boxes.getActivities();
 
@@ -91,17 +105,36 @@ sec5Timer() {
         String host = listStr[0];
         String ip = listStr[1];
 
-        final Activity act = Activity()
-          ..application = "none"
-          ..host = host
-          ..ip = ip
-          ..isBlocked = false
-          ..times = List.of([DateTime.now()])
-          ..total_1day = 0
-          ..total_7days = 0
-          ..appIcon = null;
+        Activity? activity = getActivity(boxActivities, host, ip);
 
-        if (boxActivities.length < 200) {
+        if (activity == null) {
+          final Activity act = Activity()
+            ..application = "none"
+            ..host = host
+            ..ip = ip
+            ..isBlocked = false
+            ..times = List.of([DateTime.now()])
+            ..total_1day = 1
+            ..total_7days = 1
+            ..appIcon = null;
+          if (boxActivities.length < 400) {
+            boxActivities.add(act);
+          }
+        } else {
+          List<DateTime> dates = activity.times;
+          dates.add(DateTime.now());
+
+          final Activity act = Activity()
+            ..application = "none"
+            ..host = host
+            ..ip = ip
+            ..isBlocked = activity.isBlocked
+            ..times = dates
+            ..total_1day = activity.total_1day + 1
+            ..total_7days = activity.total_7days + 1
+            ..appIcon = null;
+
+          boxActivities.delete(activity.key);
           boxActivities.add(act);
         }
       }

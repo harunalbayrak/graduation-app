@@ -24,14 +24,6 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
-// import com.minhui.vpn.processparse.AppInfo;
-// import com.minhui.vpn.nat.NatSession;
-// import com.minhui.vpn.service.FirewallVpnService;
-// import com.minhui.vpn.utils.VpnServiceHelper;
-// import com.minhui.vpn.ProxyConfig;
-// import com.minhui.vpn.VPNConstants;
-// import com.minhui.vpn.utils.ThreadProxy;
-
 import com.timedancing.easyfirewall.core.util.VpnServiceHelper;
 import com.timedancing.easyfirewall.core.service.FirewallVpnService;
 import com.timedancing.easyfirewall.core.ProxyConfig;
@@ -46,9 +38,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Queue;
 import java.util.LinkedList;
-//import java.util.Iterator;
-
-import kotlin.concurrent.fixedRateTimer;
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";
@@ -94,6 +83,11 @@ class MainActivity: FlutterActivity() {
                             }
                             reloadVPN();
                         }
+                    }
+                }
+                "reload" -> {
+                    doAsync{
+                        reloadVPN();
                     }
                 }
                 "getFromQueue" -> {

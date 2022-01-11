@@ -130,6 +130,8 @@ public class ProxyConfig {
 			DebugLog.iWithTag("Debug", "Error adding to hostQ");
 		}
 
+		System.out.println("Filter: " + filter);
+
 		return filter || isFakeIP(ip);
 	}
 

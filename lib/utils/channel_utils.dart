@@ -142,3 +142,13 @@ int invokeRemoveBlockedHost(String host) {
 
   return 0;
 }
+
+Future<int> invokeReload() async {
+  try {
+    await platform.invokeMethod('reload');
+  } catch (E) {
+    print("Error Code: -9");
+    return -1;
+  }
+  return 0;
+}

@@ -9,7 +9,7 @@ import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:graduation_app/widgets/app_bar_only_dots.dart';
+import 'package:graduation_app/widgets/app_bar_2.dart';
 import 'package:graduation_app/models/activity.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:hive/hive.dart';
@@ -40,7 +40,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarOnlyDots(context, 'hp3'.tr()),
+      appBar: appBar2_BlockedActivities(context, 'hp3'.tr()),
       body: Stack(
         children: [
           buildBackground(),
@@ -91,9 +91,10 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
         child: HexagonWidget.pointy(
           cornerRadius: 8.0,
           width: 100,
-          color: lightBlue,
+          color: orange,
           padding: 4.0,
-          child: AutoSizeText(activity.total_7days.toString(), maxLines: 1),
+          child: AutoSizeText(activity.total_7days.toString(),
+              maxLines: 1, style: const TextStyle(fontWeight: FontWeight.w700)),
         ),
       ),
       trailing: IconButton(
@@ -101,6 +102,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
           activity.isBlocked = false;
           activity.save();
           invokeRemoveBlockedHost(activity.host);
+          invokeReload();
         },
         icon: const Icon(
           blockedActivitiesRemoveIcon,

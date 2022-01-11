@@ -9,7 +9,7 @@ import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:graduation_app/widgets/app_bar_only_dots.dart';
+import 'package:graduation_app/widgets/app_bar_2.dart';
 import 'package:graduation_app/models/activity.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:hive/hive.dart';
@@ -27,7 +27,6 @@ class _ActivitiesState extends State<Activities> {
   double textSize2 = 10;
 
   List<Activity> getActivities(Box<Activity> box) {
-    // List<Activity> app = box.values.toList().cast<Activity>();
     List<Activity> app = box.values
         .toList()
         .where((c) => c.isBlocked == false)
@@ -52,7 +51,7 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarOnlyDots(context, 'hp4'.tr()),
+      appBar: appBar2_Activities(context, 'hp4'.tr()),
       body: Stack(
         children: [
           buildBackground(),
@@ -105,18 +104,19 @@ class _ActivitiesState extends State<Activities> {
           width: 100,
           color: lightBlue,
           padding: 4.0,
-          child: AutoSizeText(activity.total_7days.toString(), maxLines: 1),
+          child: AutoSizeText(
+            activity.total_7days.toString(),
+            maxLines: 1,
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
         ),
       ),
-      // leading: const CircleAvatar(
-      // backgroundImage: NetworkImage(
-      // "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
-      // ),
       trailing: IconButton(
         onPressed: () {
           activity.isBlocked = true;
           activity.save();
           invokeAddBlockedHost(activity.host);
+          invokeReload();
         },
         icon: const Icon(
           activitiesBlockIcon,
