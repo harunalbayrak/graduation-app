@@ -48,10 +48,12 @@ samples, guidance on mobile development, and a full API reference.
 - Activities of apps (hosts) can be trackable thanks to dns proxy.
 - Activities leading icon will be change to the number of times occurred the activity.
 - Activities of apps will be edited in terms of elements of class. (number of times etc.)
+- Second screen of the activities and the blocked activites screen will be edited accordingly.
 
 # To Do​
-- Second screen of the activities and the blocked activites screen will be edited accordingly.
+- Filters will be added.
 - Statistics screen will be updated.
+- Make tests
 - Settings screen will be updated.
 - DNS Filtering/Blocking based on hosts file will be added.
 - Some services (LogService, StatisticService, etc.) will be implemented.

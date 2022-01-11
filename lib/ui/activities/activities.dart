@@ -91,7 +91,11 @@ class _ActivitiesState extends State<Activities> {
   Widget buildListTiles(Activity activity) {
     return ListTile(
       onTap: () {
-        pageRoute(context, "/blocked_activities2", const Activities2());
+        pageRoute(
+          context,
+          "/blocked_activities2",
+          Activities2(activity: activity),
+        );
       },
       contentPadding: padding3,
       title: AutoSizeText(activity.host, style: textStyle2(textSize2)),

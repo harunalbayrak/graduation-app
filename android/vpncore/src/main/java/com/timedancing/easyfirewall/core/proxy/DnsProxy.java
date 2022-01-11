@@ -223,7 +223,7 @@ public class DnsProxy implements Runnable {
 	 */
 	private void OnDnsResponseReceived(IPHeader ipHeader, UDPHeader udpHeader, DnsPacket dnsPacket) {
 
-		System.out.println("ONDNSRESPONSERECEIVED");
+		// System.out.println("ONDNSRESPONSERECEIVED");
 
 		QueryState state = null;
 		synchronized (mQueryArray) {

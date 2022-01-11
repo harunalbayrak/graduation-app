@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/popup_menu_dots.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:graduation_app/models/activity.dart';
@@ -13,7 +14,17 @@ PreferredSizeWidget appBar2_Activities(BuildContext context, String text) {
         child: GestureDetector(
           onTap: () {
             final box = Boxes.getActivities();
-            box.clear();
+            List<Activity> app = box.values
+                .toList()
+                .where((c) => c.isBlocked == false)
+                .toList()
+                .cast<Activity>();
+
+            for (int i = 0; i < app.length; i++) {
+              box.delete(app[i].key);
+            }
+
+            // invokeReload();
           },
           child: Icon(CupertinoIcons.trash),
         ),
@@ -42,7 +53,10 @@ PreferredSizeWidget appBar2_BlockedActivities(
             for (int i = 0; i < app.length; i++) {
               app[i].isBlocked = false;
               app[i].save();
+              invokeRemoveBlockedHost(app[i].host);
             }
+
+            invokeReload();
           },
           child: Icon(CupertinoIcons.trash),
         ),

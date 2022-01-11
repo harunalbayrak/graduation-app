@@ -199,9 +199,10 @@ class MyApp extends StatelessWidget {
           '/main_menu': (context) => const MainMenu(),
           '/applications': (context) => const Applications(),
           '/blocked_activities': (context) => const BlockedActivities(),
-          '/blocked_activities2': (context) => const BlockedActivities2(),
+          '/blocked_activities2': (context) =>
+              BlockedActivities2(activity: Activity()),
           '/activities': (context) => const Activities(),
-          '/activities2': (context) => const Activities2(),
+          '/activities2': (context) => Activities2(activity: Activity()),
           '/filters': (context) => const Filters(),
           '/filters2': (context) => Filters2(filter: filter0),
           '/statistics': (context) => const Statistics(),

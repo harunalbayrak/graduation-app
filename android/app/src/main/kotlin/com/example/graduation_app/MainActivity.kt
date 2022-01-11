@@ -38,6 +38,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Queue;
 import java.util.LinkedList;
+import kotlin.text.toUInt
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";
@@ -106,6 +107,16 @@ class MainActivity: FlutterActivity() {
                     val args1 = call.argument("blockedHost") as String?;
 
                     BlackListFilter.removeBlockedHost(args1);
+                }
+                "addHostFile" -> {
+                    val args1 = call.argument("which") as String?;
+
+                    BlackListFilter.addHostsFile(args1?.toInt());
+                }
+                "removeHostFile" -> {
+                    val args1 = call.argument("which") as String?;
+
+                    BlackListFilter.removeHostsFile(args1?.toInt());
                 }
                 "disconnectVPN" -> {
                     try{

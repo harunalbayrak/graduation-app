@@ -9,6 +9,7 @@ import 'package:graduation_app/ui/settings/backup_settings.dart';
 import 'package:graduation_app/ui/settings/advanced_settings.dart';
 import 'package:graduation_app/ui/settings/battery_settings.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
+import 'package:hexagon/hexagon.dart';
 
 double textSize2 = 15;
 
@@ -25,15 +26,23 @@ Widget buildListTile0(IconData iconData, String text1, String text2) {
   );
 }
 
-Widget buildListTile1(String str) {
+Widget buildListTile1(String str1, String str2, bool isBlocked) {
   return ListTile(
     contentPadding: padding6,
-    leading: const CircleAvatar(
-      backgroundImage: NetworkImage(
-          "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+    leading: SizedBox(
+      height: 50,
+      width: 50,
+      child: HexagonWidget.pointy(
+        cornerRadius: 8.0,
+        width: 100,
+        color: isBlocked ? orange : lightBlue,
+        padding: 4.0,
+        child: AutoSizeText(str1,
+            maxLines: 1, style: const TextStyle(fontWeight: FontWeight.w700)),
+      ),
     ),
     title: AutoSizeText(
-      str,
+      str2,
       style: textStyle2(textSize2),
     ),
   );
@@ -79,10 +88,10 @@ Widget buildListTile4(String str1, String str2, IconData iconData,
       str2,
       style: textStyle2(textSize2),
     ),
-    trailing: Icon(
-      iconData,
-      color: orange,
-    ),
+    // trailing: Icon(
+    //   iconData,
+    //   color: orange,
+    // ),
   );
 }
 

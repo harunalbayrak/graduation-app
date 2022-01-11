@@ -152,3 +152,29 @@ Future<int> invokeReload() async {
   }
   return 0;
 }
+
+int invokeAddHostFile(String which) {
+  try {
+    platform.invokeMethod('addHostFile', <String, String>{
+      'which': which,
+    });
+  } catch (E) {
+    print("Error Code: -10");
+    return -1;
+  }
+
+  return 0;
+}
+
+int invokeRemoveHostFile(String which) {
+  try {
+    platform.invokeMethod('removeHostFile', <String, String>{
+      'which': which,
+    });
+  } catch (E) {
+    print("Error Code: -10");
+    return -1;
+  }
+
+  return 0;
+}

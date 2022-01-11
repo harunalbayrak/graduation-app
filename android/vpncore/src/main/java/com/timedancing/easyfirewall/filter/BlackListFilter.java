@@ -29,11 +29,22 @@ import java.net.URLConnection;
  * Created by zengzheying on 16/1/6.
  */
 public class BlackListFilter implements DomainFilter {
-
 	private Map<String, Integer> mDomainMap = new HashMap<>();
 	private SparseIntArray mIpMask = new SparseIntArray();
 	private static Context mainContext;
 	private static Map<String, Integer> mDomainMap2 = new HashMap<>();
+
+	private static boolean filterHosts[] = {false, false, false, false, false, false, false, false};
+	private static int filterHostsSize = 8;
+
+	String malwareURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds.txt";
+	String adsTrackingURL = "https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt";
+	String socialURL = "https://www.github.developerdan.com/hosts/lists/facebook-extended.txt";
+	String fakenewsURL = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts";
+	String gamblingURL = "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling/hosts";
+	String xiaomiAdsURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Extension/GoodbyeAds-Xiaomi-Extension.txt";
+	String samsungAdsURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Extension/GoodbyeAds-Samsung-AdBlock.txt";
+	String spotifyAdsURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Extension/GoodbyeAds-Spotify-AdBlock.txt";
 
 	public static void setMainContext(Context mContext){
 		mainContext = mContext;
@@ -53,46 +64,67 @@ public class BlackListFilter implements DomainFilter {
 		System.out.println(mDomainMap2.toString());
 	}
 
+	public static void addHostsFile(int which){
+		if(which < 0 || which >= filterHostsSize){
+			return;
+		}
+
+		filterHosts[which] = true;
+	}
+
+	public static void removeHostsFile(int which){
+		if(which < 0 || which >= filterHostsSize){
+			return;
+		}
+
+		filterHosts[which] = false;
+	}
+
 	@Override
 	public void prepare() {
-
 		if (mDomainMap.size() != 0 || mIpMask.size() != 0) {
 			return;
 		}
 
-		InputStream in = getHostInputStream();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				line = line.trim();
-				if(line.length() > 0){
-					if (line.startsWith("#")
-							|| !TextUtils.isDigitsOnly(String.valueOf(line.charAt(0)))) {
-						continue;
+		for(int i=0;i<filterHostsSize;++i){
+			if(filterHosts[i] == false){
+				continue;
+			}
+
+			InputStream in = getHostInputStream(i);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					line = line.trim();
+					if(line.length() > 0){
+						if (line.startsWith("#")
+								|| !TextUtils.isDigitsOnly(String.valueOf(line.charAt(0)))) {
+							continue;
+						}
+					}
+
+					String[] parts = line.split(" ");
+					if (parts.length == 2
+							&& !"localhost".equalsIgnoreCase(parts[1])) {
+						String ipStr = parts[0];
+						int ip = CommonMethods.ipStringToInt(ipStr);
+						mDomainMap.put(parts[1], ip);
+						mIpMask.put(ip, 1);
 					}
 				}
-
-				String[] parts = line.split(" ");
-				if (parts.length == 2
-						&& !"localhost".equalsIgnoreCase(parts[1])) {
-					String ipStr = parts[0];
-					int ip = CommonMethods.ipStringToInt(ipStr);
-					mDomainMap.put(parts[1], ip);
-					mIpMask.put(ip, 1);
-				}
-			}
-		} catch (IOException ex) {
-			if (AppDebug.IS_DEBUG) {
-				ex.printStackTrace(System.err);
-			}
-		} finally {
-			try {
-				reader.close();
-				in.close();
 			} catch (IOException ex) {
 				if (AppDebug.IS_DEBUG) {
 					ex.printStackTrace(System.err);
+				}
+			} finally {
+				try {
+					reader.close();
+					in.close();
+				} catch (IOException ex) {
+					if (AppDebug.IS_DEBUG) {
+						ex.printStackTrace(System.err);
+					}
 				}
 			}
 		}
@@ -140,14 +172,47 @@ public class BlackListFilter implements DomainFilter {
 		return filter; 
 	}
 
-	private void downloadHostFile(){
+	private void downloadHostFile(int which){
 		try {
-			URL url = new URL("https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts");
+			URL url;
+
+			switch(which){
+				case 1:
+					url = new URL(malwareURL);
+					break;
+				case 2:
+					url = new URL(adsTrackingURL);
+					break;
+				case 3:
+					url = new URL(socialURL);
+					break;
+				case 4:
+					url = new URL(fakenewsURL);
+					break;
+				case 5:
+					url = new URL(gamblingURL);
+					break;
+				case 6:
+					url = new URL(xiaomiAdsURL);
+					break;
+				case 7:
+					url = new URL(samsungAdsURL);
+					break;
+				case 8:
+					url = new URL(spotifyAdsURL);
+					break;
+			}
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("/host");
+			sb.append(which);
+			sb.append(".txt");
+
 			URLConnection conexion = url.openConnection();
 			conexion.connect();
 			int lenghtOfFile = conexion.getContentLength();
 			InputStream is = url.openStream();
-			FileOutputStream fos = new FileOutputStream(mainContext.getExternalCacheDir() + "/host.txt");
+			FileOutputStream fos = new FileOutputStream(mainContext.getExternalCacheDir() + sb.toString());
 			byte data[] = new byte[1024];
 			long total = 0;
 			int count = 0;
@@ -168,11 +233,16 @@ public class BlackListFilter implements DomainFilter {
 		}
 	}
 
-	private InputStream getHostInputStream() {
-		File file = new File(mainContext.getExternalCacheDir(), "/host.txt");
+	private InputStream getHostInputStream(int which) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("/host");
+		sb.append(which);
+		sb.append(".txt");
+
+		File file = new File(mainContext.getExternalCacheDir(), sb.toString());
 
 		if(!file.exists()) {
-			downloadHostFile();
+			downloadHostFile(which);
 		}
 
 		InputStream in = null;
