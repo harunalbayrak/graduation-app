@@ -3,6 +3,7 @@ import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/constants/text_styles.dart';
+import 'package:graduation_app/constants/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
@@ -13,6 +14,7 @@ import 'package:graduation_app/models/activity.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hexagon/hexagon.dart';
 
 class Activities extends StatefulWidget {
   const Activities({Key? key}) : super(key: key);
@@ -95,10 +97,21 @@ class _ActivitiesState extends State<Activities> {
       contentPadding: padding3,
       title: AutoSizeText(activity.host, style: textStyle2(textSize2)),
       subtitle: AutoSizeText(activity.ip, style: textStyle2(textSize2)),
-      leading: const CircleAvatar(
-        backgroundImage: NetworkImage(
-            "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      leading: SizedBox(
+        height: 50,
+        width: 50,
+        child: HexagonWidget.pointy(
+          cornerRadius: 8.0,
+          width: 100,
+          color: lightBlue,
+          padding: 4.0,
+          child: AutoSizeText(activity.total_7days.toString(), maxLines: 1),
+        ),
       ),
+      // leading: const CircleAvatar(
+      // backgroundImage: NetworkImage(
+      // "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
+      // ),
       trailing: IconButton(
         onPressed: () {
           activity.isBlocked = true;
