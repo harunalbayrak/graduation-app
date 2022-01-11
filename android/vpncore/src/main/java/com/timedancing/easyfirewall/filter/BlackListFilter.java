@@ -29,9 +29,17 @@ import java.net.URLConnection;
  * Created by zengzheying on 16/1/6.
  */
 public class BlackListFilter implements DomainFilter {
-	private Map<String, Integer> mDomainMap = new HashMap<>();
 	private SparseIntArray mIpMask = new SparseIntArray();
 	private static Context mainContext;
+
+	private static Map<String, Integer> _mDomainMap0 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap1 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap2 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap3 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap4 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap5 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap6 = new HashMap<>();
+	private static Map<String, Integer> _mDomainMap7 = new HashMap<>();
 	private static Map<String, Integer> mDomainMap2 = new HashMap<>();
 
 	private static boolean filterHosts[] = {false, false, false, false, false, false, false, false};
@@ -45,6 +53,7 @@ public class BlackListFilter implements DomainFilter {
 	String xiaomiAdsURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Extension/GoodbyeAds-Xiaomi-Extension.txt";
 	String samsungAdsURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Extension/GoodbyeAds-Samsung-AdBlock.txt";
 	String spotifyAdsURL = "https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Extension/GoodbyeAds-Spotify-AdBlock.txt";
+
 
 	public static void setMainContext(Context mContext){
 		mainContext = mContext;
@@ -66,6 +75,7 @@ public class BlackListFilter implements DomainFilter {
 
 	public static void addHostsFile(int which){
 		if(which < 0 || which >= filterHostsSize){
+			System.out.println("error filter hosts size");
 			return;
 		}
 
@@ -74,6 +84,7 @@ public class BlackListFilter implements DomainFilter {
 
 	public static void removeHostsFile(int which){
 		if(which < 0 || which >= filterHostsSize){
+			System.out.println("error filter hosts size");
 			return;
 		}
 
@@ -82,49 +93,111 @@ public class BlackListFilter implements DomainFilter {
 
 	@Override
 	public void prepare() {
-		if (mDomainMap.size() != 0 || mIpMask.size() != 0) {
-			return;
-		}
+		// if (mDomainMap.size() != 0 || mIpMask.size() != 0) {
+		// 	return;
+		// }
 
 		for(int i=0;i<filterHostsSize;++i){
 			if(filterHosts[i] == false){
+				switch(i){
+					case 0:
+						_mDomainMap0.clear();
+						break;
+					case 1:
+						_mDomainMap1.clear();
+						break;
+					case 2:
+						_mDomainMap2.clear();
+						break;
+					case 3:
+						_mDomainMap3.clear();
+						break;
+					case 4:
+						_mDomainMap4.clear();
+						break;
+					case 5:
+						_mDomainMap5.clear();
+						break;
+					case 6:
+						_mDomainMap6.clear();
+						break;
+					case 7:
+						_mDomainMap7.clear();
+						break;
+				}
+
 				continue;
 			}
 
-			InputStream in = getHostInputStream(i);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			String line = null;
-			try {
-				while ((line = reader.readLine()) != null) {
-					line = line.trim();
-					if(line.length() > 0){
-						if (line.startsWith("#")
-								|| !TextUtils.isDigitsOnly(String.valueOf(line.charAt(0)))) {
-							continue;
-						}
-					}
+			addToDomain(i);
+		}
+	}
 
-					String[] parts = line.split(" ");
-					if (parts.length == 2
-							&& !"localhost".equalsIgnoreCase(parts[1])) {
-						String ipStr = parts[0];
-						int ip = CommonMethods.ipStringToInt(ipStr);
-						mDomainMap.put(parts[1], ip);
+	public void addToDomain(int i){
+		InputStream in = getHostInputStream(i);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				line = line.trim();
+				if(line.length() > 0){
+					if (line.startsWith("#")
+							|| !TextUtils.isDigitsOnly(String.valueOf(line.charAt(0)))) {
+						continue;
+					}
+				}
+
+				String[] parts = line.split(" ");
+				if (parts.length == 2
+						&& !"localhost".equalsIgnoreCase(parts[1])) {
+					String ipStr = parts[0];
+					int ip = CommonMethods.ipStringToInt(ipStr);
+					if(parts[1].length() > 7){
+						switch(i){
+							case 0:
+								_mDomainMap0.put(parts[1], ip);
+								break;
+							case 1:
+								_mDomainMap1.put(parts[1], ip);
+								break;
+							case 2:
+								_mDomainMap2.put(parts[1], ip);
+								break;
+							case 3:
+								_mDomainMap3.put(parts[1], ip);
+								break;
+							case 4:
+								_mDomainMap4.put(parts[1], ip);
+								break;
+							case 5:
+								_mDomainMap5.put(parts[1], ip);
+								break;
+							case 6:
+								_mDomainMap6.put(parts[1], ip);
+								break;
+							case 7:
+								_mDomainMap7.put(parts[1], ip);
+								break;
+						}
+
+						// mDomainMap.put(parts[1], ip);
+						// System.out.println("p: " + mDomainMap.size());
+						// System.out.println("p: " + parts[1]);
 						mIpMask.put(ip, 1);
 					}
 				}
+			}
+		} catch (IOException ex) {
+			if (AppDebug.IS_DEBUG) {
+				ex.printStackTrace(System.err);
+			}
+		} finally {
+			try {
+				reader.close();
+				in.close();
 			} catch (IOException ex) {
 				if (AppDebug.IS_DEBUG) {
 					ex.printStackTrace(System.err);
-				}
-			} finally {
-				try {
-					reader.close();
-					in.close();
-				} catch (IOException ex) {
-					if (AppDebug.IS_DEBUG) {
-						ex.printStackTrace(System.err);
-					}
 				}
 			}
 		}
@@ -146,13 +219,13 @@ public class BlackListFilter implements DomainFilter {
 			filter = filter || (mIpMask.get(newIp, -1) == 1);
 		}
 		String key = domain.trim();
-		if (mDomainMap.containsKey(key)) {
+		if (_mDomainMap0.containsKey(key) || _mDomainMap1.containsKey(key) || _mDomainMap2.containsKey(key) || _mDomainMap3.containsKey(key) || _mDomainMap4.containsKey(key) || _mDomainMap5.containsKey(key) || _mDomainMap6.containsKey(key) || _mDomainMap7.containsKey(key)) {
 			filter = true;
-			int oldIP = mDomainMap.get(key);
-			if (!ProxyConfig.isFakeIP(ip) && ip != oldIP) {
-				mDomainMap.put(key, ip);
-				mIpMask.put(ip, 1);
-			}
+			// int oldIP = mDomainMap.get(key);
+			// if (!ProxyConfig.isFakeIP(ip) && ip != oldIP) {
+			// 	mDomainMap.put(key, ip);
+			// 	mIpMask.put(ip, 1);
+			// }
 		} else if (mDomainMap2.containsKey(key)) {
 			System.out.println("mdomain2 contains the keyyyyyyyyyyyy");
 
@@ -174,31 +247,36 @@ public class BlackListFilter implements DomainFilter {
 
 	private void downloadHostFile(int which){
 		try {
-			URL url;
+			URL url = new URL(malwareURL);
+
+			if(which < 0 || which >= filterHostsSize){
+				System.out.println("error filter hosts size");
+				return;
+			}
 
 			switch(which){
-				case 1:
+				case 0:
 					url = new URL(malwareURL);
 					break;
-				case 2:
+				case 1:
 					url = new URL(adsTrackingURL);
 					break;
-				case 3:
+				case 2:
 					url = new URL(socialURL);
 					break;
-				case 4:
+				case 3:
 					url = new URL(fakenewsURL);
 					break;
-				case 5:
+				case 4:
 					url = new URL(gamblingURL);
 					break;
-				case 6:
+				case 5:
 					url = new URL(xiaomiAdsURL);
 					break;
-				case 7:
+				case 6:
 					url = new URL(samsungAdsURL);
 					break;
-				case 8:
+				case 7:
 					url = new URL(spotifyAdsURL);
 					break;
 			}

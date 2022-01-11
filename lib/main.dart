@@ -70,6 +70,10 @@ void initializeDatabase() async {
   boxFilters.add(filter1);
   boxFilters.add(filter2);
   boxFilters.add(filter3);
+  boxFilters.add(filter4);
+  boxFilters.add(filter5);
+  boxFilters.add(filter6);
+  boxFilters.add(filter7);
 
   boxStatistics.put('totalAndBlocked', Statistic());
 }
@@ -77,7 +81,7 @@ void initializeDatabase() async {
 Activity? getActivity(Box<Activity> box, String host, String ip) {
   List<Activity> app = box.values
       .toList()
-      .where((c) => c.host == host && c.ip == ip)
+      .where((c) => c.host == host)
       .toList()
       .cast<Activity>();
 

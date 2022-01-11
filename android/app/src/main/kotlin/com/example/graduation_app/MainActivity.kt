@@ -91,6 +91,11 @@ class MainActivity: FlutterActivity() {
                         reloadVPN();
                     }
                 }
+                "reloadVPNWithNewHosts" -> {
+                    doAsync{
+                        reloadVPNWithNewHosts();
+                    }
+                }
                 "getFromQueue" -> {
                     getQueueFromProxyConfig()
                     result.success(hostQ);
@@ -110,13 +115,21 @@ class MainActivity: FlutterActivity() {
                 }
                 "addHostFile" -> {
                     val args1 = call.argument("which") as String?;
+                    
+                    val intargs = args1?.toInt();
 
-                    BlackListFilter.addHostsFile(args1?.toInt());
+                    if(intargs is Int){
+                        BlackListFilter.addHostsFile(intargs);
+                    }
                 }
                 "removeHostFile" -> {
                     val args1 = call.argument("which") as String?;
 
-                    BlackListFilter.removeHostsFile(args1?.toInt());
+                    val intargs = args1?.toInt();
+
+                    if(intargs is Int){
+                        BlackListFilter.removeHostsFile(intargs);
+                    }
                 }
                 "disconnectVPN" -> {
                     try{
@@ -146,6 +159,10 @@ class MainActivity: FlutterActivity() {
 
     fun reloadVPN() {
         VpnServiceHelper.reloadVPN(this);
+    }
+
+    fun reloadVPNWithNewHosts() {
+        VpnServiceHelper.reloadVPNWithNewHosts(this);
     }
 
     fun closeVPN(){

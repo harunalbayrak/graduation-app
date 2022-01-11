@@ -211,6 +211,15 @@ public class FirewallVpnService extends VpnService implements Runnable {
             prev.close();
     }
 
+	public void reloadVPNWithNewHosts() throws Exception{
+		ParcelFileDescriptor prev = mVPNInterface;
+        if (IsRunning)
+            mVPNInterface = establishVPN();
+        if (prev != null)
+            prev.close();
+		ProxyConfig.Instance.prepare();
+	}
+
 	void onIPPacketReceived(IPHeader ipHeader, int size) throws IOException {
 
 		switch (ipHeader.getProtocol()) {

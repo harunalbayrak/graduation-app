@@ -90,4 +90,8 @@ public class VpnServiceHelper {
 	public static void reloadVPN(Context context) throws Exception {
         sVpnService.reloadVPN();
     }
+
+	public static void reloadVPNWithNewHosts(Context context) throws Exception {
+        sVpnService.reloadVPNWithNewHosts();
+    }
 }

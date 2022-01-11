@@ -153,6 +153,16 @@ Future<int> invokeReload() async {
   return 0;
 }
 
+Future<int> invokeReloadVPNWithNewHosts() async {
+  try {
+    await platform.invokeMethod('reloadVPNWithNewHosts');
+  } catch (E) {
+    print("Error Code: -9");
+    return -1;
+  }
+  return 0;
+}
+
 int invokeAddHostFile(String which) {
   try {
     platform.invokeMethod('addHostFile', <String, String>{
