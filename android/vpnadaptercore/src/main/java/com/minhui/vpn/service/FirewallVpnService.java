@@ -403,16 +403,6 @@ public class FirewallVpnService extends VpnService implements Runnable {
         builder.addDnsServer(AMERICA);
         vpnStartTime = System.currentTimeMillis();
         lastVpnStartTimeFormat = TimeFormatUtil.formatYYMMDDHHMMSS(vpnStartTime);
-        try {
-            if (selectPackage != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder.addAllowedApplication(selectPackage);
-                    builder.addAllowedApplication(getPackageName());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         if(setInitialRules(builder) != 0){
             DebugLog.e("Set initial rules error\n");

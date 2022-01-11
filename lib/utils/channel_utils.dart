@@ -117,6 +117,7 @@ Future<int> invokeClearQueue() async {
 
 int invokeAddBlockedHost(String host) {
   try {
+    print("invokeAddBlockedHost");
     platform.invokeMethod('addBlockedHost', <String, String>{
       'blockedHost': host,
     });
@@ -130,6 +131,7 @@ int invokeAddBlockedHost(String host) {
 
 int invokeRemoveBlockedHost(String host) {
   try {
+    print("invokeRemoveBlockedHost");
     platform.invokeMethod('removeBlockedHost', <String, String>{
       'blockedHost': host,
     });

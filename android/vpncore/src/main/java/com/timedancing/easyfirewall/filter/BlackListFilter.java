@@ -41,10 +41,16 @@ public class BlackListFilter implements DomainFilter {
 
 	public static void addBlockedHost(String host){
 		mDomainMap2.put(host,0);
+
+		System.out.println("Adding");
+		System.out.println(mDomainMap2.toString());
 	}
 
 	public static void removeBlockedHost(String host){
 		mDomainMap2.remove(host);
+
+		System.out.println("Removing");
+		System.out.println(mDomainMap2.toString());
 	}
 
 	@Override

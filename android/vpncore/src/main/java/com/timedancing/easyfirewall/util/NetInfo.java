@@ -1,4 +1,4 @@
-package com.minhui.vpn.processparse;
+package com.timedancing.easyfirewall.util;
 
 public class NetInfo {
 
@@ -58,12 +58,12 @@ public class NetInfo {
     }
 
     @Override
-    public void toString() {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("-> uid: " + uid.toString() + "\n");
-        sb.append("-> port: " + port.toString() + "\n");
-        sb.append("-> sourPort: " + sourPort.toString() + "\n");
-        sb.append("-> ip: " + ip.toString() + "\n");
+        sb.append("-> uid: " + uid + "\n");
+        sb.append("-> port: " + port + "\n");
+        sb.append("-> sourPort: " + sourPort + "\n");
+        sb.append("-> ip: " + ip + "\n");
         sb.append("-> address: " + address + "\n");
 
         return sb.toString();

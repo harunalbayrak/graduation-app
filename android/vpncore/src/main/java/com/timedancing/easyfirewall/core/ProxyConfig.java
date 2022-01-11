@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Queue;
 import java.util.LinkedList;
 
+import android.net.ConnectivityManager;
+import java.net.InetSocketAddress;
+
 /**
  * Created by zengzheying on 15/12/28.
  */
@@ -103,7 +106,7 @@ public class ProxyConfig {
 
 	public String getSessionName() {
 		if (mSessionName == null) {
-			mSessionName = "Easy Firewall";
+			mSessionName = "PFirewall";
 		}
 		return mSessionName;
 	}

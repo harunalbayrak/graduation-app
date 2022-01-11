@@ -54,13 +54,8 @@ class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";
     private var running = true;
 
-    // var hostQ : Queue<HashMap<String,String>> = LinkedList();
     var hostQ : Queue<HashMap<String,String>> = LinkedList();
     val timer = Timer()
-    // private val REQUEST_VPN = 1;
-    // private var handler : Handler = Handler();
-    // lateinit var allNetConnection: MutableList<NatSession>;
-    // lateinit var timer: ScheduledExecutorService;
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
@@ -165,100 +160,4 @@ class MainActivity: FlutterActivity() {
             hostQ.add(xx as HashMap<String, String>);
         }
     }
-    
-    // fun closeVPN() {
-    //     // VpnServiceHelper.changeVpnRunningStatus(this,false);
-    //     VpnServiceHelper.stopVPN();
-    // }
-
-    // fun startVPN() {
-    //     var PERMISSION_EXTERNAL_STORAGE = 1;
-    //     ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION_EXTERNAL_STORAGE);
-
-    //     VpnServiceHelper.changeVpnRunningStatus(this,true);
-
-    //     val fixedRateTimer = fixedRateTimer("timer",false,0,5000){
-    //         this@MainActivity.runOnUiThread {
-    //             getDataX()
-    //         }
-    //     }
-    // }
-
-    // fun reloadVPN() {
-    //     VpnServiceHelper.reloadVPN(this);
-    // }
-
-    // fun getDataX() {
-    //     ThreadProxy.getInstance().execute(object : Runnable {
-    //         override fun run() {
-    //             getData();
-    //         }
-    //     })
-    // };
-
-    // fun getData() {
-    //     try{
-    //         allNetConnection = VpnServiceHelper.getAllSession();
-    //     } catch(e: Exception){
-    //         return;
-    //     }
-    //     if (allNetConnection == null) {
-    //         handler.post(object: Runnable{
-    //             override fun run() {
-    //                 refreshView(allNetConnection);
-    //             }
-    //         });
-    //         return;
-    //     }
-
-    //     var iterator : MutableIterator<NatSession> = allNetConnection.iterator();
-    //     var packageName : String = context.getPackageName();
-
-    //     var sp = getContext().getSharedPreferences(VPNConstants.VPN_SP_NAME, Context.MODE_PRIVATE);
-    //     var isShowUDP : Boolean = sp.getBoolean(VPNConstants.IS_UDP_SHOW, false);
-    //     var selectPackage : String? = sp.getString("default_package_id", null);
-
-    //     while(iterator.hasNext()) {
-    //         var next : NatSession = iterator.next();
-    //         if (next.bytesSent == 0 && next.receiveByteNum == 0L) {
-    //             iterator.remove();
-    //             continue;
-    //         }
-    //         if (NatSession.UDP.equals(next.type) && !isShowUDP) {
-    //             iterator.remove();
-    //             continue;
-    //         }
-
-    //         var appInfo : AppInfo = next.appInfo;
-
-    //         if (appInfo != null) {
-    //             var appPackageName : String = appInfo.pkgs.getAt(0);
-    //             if (packageName.equals(appPackageName)) {
-    //                 iterator.remove();
-    //                 continue;
-    //             }
-    //             if((selectPackage != null && !selectPackage.equals(appPackageName))){
-    //                 iterator.remove();
-    //             }
-    //         }
-    //     }
-    //     if (handler == null) {
-    //         return;
-    //     }
-    //     handler.post(object: Runnable {
-    //         override fun run() {
-    //             refreshView(allNetConnection);
-    //         }
-    //     });
-    // }
-
-    // fun refreshView(allNetConnection: MutableList<NatSession>) {
-    //     println("---")
-    //     for(x in allNetConnection){
-    //         println("leaderAppName: " + x.getAppInfo().leaderAppName);
-    //         println("RemoteHost: " + x.getRemoteHost());
-    //         println("RequestURL: " + x.getRequestUrl());
-    //     }
-    //     println("---")
-    // }
 }

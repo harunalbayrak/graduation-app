@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.VpnService;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
+import android.net.ConnectivityManager;
 
 import com.timedancing.easyfirewall.activity.MainActivity;
 import com.timedancing.easyfirewall.builder.HtmlBlockingInfoBuilder;
@@ -26,6 +27,8 @@ import com.timedancing.easyfirewall.event.VPNEvent;
 import com.timedancing.easyfirewall.filter.BlackListFilter;
 import com.timedancing.easyfirewall.util.DebugLog;
 import com.timedancing.easyfirewall.core.util.NetworkUtil;
+import com.timedancing.easyfirewall.util.NetFileManager;
+import com.timedancing.easyfirewall.util.AppInfo;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,6 +37,7 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.net.InetSocketAddress;
 
 import de.greenrobot.event.EventBus;
 
@@ -115,21 +119,21 @@ public class FirewallVpnService extends VpnService implements Runnable {
 
 			// DebugLog.i("%s-%s",key,value.toString());
 
-			if(key == "com.example.graduation_app" || key == getPackageName()){
+			if(key.equals("com.example.graduation_app") || value == true){
 				continue;
 			}
 
             try {
-                if(value == false){
-                    // builder.addDisallowedApplication(key);
-                    builder.addAllowedApplication(key);
-                }
+				System.out.println(key + " - " + value);
+				builder.addAllowedApplication(key);
+				// builder.addAllowedApplication(key);
             } catch (Exception ex) {
                 DebugLog.e("%s\n",ex.getMessage());
 				continue;
 				// return -1;
             }
         }
+
 		return 0;
 	}
 
@@ -140,7 +144,7 @@ public class FirewallVpnService extends VpnService implements Runnable {
 		mVPNThread = new Thread(this, "VPNServiceThread");
 		mVPNThread.start();
 		setVpnRunningStatus(true);
-		notifyStatus(new VPNEvent(VPNEvent.Status.STARTING));
+		// notifyStatus(new VPNEvent(VPNEvent.Status.STARTING));
 		super.onCreate();
 	}
 
@@ -181,15 +185,19 @@ public class FirewallVpnService extends VpnService implements Runnable {
 		this.mVPNOutputStream = new FileOutputStream(mVPNInterface.getFileDescriptor());
 		FileInputStream in = new FileInputStream(mVPNInterface.getFileDescriptor());
 		int size = 0;
-		while (size != -1 && IsRunning) {
-			while ((size = in.read(mPacket)) > 0 && IsRunning) {
-				if (mDnsProxy.Stopped || mTcpProxyServer.Stopped) {
-					in.close();
-					throw new Exception("LocalServer stopped.");
+		try{
+			while (size != -1 && IsRunning) {
+				while ((size = in.read(mPacket)) > 0 && IsRunning) {
+					if (mDnsProxy.Stopped || mTcpProxyServer.Stopped) {
+						in.close();
+						throw new Exception("LocalServer stopped.");
+					}
+					onIPPacketReceived(mIPHeader, size);
 				}
-				onIPPacketReceived(mIPHeader, size);
+				Thread.sleep(100);
 			}
-			Thread.sleep(100);
+		} catch (Exception ex) {
+			//
 		}
 		in.close();
 		disconnectVPN();
@@ -225,10 +233,11 @@ public class FirewallVpnService extends VpnService implements Runnable {
 					}
 
 				} else {
-
 					//添加端口映射
 					int portKey = tcpHeader.getSourcePort();
 					NatSession session = NatSessionManager.getSession(portKey);
+
+					// -PORTKEY-
 					if (session == null || session.RemoteIP != ipHeader.getDestinationIP() || session.RemotePort
 							!= tcpHeader.getDestinationPort()) {
 						session = NatSessionManager.createSession(portKey, ipHeader.getDestinationIP(), tcpHeader
@@ -262,6 +271,14 @@ public class FirewallVpnService extends VpnService implements Runnable {
 					session.BytesSent += tcpDataSize; //注意顺序
 					mSentBytes += size;
 				}
+
+				// System.out.println("t-saddr: " + ipHeader.getSourceIP());
+				// System.out.println("t-sport: " + tcpHeader.getSourcePort());
+				// System.out.println("t-daddr: " + LOCAL_IP);
+				// System.out.println("t-dport: " + mTcpProxyServer.Port);
+
+				//getUidQ(6,)
+
 				break;
 			case IPHeader.UDP:
 				UDPHeader udpHeader = mUDPHeader;
@@ -270,16 +287,49 @@ public class FirewallVpnService extends VpnService implements Runnable {
 					mDNSBuffer.clear();
 					mDNSBuffer.limit(udpHeader.getTotalLength() - 8);
 					DnsPacket dnsPacket = DnsPacket.fromBytes(mDNSBuffer);
+					if(dnsPacket == null){
+						System.out.println("dnspacket is null");
+					}
 					if (dnsPacket != null && dnsPacket.Header.QuestionCount > 0) {
 						DebugLog.i("let the DnsProxy to process DNS request...\n");
 						DebugLog.iWithTag("DNS", "Query " + dnsPacket.Questions[0].Domain);
 						mDnsProxy.onDnsRequestReceived(ipHeader, udpHeader, dnsPacket);
+
+						// System.out.println("u-saddr: " + ipHeader.getSourceIP());
+						// System.out.println("u-sport: " + udpHeader.getSourcePort());
+						// System.out.println("u-daddr: " + LOCAL_IP);
+						// System.out.println("u-dport: " + udpHeader.getDestinationPort());
 					}
 				}
+
+				// System.out.println("u-saddr: " + ipHeader.getSourceIP());
+				// System.out.println("u-sport: " + udpHeader.getSourcePort());
+				// System.out.println("u-daddr: " + ipHeader.getDestinationIP());
+				// System.out.println("u-dport: " + udpHeader.getDestinationPort());
+
 				break;
 		}
 
 	}
+
+	// private int getUidQ(int protocol, String saddr, int sport, String daddr, int dport) {
+    //     if (protocol != 6 /* TCP */ && protocol != 17 /* UDP */){
+	// 		return -1;
+	// 	}
+
+    //     ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+    //     if (cm == null){
+	// 		return -1;
+	// 	}
+
+    //     InetSocketAddress local = new InetSocketAddress(saddr, sport);
+    //     InetSocketAddress remote = new InetSocketAddress(daddr, dport);
+
+    //     System.out.println("Get uid local=" + local + " remote=" + remote);
+    //     int uid = cm.getConnectionOwnerUid(protocol, local, remote);
+    //     System.out.println("Get uid=" + uid);
+    //     return uid;
+    // }
 
 	private void waitUntilPrepared() {
 		while (prepare(this) != null) {
@@ -296,27 +346,7 @@ public class FirewallVpnService extends VpnService implements Runnable {
 
 	private ParcelFileDescriptor establishVPN() throws Exception {
 		Builder builder = new Builder();
-
-		// builder.addAllowedApplication(getPackageName());
-
-		// try {
-			// if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-				// builder.addAllowedApplication(getPackageName());
-			// }
-        // } catch (Exception e) {
-            // e.printStackTrace();
-        // }
-
-		// try{
-		// 	if(setInitialRules(builder) != 0){
-		// 		DebugLog.e("Set initial rules error\n");
-		// 	}
-		// } catch(Exception ex){
-		// 	DebugLog.e("%s\n",ex.getMessage());
-		// }
-
 		builder.setMtu(ProxyConfig.Instance.getMTU());
-
 		DebugLog.i("setMtu: %d\n", ProxyConfig.Instance.getMTU());
 
 		ProxyConfig.IPAddress ipAddress = ProxyConfig.Instance.getDefaultLocalIP();
@@ -341,6 +371,10 @@ public class FirewallVpnService extends VpnService implements Runnable {
 			builder.addRoute("0.0.0.0", 0);
 			DebugLog.i("addDefaultRoute: 0.0.0.0/0\n");
 		}
+
+		if(setInitialRules(builder) != 0){
+			DebugLog.e("Set initial rules error\n");
+		}
 		
 		// Class<?> SystemProperties = Class.forName("android.os.SystemProperties");
 		// Method method = SystemProperties.getMethod("get", new Class[]{String.class});
@@ -362,13 +396,13 @@ public class FirewallVpnService extends VpnService implements Runnable {
 		// 	builder.addDnsServer(ip);
 		// }
 
-		Intent intent = new Intent(this, MainActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		builder.setConfigureIntent(pendingIntent);
+		// Intent intent = new Intent(this, MainActivity.class);
+		// PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		// builder.setConfigureIntent(pendingIntent);
 
 		builder.setSession(ProxyConfig.Instance.getSessionName());
 		ParcelFileDescriptor pfdDescriptor = builder.establish();
-		notifyStatus(new VPNEvent(VPNEvent.Status.ESTABLISHED));
+		// notifyStatus(new VPNEvent(VPNEvent.Status.ESTABLISHED));
 		return pfdDescriptor;
 	}
 
@@ -384,10 +418,10 @@ public class FirewallVpnService extends VpnService implements Runnable {
 			ProxyConfig.Instance.prepare();
 
 			//启动TCP代理服务
-			mTcpProxyServer = new TcpProxyServer(0);
+			mTcpProxyServer = new TcpProxyServer(0,this);
 			mTcpProxyServer.start();
 
-			mDnsProxy = new DnsProxy();
+			mDnsProxy = new DnsProxy(this);
 			mDnsProxy.start();
 			DebugLog.i("DnsProxy started.\n");
 
@@ -422,7 +456,7 @@ public class FirewallVpnService extends VpnService implements Runnable {
 		} catch (Exception e) {
 			//ignore
 		}
-		notifyStatus(new VPNEvent(VPNEvent.Status.UNESTABLISHED));
+		// notifyStatus(new VPNEvent(VPNEvent.Status.UNESTABLISHED));
 		this.mVPNOutputStream = null;
 	}
 

@@ -1,6 +1,8 @@
 package com.timedancing.easyfirewall.core.proxy;
 
 import android.util.SparseArray;
+import android.net.ConnectivityManager;
+import android.content.Context;
 
 import com.timedancing.easyfirewall.constant.AppDebug;
 import com.timedancing.easyfirewall.core.ProxyConfig;
@@ -13,6 +15,7 @@ import com.timedancing.easyfirewall.core.tcpip.IPHeader;
 import com.timedancing.easyfirewall.core.tcpip.UDPHeader;
 import com.timedancing.easyfirewall.core.util.VpnServiceHelper;
 import com.timedancing.easyfirewall.util.DebugLog;
+import com.timedancing.easyfirewall.util.AppInfo;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -35,10 +38,12 @@ public class DnsProxy implements Runnable {
 	private DatagramSocket mClient;
 	private Thread mReceivedThread;
 	private short mQueryID;
+	public static Context mainContext;
 
-	public DnsProxy() throws IOException {
+	public DnsProxy(Context context) throws IOException {
 		mQueryArray = new SparseArray<>();
 		mClient = new DatagramSocket(0);
+		mainContext = context;
 	}
 
 	/**
@@ -217,6 +222,9 @@ public class DnsProxy implements Runnable {
 	 * 收到Dns查询回复，对指定域名进行污染后，转发给发起请求的客户端
 	 */
 	private void OnDnsResponseReceived(IPHeader ipHeader, UDPHeader udpHeader, DnsPacket dnsPacket) {
+
+		System.out.println("ONDNSRESPONSERECEIVED");
+
 		QueryState state = null;
 		synchronized (mQueryArray) {
 			state = mQueryArray.get(dnsPacket.Header.ID);
@@ -342,6 +350,14 @@ public class DnsProxy implements Runnable {
 			DatagramPacket packet = new DatagramPacket(udpHeader.mData, udpHeader.mOffset + 8, dnsPacket.Size);
 			packet.setSocketAddress(remoteAddress);
 
+			// InetSocketAddress local = new InetSocketAddress(CommonMethods.ipIntToInet4Address(state.mClientIP),state.mClientPort);
+			// int uu = getUidQ(17,local,remoteAddress);
+			// if(uu != -1){
+			// 	AppInfo appInfo = AppInfo.createFromUid(mainContext,uu);
+
+			// 	System.out.println(appInfo.leaderAppName);
+			// }
+
 			try {
 				if (VpnServiceHelper.protect(mClient)) {
 					//使用DatagramSocket发送DatagramPacket，读取也是用该DatagramSocket
@@ -359,6 +375,26 @@ public class DnsProxy implements Runnable {
 			}
 		}
 	}
+
+	private int getUidQ(int protocol, InetSocketAddress local, InetSocketAddress remote) {
+		int uid = -1;
+		try{
+			if (protocol != 6 /* TCP */ && protocol != 17 /* UDP */){
+				return -1;
+			}
+			ConnectivityManager cm = (ConnectivityManager) mainContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+			if (cm == null){
+				return -1;
+			}
+			System.out.println("Get uid local=" + local + " remote=" + remote);
+			uid = cm.getConnectionOwnerUid(protocol, local, remote);
+			System.out.println("Get uid=" + uid);
+		} catch(Exception e){
+			// e.printStackTrace();
+			return -1;
+		}
+        return uid;
+    }
 
 	private static class QueryState {
 		public short mClientQueryID;

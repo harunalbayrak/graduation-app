@@ -1,8 +1,12 @@
-package com.minhui.vpn.processparse;
+package com.timedancing.easyfirewall.util;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.net.ConnectivityManager;
+import android.app.usage.NetworkStatsManager;
+import android.app.usage.NetworkStats;
+import android.app.usage.NetworkStats.Bucket;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,38 +70,70 @@ public class NetFileManager {
         NetInfo netInfo = null;
         String sTmp = null;
 
-        System.out.println("s : PROCESSBUILDER0");
+        // System.out.println("Netfilemanager Execute");
 
-        ProcessBuilder builder = new ProcessBuilder(cmmand);
+        // ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        // if (cm == null)
+        //     System.out.println("cm is null");
+    
+        // InetSocketAddress local = new InetSocketAddress(saddr, sport);
+        // InetSocketAddress remote = new InetSocketAddress(daddr, dport);
 
-        if (directory != null) {
-            builder.directory(new File(directory));
-        }
+        // // Log.i(TAG, "Get uid local=" + local + " remote=" + remote);
+        // int uid = cm.getConnectionOwnerUid(6, local, remote);
 
-        System.out.println("s : PROCESSBUILDER1");
+        // System.out.println("uid : " + uid);
 
-        builder.redirectErrorStream(true);
-        Process process = builder.start();
-        try(var stdout = process.getInputStream()) {
-            stdout.transferTo(System.out);
-        }
+        // getAllTxBytesWifi();
+    
+        // ProcessBuilder builder = new ProcessBuilder(cmmand);
+
+        // if (directory != null) {
+        //     builder.directory(new File(directory));
+
+        //     System.out.println("Netfilemanager Execute directory != null");
+        // }
+
+        // builder.redirectErrorStream(true);
+        // Process process = builder.start();
         // InputStream is = process.getInputStream();
 
         // Scanner s = new Scanner(is);
         // s.useDelimiter("\n");
-        
-        // if(!s.hasNextLine()) {
-        //     System.out.println("s : NO LINEEEEEEE!");
-        // }
-
         // while (s.hasNextLine()) {
+        //     System.out.println("Netfilemanager Execute hasNextLine");
         //     sTmp = s.nextLine();
+        //     System.out.println("Netfilemanager sTmp : " + sTmp);
+
         //     netInfo = parseDataNew(sTmp);
         //     if (netInfo != null) {
+        //         System.out.println("Netfilemanager Execute netInfo != null");
+
         //         netInfo.setType(type);
         //         saveToMap(netInfo);
         //     }
         // }
+    }
+
+    public long getAllTxBytesWifi() {
+        NetworkStatsManager networkStatsManager = context.getSystemService(NetworkStatsManager.class);
+
+        NetworkStats.Bucket bucket;
+        try {
+            bucket = networkStatsManager.querySummaryForDevice(ConnectivityManager.TYPE_MOBILE,
+                null,
+                0,
+                System.currentTimeMillis());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        System.out.println("NetworkStats txbytes: " + bucket.getTxBytes());
+        System.out.println("NetworkStats rxbytes: " + bucket.getRxBytes());
+        System.out.println("NetworkStats uid: " + bucket.getUid());
+
+        return bucket.getTxBytes();
     }
 
     private int strToInt(String value, int iHex, int iDefault) {

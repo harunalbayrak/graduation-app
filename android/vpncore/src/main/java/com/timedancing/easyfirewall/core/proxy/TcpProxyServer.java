@@ -8,6 +8,7 @@ import com.timedancing.easyfirewall.core.tcpip.CommonMethods;
 import com.timedancing.easyfirewall.core.tunel.Tunnel;
 import com.timedancing.easyfirewall.core.tunel.TunnelFactory;
 import com.timedancing.easyfirewall.util.DebugLog;
+import com.timedancing.easyfirewall.util.AppInfo;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,6 +17,10 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.net.InetSocketAddress;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
 
 /**
  * Created by zengzheying on 15/12/30.
@@ -28,14 +33,16 @@ public class TcpProxyServer implements Runnable {
 	Selector mSelector;
 	ServerSocketChannel mServerSocketChannel;
 	Thread mServerThread;
+	public static Context mainContext;
 
-	public TcpProxyServer(int port) throws IOException {
+	public TcpProxyServer(int port, Context context) throws IOException {
 		mSelector = Selector.open();
 		mServerSocketChannel = ServerSocketChannel.open();
 		mServerSocketChannel.configureBlocking(false);
 		mServerSocketChannel.socket().bind(new InetSocketAddress(port));
 		mServerSocketChannel.register(mSelector, SelectionKey.OP_ACCEPT);
 		this.Port = (short) mServerSocketChannel.socket().getLocalPort();
+		mainContext = context;
 
 		DebugLog.i("AsyncTcpServer listen on %s:%d success.\n", mServerSocketChannel.socket().getInetAddress()
 				.toString(), this.Port & 0xFFFF);
@@ -147,8 +154,10 @@ public class TcpProxyServer implements Runnable {
 
 	void onAccepted(SelectionKey key) {
 		Tunnel localTunnel = null;
+		SocketChannel localChannel;
+
 		try {
-			SocketChannel localChannel = mServerSocketChannel.accept();
+			localChannel = mServerSocketChannel.accept();
 			localTunnel = TunnelFactory.wrap(localChannel, mSelector);
 
 			InetSocketAddress destAddress = getDestAddress(localChannel);
@@ -174,6 +183,18 @@ public class TcpProxyServer implements Runnable {
 
 				localTunnel.dispose();
 			}
+
+			// short portKey = (short) localChannel.socket().getPort();
+			// NatSession session = NatSessionManager.getSession(portKey);
+
+			// InetSocketAddress local = new InetSocketAddress(localChannel.socket().getLocalAddress(),localChannel.socket().getLocalPort());
+			// int uu = getUidQ(6,local,destAddress);
+			// if(uu != -1){
+			// 	AppInfo appInfo = AppInfo.createFromUid(mainContext,uu);
+			// 	System.out.println(appInfo.leaderAppName);
+			// }
+			
+
 		} catch (Exception ex) {
 			if (AppDebug.IS_DEBUG) {
 				ex.printStackTrace(System.err);
@@ -186,4 +207,24 @@ public class TcpProxyServer implements Runnable {
 			}
 		}
 	}
+
+	private int getUidQ(int protocol, InetSocketAddress local, InetSocketAddress remote) {
+		int uid = -1;
+		try{
+			if (protocol != 6 /* TCP */ && protocol != 17 /* UDP */){
+				return -1;
+			}
+			ConnectivityManager cm = (ConnectivityManager) mainContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+			if (cm == null){
+				return -1;
+			}
+			System.out.println("Get uid local=" + local + " remote=" + remote);
+			uid = cm.getConnectionOwnerUid(protocol, local, remote);
+			System.out.println("Get uid=" + uid);
+		} catch(Exception e){
+			// e.printStackTrace();
+			return -1;
+		}
+        return uid;
+    }
 }

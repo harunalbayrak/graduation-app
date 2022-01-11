@@ -3,13 +3,13 @@ import 'package:graduation_app/ui/activities/activities_2.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
 import 'package:graduation_app/constants/text_styles.dart';
-import 'package:graduation_app/models/activity.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:graduation_app/utils/page_route_utils.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/widgets/app_bar_only_dots.dart';
+import 'package:graduation_app/models/activity.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,15 +24,13 @@ class Activities extends StatefulWidget {
 class _ActivitiesState extends State<Activities> {
   double textSize2 = 10;
 
-  final titles = ["List 1", "List 2", "List 3"];
-  final subtitles = [
-    "Here is list 1 subtitle",
-    "Here is list 2 subtitle",
-    "Here is list 3 subtitle"
-  ];
-
   List<Activity> getActivities(Box<Activity> box) {
-    List<Activity> app = box.values.toList().cast<Activity>();
+    // List<Activity> app = box.values.toList().cast<Activity>();
+    List<Activity> app = box.values
+        .toList()
+        .where((c) => c.isBlocked == false)
+        .toList()
+        .cast<Activity>();
 
     return List.from(app.reversed);
   }
@@ -103,6 +101,8 @@ class _ActivitiesState extends State<Activities> {
       ),
       trailing: IconButton(
         onPressed: () {
+          activity.isBlocked = true;
+          activity.save();
           invokeAddBlockedHost(activity.host);
         },
         icon: const Icon(
