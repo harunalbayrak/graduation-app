@@ -37,7 +37,7 @@ class _MainMenuState extends State<MainMenu> {
         .cast<Activity>();
 
     for (int i = 0; i < app.length; i++) {
-      await invokeAddBlockedHost(app[i].host);
+      invokeAddBlockedHost(app[i].host);
     }
   }
 
@@ -48,7 +48,7 @@ class _MainMenuState extends State<MainMenu> {
 
     for (int i = 0; i < filter.length; i++) {
       if (filter[i].isEnable) {
-        await invokeAddHostFile(i.toString());
+        invokeAddHostFile(i.toString());
       }
     }
   }

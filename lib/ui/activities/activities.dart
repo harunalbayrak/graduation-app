@@ -51,7 +51,7 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar2_Activities(context, 'hp4'.tr()),
+      appBar: appBar2Activities(context, 'hp4'.tr()),
       body: Stack(
         children: [
           buildBackground(),

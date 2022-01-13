@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:graduation_app/widgets/app_bar_only_dots.dart';
 import 'package:graduation_app/models/activity.dart';
 
+// ignore: must_be_immutable
 class Activities2 extends StatefulWidget {
   Activity activity;
 
@@ -56,7 +57,7 @@ class _Activities2State extends State<Activities2> {
               reverse: true,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               itemCount: widget.activity.times.length,
               itemBuilder: (context, index) {
                 return Container(

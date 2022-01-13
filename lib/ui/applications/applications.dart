@@ -12,7 +12,6 @@ import 'package:graduation_app/widgets/popup_menu_dots.dart';
 import 'package:graduation_app/models/app2.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:graduation_app/utils/enums.dart';
-import 'package:graduation_app/utils/get_rules.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';

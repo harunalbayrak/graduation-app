@@ -5,12 +5,12 @@ import 'package:graduation_app/widgets/popup_menu_dots.dart';
 import 'package:graduation_app/boxes.dart';
 import 'package:graduation_app/models/activity.dart';
 
-PreferredSizeWidget appBar2_Activities(BuildContext context, String text) {
+PreferredSizeWidget appBar2Activities(BuildContext context, String text) {
   return AppBar(
     title: Text(text),
     actions: <Widget>[
       Padding(
-        padding: EdgeInsets.only(right: 10.0),
+        padding: const EdgeInsets.only(right: 10.0),
         child: GestureDetector(
           onTap: () {
             final box = Boxes.getActivities();
@@ -26,7 +26,7 @@ PreferredSizeWidget appBar2_Activities(BuildContext context, String text) {
 
             // invokeReload();
           },
-          child: Icon(CupertinoIcons.trash),
+          child: const Icon(CupertinoIcons.trash),
         ),
       ),
       popupMenuDots(context),
@@ -34,13 +34,13 @@ PreferredSizeWidget appBar2_Activities(BuildContext context, String text) {
   );
 }
 
-PreferredSizeWidget appBar2_BlockedActivities(
+PreferredSizeWidget appBar2BlockedActivities(
     BuildContext context, String text) {
   return AppBar(
     title: Text(text),
     actions: <Widget>[
       Padding(
-        padding: EdgeInsets.only(right: 10.0),
+        padding: const EdgeInsets.only(right: 10.0),
         child: GestureDetector(
           onTap: () {
             final box = Boxes.getActivities();
@@ -58,7 +58,7 @@ PreferredSizeWidget appBar2_BlockedActivities(
 
             invokeReload();
           },
-          child: Icon(CupertinoIcons.trash),
+          child: const Icon(CupertinoIcons.trash),
         ),
       ),
       popupMenuDots(context),

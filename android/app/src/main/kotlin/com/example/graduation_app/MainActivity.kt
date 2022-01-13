@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -148,9 +147,8 @@ class MainActivity: FlutterActivity() {
     }
 
     fun startVPN(){
-        var PERMISSION_EXTERNAL_STORAGE = 1;
-        ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION_EXTERNAL_STORAGE);
-
+        // var PERMISSION_EXTERNAL_STORAGE = 1;
+        // ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION_EXTERNAL_STORAGE);
         VpnServiceHelper.setMainContext(this);
 
         VpnServiceHelper.changeVpnRunningStatus(this, true);

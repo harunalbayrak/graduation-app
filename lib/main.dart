@@ -32,7 +32,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
 import 'dart:async';
-import 'dart:collection';
 
 int? initScreen;
 bool isStopped = false; //global
@@ -94,8 +93,10 @@ Activity? getActivity(Box<Activity> box, String host, String ip) {
 
 sec5Timer() {
   final boxActivities = Boxes.getActivities();
+  final boxStatistics = Boxes.getStatistics();
+  Statistic? stats = boxStatistics.get('totalAndBlocked');
 
-  Timer.periodic(Duration(seconds: 5), (timer) async {
+  Timer.periodic(const Duration(seconds: 5), (timer) async {
     if (isStopped) {
       timer.cancel();
     }
@@ -110,14 +111,40 @@ sec5Timer() {
         String ip = listStr[1];
 
         Activity? activity = getActivity(boxActivities, host, ip);
+        DateTime date = DateTime.now();
 
         if (activity == null) {
+          switch (date.weekday) {
+            case 1:
+              stats?.totalMN = stats.totalMN + 1;
+              break;
+            case 2:
+              stats?.totalTE = stats.totalTE + 1;
+              break;
+            case 3:
+              stats?.totalWD = stats.totalWD + 1;
+              break;
+            case 4:
+              stats?.totalTU = stats.totalTU + 1;
+              break;
+            case 5:
+              stats?.totalFR = stats.totalFR + 1;
+              break;
+            case 6:
+              stats?.totalST = stats.totalST + 1;
+              break;
+            case 7:
+              stats?.totalSN = stats.totalSN + 1;
+              break;
+          }
+          stats?.save();
+
           final Activity act = Activity()
             ..application = "none"
             ..host = host
             ..ip = ip
             ..isBlocked = false
-            ..times = List.of([DateTime.now()])
+            ..times = List.of([date])
             ..total_1day = 1
             ..total_7days = 1
             ..appIcon = null;
@@ -125,8 +152,40 @@ sec5Timer() {
             boxActivities.add(act);
           }
         } else {
+          switch (date.weekday) {
+            case 1:
+              stats?.totalMN = stats.totalMN + 1;
+              if (activity.isBlocked) stats?.blockedMN = stats.blockedMN + 1;
+              break;
+            case 2:
+              stats?.totalTE = stats.totalTE + 1;
+              if (activity.isBlocked) stats?.blockedTE = stats.blockedTE + 1;
+              break;
+            case 3:
+              stats?.totalWD = stats.totalWD + 1;
+              if (activity.isBlocked) stats?.blockedWD = stats.blockedWD + 1;
+              break;
+            case 4:
+              stats?.totalTU = stats.totalTU + 1;
+              if (activity.isBlocked) stats?.blockedTU = stats.blockedTU + 1;
+              break;
+            case 5:
+              stats?.totalFR = stats.totalFR + 1;
+              if (activity.isBlocked) stats?.blockedFR = stats.blockedFR + 1;
+              break;
+            case 6:
+              stats?.totalST = stats.totalST + 1;
+              if (activity.isBlocked) stats?.blockedST = stats.blockedST + 1;
+              break;
+            case 7:
+              stats?.totalSN = stats.totalSN + 1;
+              if (activity.isBlocked) stats?.blockedSN = stats.blockedSN + 1;
+              break;
+          }
+          stats?.save();
+
           List<DateTime> dates = activity.times;
-          dates.add(DateTime.now());
+          dates.add(date);
 
           final Activity act = Activity()
             ..application = "none"

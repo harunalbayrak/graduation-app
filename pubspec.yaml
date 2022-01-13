@@ -58,6 +58,7 @@ dependencies:
   hive_flutter: ^1.0.0
   flutter_packet_capture: ^1.0.0
   hexagon: ^0.1.1
+  logger: ^1.1.0
   # permission_handler: ^8.3.0
 
 dev_dependencies:

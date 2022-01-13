@@ -405,9 +405,11 @@ public class FirewallVpnService extends VpnService implements Runnable {
 		// 	builder.addDnsServer(ip);
 		// }
 
-		// Intent intent = new Intent(this, MainActivity.class);
-		// PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-		// builder.setConfigureIntent(pendingIntent);
+		System.out.println("VPN START");
+
+		Intent intent = new Intent(this, MainActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		builder.setConfigureIntent(pendingIntent);
 
 		builder.setSession(ProxyConfig.Instance.getSessionName());
 		ParcelFileDescriptor pfdDescriptor = builder.establish();

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/boxes.dart';
 import 'package:graduation_app/constants/text_styles.dart';
 import 'package:graduation_app/constants/env.dart';
 import 'package:graduation_app/constants/paddings.dart';
+import 'package:graduation_app/models/statistic.dart';
 import 'package:graduation_app/widgets/build_background.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart_2.dart';
 import 'package:graduation_app/widgets/vertical_bar_chart.dart';
@@ -63,6 +65,9 @@ class _StatisticsState extends State<Statistics> {
 
     showingBarGroups = items;
     showingBarGroups2 = items2;
+
+    final boxStatistics = Boxes.getStatistics();
+    Statistic? stats = boxStatistics.get('totalAndBlocked');
   }
 
   @override

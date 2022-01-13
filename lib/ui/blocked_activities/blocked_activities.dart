@@ -40,7 +40,7 @@ class _BlockedActivitiesState extends State<BlockedActivities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar2_BlockedActivities(context, 'hp3'.tr()),
+      appBar: appBar2BlockedActivities(context, 'hp3'.tr()),
       body: Stack(
         children: [
           buildBackground(),

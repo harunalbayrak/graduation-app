@@ -61,18 +61,26 @@ public class VpnServiceHelper {
 
 	public static void changeVpnRunningStatus(Context context, boolean isStart) {
 		if (context == null) {
+			System.out.println("context == null");
 			return;
 		}
 		FirewallVpnService.setMainContext(context);
 		if (isStart) {
 			Intent intent = FirewallVpnService.prepare(context);
-			if (intent == null) {
-				startVpnService(context);
-			} else {
-				if (context instanceof Activity) {
-					((Activity) context).startActivityForResult(intent, START_VPN_SERVICE_REQUEST_CODE);
-				}
+			if(intent != null){
+				((Activity) context).startActivityForResult(intent, START_VPN_SERVICE_REQUEST_CODE);
 			}
+			startVpnService(context);
+
+			// if (intent == null) {
+			// 	System.out.println("VPN START VpnServiceHelper");
+			// 	startVpnService(context);
+			// } else {
+			// 	if (context instanceof Activity) {
+			// 		System.out.println("VPN START VpnServiceHelper 2");
+			// 		((Activity) context).startActivityForResult(intent, START_VPN_SERVICE_REQUEST_CODE);
+			// 	}
+			// }
 		} else {
 			boolean stopStatus = false;
 			sVpnService.setVpnRunningStatus(stopStatus);
