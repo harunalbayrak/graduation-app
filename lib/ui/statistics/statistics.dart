@@ -27,13 +27,6 @@ class _StatisticsState extends State<Statistics> {
   @override
   void initState() {
     super.initState();
-    final barGroup1 = makeGroupData(0, 5, 12);
-    final barGroup2 = makeGroupData(1, 16, 12);
-    final barGroup3 = makeGroupData(2, 18, 5);
-    final barGroup4 = makeGroupData(3, 20, 16);
-    final barGroup5 = makeGroupData(4, 17, 6);
-    final barGroup6 = makeGroupData(5, 19, 1.5);
-    final barGroup7 = makeGroupData(6, 10, 1.5);
 
     final barGroup8 = makeGroupData2(0, 17);
     final barGroup9 = makeGroupData2(1, 14);
@@ -42,16 +35,6 @@ class _StatisticsState extends State<Statistics> {
     final barGroup12 = makeGroupData2(4, 10);
     final barGroup13 = makeGroupData2(5, 9);
     final barGroup14 = makeGroupData2(6, 7);
-
-    final items = [
-      barGroup1,
-      barGroup2,
-      barGroup3,
-      barGroup4,
-      barGroup5,
-      barGroup6,
-      barGroup7,
-    ];
 
     final items2 = [
       barGroup8,
@@ -63,11 +46,7 @@ class _StatisticsState extends State<Statistics> {
       barGroup14,
     ];
 
-    showingBarGroups = items;
     showingBarGroups2 = items2;
-
-    final boxStatistics = Boxes.getStatistics();
-    Statistic? stats = boxStatistics.get('totalAndBlocked');
   }
 
   @override
@@ -89,7 +68,7 @@ class _StatisticsState extends State<Statistics> {
                     maxLines: 1,
                   ),
                 ),
-                buildVerticalBarChart(context, showingBarGroups),
+                const BuildVerticalBarChart0(),
                 SizedBox(height: statisticsHeight),
                 Padding(
                   padding: padding5,
