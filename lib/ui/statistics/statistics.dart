@@ -69,26 +69,26 @@ class _StatisticsState extends State<Statistics> {
                   ),
                 ),
                 const BuildVerticalBarChart0(),
-                SizedBox(height: statisticsHeight),
-                Padding(
-                  padding: padding5,
-                  child: AutoSizeText(
-                    's2'.tr(args: ['7']),
-                    style: textStyle5(17),
-                    maxLines: 1,
-                  ),
-                ),
-                buildVerticalBarChart2(context, showingBarGroups2),
-                SizedBox(height: statisticsHeight),
-                Padding(
-                  padding: padding5,
-                  child: AutoSizeText(
-                    's3'.tr(args: ['7']),
-                    style: textStyle5(17),
-                    maxLines: 1,
-                  ),
-                ),
-                buildVerticalBarChart2(context, showingBarGroups2),
+                // SizedBox(height: statisticsHeight),
+                // Padding(
+                //   padding: padding5,
+                //   child: AutoSizeText(
+                //     's2'.tr(args: ['7']),
+                //     style: textStyle5(17),
+                //     maxLines: 1,
+                //   ),
+                // ),
+                // buildVerticalBarChart2(context, showingBarGroups2),
+                // SizedBox(height: statisticsHeight),
+                // Padding(
+                //   padding: padding5,
+                //   child: AutoSizeText(
+                //     's3'.tr(args: ['7']),
+                //     style: textStyle5(17),
+                //     maxLines: 1,
+                //   ),
+                // ),
+                // buildVerticalBarChart2(context, showingBarGroups2),
               ],
             ),
           ),

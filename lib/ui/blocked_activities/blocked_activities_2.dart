@@ -50,9 +50,9 @@ class _BlockedActivities2State extends State<BlockedActivities2> {
           ),
           paddingBoldText(context,
               'ac1'.tr(args: [widget.activity.total_7days.toString(), '7'])),
-          paddingBoldText(context, 'ba1'.tr()),
-          buildListTile2('ba2'.tr(), blockedActivities2Icon1, textSize2: 16),
-          buildListTile2('ba3'.tr(), blockedActivities2Icon2, textSize2: 16),
+          // paddingBoldText(context, 'ba1'.tr()),
+          // buildListTile2('ba2'.tr(), blockedActivities2Icon1, textSize2: 16),
+          // buildListTile2('ba3'.tr(), blockedActivities2Icon2, textSize2: 16),
           Align(
             alignment: Alignment.topCenter,
             child: ListView.builder(
