@@ -30,13 +30,17 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:graduation_app/utils/channel_utils.dart';
+import 'dart:async';
 
 int? initScreen;
+bool isStopped = false; //global
 
 void initalizePreferences() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initScreen = prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
+  await prefs.setString("vpn4", "10.1.10.1");
 }
 
 void initializeDatabase() async {
@@ -65,8 +69,141 @@ void initializeDatabase() async {
   boxFilters.add(filter1);
   boxFilters.add(filter2);
   boxFilters.add(filter3);
+  boxFilters.add(filter4);
+  boxFilters.add(filter5);
+  boxFilters.add(filter6);
+  boxFilters.add(filter7);
 
   boxStatistics.put('totalAndBlocked', Statistic());
+}
+
+Activity? getActivity(Box<Activity> box, String host, String ip) {
+  List<Activity> app = box.values
+      .toList()
+      .where((c) => c.host == host)
+      .toList()
+      .cast<Activity>();
+
+  if (app.isEmpty) {
+    return null;
+  }
+
+  return app.first;
+}
+
+sec5Timer() {
+  final boxActivities = Boxes.getActivities();
+  final boxStatistics = Boxes.getStatistics();
+  Statistic? stats = boxStatistics.get('totalAndBlocked');
+
+  Timer.periodic(const Duration(seconds: 5), (timer) async {
+    if (isStopped) {
+      timer.cancel();
+    }
+    List<Object?> values = await invokeGetFromQueue();
+    values.forEach((value) {
+      String str = value.toString();
+      str = str.replaceAll('{', '').replaceAll('}', '');
+      List<String> listStr = str.split(':');
+
+      if (listStr.length >= 2) {
+        String host = listStr[0];
+        String ip = listStr[1];
+
+        Activity? activity = getActivity(boxActivities, host, ip);
+        DateTime date = DateTime.now();
+
+        if (activity == null) {
+          switch (date.weekday) {
+            case 1:
+              stats?.totalMN = stats.totalMN + 1;
+              break;
+            case 2:
+              stats?.totalTE = stats.totalTE + 1;
+              break;
+            case 3:
+              stats?.totalWD = stats.totalWD + 1;
+              break;
+            case 4:
+              stats?.totalTU = stats.totalTU + 1;
+              break;
+            case 5:
+              stats?.totalFR = stats.totalFR + 1;
+              break;
+            case 6:
+              stats?.totalST = stats.totalST + 1;
+              break;
+            case 7:
+              stats?.totalSN = stats.totalSN + 1;
+              break;
+          }
+          stats?.save();
+
+          final Activity act = Activity()
+            ..application = "none"
+            ..host = host
+            ..ip = ip
+            ..isBlocked = false
+            ..times = List.of([date])
+            ..total_1day = 1
+            ..total_7days = 1
+            ..appIcon = null;
+          if (boxActivities.length < 400) {
+            boxActivities.add(act);
+          }
+        } else {
+          switch (date.weekday) {
+            case 1:
+              stats?.totalMN = stats.totalMN + 1;
+              if (activity.isBlocked) stats?.blockedMN = stats.blockedMN + 1;
+              break;
+            case 2:
+              stats?.totalTE = stats.totalTE + 1;
+              if (activity.isBlocked) stats?.blockedTE = stats.blockedTE + 1;
+              break;
+            case 3:
+              stats?.totalWD = stats.totalWD + 1;
+              if (activity.isBlocked) stats?.blockedWD = stats.blockedWD + 1;
+              break;
+            case 4:
+              stats?.totalTU = stats.totalTU + 1;
+              if (activity.isBlocked) stats?.blockedTU = stats.blockedTU + 1;
+              break;
+            case 5:
+              stats?.totalFR = stats.totalFR + 1;
+              if (activity.isBlocked) stats?.blockedFR = stats.blockedFR + 1;
+              break;
+            case 6:
+              stats?.totalST = stats.totalST + 1;
+              if (activity.isBlocked) stats?.blockedST = stats.blockedST + 1;
+              break;
+            case 7:
+              stats?.totalSN = stats.totalSN + 1;
+              if (activity.isBlocked) stats?.blockedSN = stats.blockedSN + 1;
+              break;
+          }
+          stats?.save();
+
+          List<DateTime> dates = activity.times;
+          dates.add(date);
+
+          final Activity act = Activity()
+            ..application = "none"
+            ..host = host
+            ..ip = ip
+            ..isBlocked = activity.isBlocked
+            ..times = dates
+            ..total_1day = activity.total_1day + 1
+            ..total_7days = activity.total_7days + 1
+            ..appIcon = null;
+
+          boxActivities.delete(activity.key);
+          boxActivities.add(act);
+        }
+      }
+    });
+    await invokeClearQueue();
+  });
 }
 
 void main() async {
@@ -86,11 +223,9 @@ void main() async {
   await Hive.openBox<App2>('app2s');
   await Hive.openBox<Filter>('filters');
   await Hive.openBox<Statistic>('statistics');
-  await Hive.openBox<Activity>('actvities');
+  await Hive.openBox<Activity>('activities');
 
-  // const platform = MethodChannel('LOCAL_VPN_CHANNEL');
-  // var dd = platform.invokeMethod('method0', {'text': 'hello world'});
-  // print(dd);
+  sec5Timer();
 
   runApp(
     EasyLocalization(
@@ -127,9 +262,10 @@ class MyApp extends StatelessWidget {
           '/main_menu': (context) => const MainMenu(),
           '/applications': (context) => const Applications(),
           '/blocked_activities': (context) => const BlockedActivities(),
-          '/blocked_activities2': (context) => const BlockedActivities2(),
+          '/blocked_activities2': (context) =>
+              BlockedActivities2(activity: Activity()),
           '/activities': (context) => const Activities(),
-          '/activities2': (context) => const Activities2(),
+          '/activities2': (context) => Activities2(activity: Activity()),
           '/filters': (context) => const Filters(),
           '/filters2': (context) => Filters2(filter: filter0),
           '/statistics': (context) => const Statistics(),

@@ -1,5 +1,7 @@
 package com.example.graduation_app
 
+import android.Manifest;
+import androidx.core.app.ActivityCompat;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -9,16 +11,11 @@ import android.net.VpnService;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
-import org.jetbrains.anko.doAsync
-
-// import java.io.File;
-// import java.util.ArrayList;
-
-import java.util.HashMap;
+import org.jetbrains.anko.doAsync;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
@@ -26,11 +23,28 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
+import com.timedancing.easyfirewall.core.util.VpnServiceHelper;
+import com.timedancing.easyfirewall.core.service.FirewallVpnService;
+import com.timedancing.easyfirewall.core.ProxyConfig;
+import com.timedancing.easyfirewall.core.filter.DomainFilter;
+import com.timedancing.easyfirewall.filter.BlackListFilter;
+
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.Queue;
+import java.util.LinkedList;
+import kotlin.text.toUInt
+
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "LOCAL_VPN_CHANNEL";
-    private val TAG = "Firewall.Main";
     private var running = true;
-    private val REQUEST_VPN = 1;
+
+    var hostQ : Queue<HashMap<String,String>> = LinkedList();
+    val timer = Timer()
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
@@ -39,15 +53,15 @@ class MainActivity: FlutterActivity() {
             call, result ->
             when (call.method) {
                 "connectVPN" -> {
-                    connectVPN()
+                    startVPN()
                 }
                 "initialRules" -> {
                     var args1 = call.argument("wifiRules") as? HashMap<String, Boolean>?
                     var args2 = call.argument("mobileNetworkRules") as? HashMap<String, Boolean>?
 
                     try{
-                        SinkService.getWifiRules().putAll(args1 as HashMap<String, Boolean>)
-                        SinkService.getMobileNetworkRules().putAll(args2 as HashMap<String, Boolean>)
+                        FirewallVpnService.getWifiRules().putAll(args1 as HashMap<String, Boolean>)
+                        FirewallVpnService.getMobileNetworkRules().putAll(args2 as HashMap<String, Boolean>)
                     } catch(e: Throwable){
                         println(e.message);
                         println(e.cause);
@@ -59,33 +73,71 @@ class MainActivity: FlutterActivity() {
                     val args1 = call.argument("package") as String?;
                     val args2 = call.argument("networkType") as String?;
                     val args3 = call.argument("ruleBool") as Boolean?;
-                    var Context = this;
 
                     doAsync{
                         if (running) {
                             if(args2 is String && args2.equals("Wifi")){
-                                SinkService.getWifiRules().replace(args1 as String, args3 as Boolean);
+                                FirewallVpnService.getWifiRules().replace(args1 as String, args3 as Boolean);
                             } else{
-                                SinkService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
+                                FirewallVpnService.getMobileNetworkRules().replace(args1 as String, args3 as Boolean);
                             }
-                            SinkService.reload(args2,Context);
+                            reloadVPN();
                         }
                     }
                 }
-                "addWhitelist" -> {
-                    val args1 = call.argument("rule") as? HashMap<String, Boolean>?
-                    
-                    whiteList(args1)
+                "reload" -> {
+                    doAsync{
+                        reloadVPN();
+                    }
                 }
-                "resetRules" -> {
-                    val args1 = call.argument("rule") as? String?
+                "reloadVPNWithNewHosts" -> {
+                    doAsync{
+                        reloadVPNWithNewHosts();
+                    }
+                }
+                "getFromQueue" -> {
+                    getQueueFromProxyConfig()
+                    result.success(hostQ);
+                }
+                "clearQueue" -> {
+                    hostQ.clear();
+                }
+                "addBlockedHost" -> {
+                    val args1 = call.argument("blockedHost") as String?;
+
+                    BlackListFilter.addBlockedHost(args1);
+                }
+                "removeBlockedHost" -> {
+                    val args1 = call.argument("blockedHost") as String?;
+
+                    BlackListFilter.removeBlockedHost(args1);
+                }
+                "addHostFile" -> {
+                    val args1 = call.argument("which") as String?;
                     
-                    reset(args1 as String)
+                    val intargs = args1?.toInt();
+
+                    if(intargs is Int){
+                        BlackListFilter.addHostsFile(intargs);
+                    }
+                }
+                "removeHostFile" -> {
+                    val args1 = call.argument("which") as String?;
+
+                    val intargs = args1?.toInt();
+
+                    if(intargs is Int){
+                        BlackListFilter.removeHostsFile(intargs);
+                    }
                 }
                 "disconnectVPN" -> {
-                    SinkService.stop(this);
-                    SinkService.clearRules();
-                    running = false;
+                    try{
+                        closeVPN()
+                    } catch(e: Exception) {
+                        println(e.message);
+                        result.success(-1)
+                    }
+                    result.success(0)
                 }
                 else -> {
                     Log.d("MainActivity", "fail");
@@ -94,82 +146,38 @@ class MainActivity: FlutterActivity() {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        if (requestCode == REQUEST_VPN) {
-            // Update enabled state
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs.edit().putBoolean("enabled", resultCode == RESULT_OK).apply();
+    fun startVPN(){
+        // var PERMISSION_EXTERNAL_STORAGE = 1;
+        // ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISSION_EXTERNAL_STORAGE);
+        VpnServiceHelper.setMainContext(this);
 
-            // Start service
-            if (resultCode == RESULT_OK)
-                SinkService.start(this);
-
-        } else
-            super.onActivityResult(requestCode, resultCode, data);
+        VpnServiceHelper.changeVpnRunningStatus(this, true);
+        running = true;
     }
 
-    fun connectVPN(){
-        var prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        var isChecked = true;
-
-        if (isChecked) {
-            Log.i(TAG, "Switch on");
-            var prepare = VpnService.prepare(this);
-            if (prepare == null) {
-                Log.e(TAG, "Prepare done");
-                onActivityResult(REQUEST_VPN, RESULT_OK, null);
-            } else {
-                Log.i(TAG, "Start intent=" + prepare);
-                try {
-                    startActivityForResult(prepare, REQUEST_VPN);
-                } catch (e: Throwable) {
-                    //Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    println("null");
-                    onActivityResult(REQUEST_VPN, RESULT_CANCELED, null);
-                    //Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        } else {
-            Log.i(TAG, "Switch off");
-            prefs.edit().putBoolean("enabled", false).apply();
-            SinkService.stop(this);
-        }
+    fun reloadVPN() {
+        VpnServiceHelper.reloadVPN(this);
     }
 
-    fun whiteList(map: Map<String, Boolean>?): Int{
-        var prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        try{
-            for ((key, value) in map as Map<String, Boolean>) {
-                prefs.edit().putBoolean("whitelist_"+key, value).apply();
-                SinkService.reload(key,this);
-            }
-        } catch (e: Throwable) {
-            println(e.message);
-            println(e.cause);
-            return -1;
-        }
-
-        return 0;
+    fun reloadVPNWithNewHosts() {
+        VpnServiceHelper.reloadVPNWithNewHosts(this);
     }
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    fun reset(network: String): Int {
-        var other = getSharedPreferences(network, Context.MODE_PRIVATE);
-        var edit = other.edit();
-        
-        try{
-            for (key in other.getAll().keys)
-                edit.remove(key);
-            edit.apply();
-            SinkService.reload(network,this);
-        } catch (e: Throwable) {
-            println(e.message);
-            println(e.cause);
-            return -1;
-        }
+    fun closeVPN(){
+        VpnServiceHelper.changeVpnRunningStatus(this, false);
+        running = false;
+    }
 
-        return 0;
+    fun getQueueFromProxyConfig(){
+        var _queue = ProxyConfig.getQueue();
+        copyQueueAndAdd(_queue);
+        ProxyConfig.clearQueue();
+    }
+
+    fun copyQueueAndAdd(queue: Queue<HashMap<String, String>>) {
+        for(q in queue){
+            var xx = q.clone();
+            hostQ.add(xx as HashMap<String, String>);
+        }
     }
 }

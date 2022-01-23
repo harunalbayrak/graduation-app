@@ -45,10 +45,18 @@ samples, guidance on mobile development, and a full API reference.
 - Activity model is implemented.
 - VPNService is implemented.
 - Internet access of applications can be manageable thanks to vpnservice.
+- Activities of apps (hosts) can be trackable thanks to dns proxy.
+- Activities leading icon will be change to the number of times occurred the activity.
+- Activities of apps will be edited in terms of elements of class. (number of times etc.)
+- Second screen of the activities and the blocked activites screen will be edited accordingly.
+- Filters will be added.
+- In the first opened, the firewall does not work (Bug) (Solved)
 
 # To Do​
+- Make tests
+- Statistics screen will be updated.
+- Settings screen will be updated.
 - DNS Filtering/Blocking based on hosts file will be added.
-- Get activities of applications will be added.
 - Some services (LogService, StatisticService, etc.) will be implemented.
 - Other Buttons will be added to the AppBar. (Filter etc.)​
 - Settings screens will be completed.​
@@ -56,4 +64,4 @@ samples, guidance on mobile development, and a full API reference.
 - Classes & Modals & Utils will be added.​
 - Some Logic (Changing the theme, Button Logic etc.) will be added.​
 - The data will be moved to the database.
-- Try the applications on another smartphones.​
+- Try the application on another smartphones.​

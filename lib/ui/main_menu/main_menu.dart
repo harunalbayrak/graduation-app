@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_app/boxes.dart';
 import 'package:graduation_app/constants/colors.dart';
+import 'package:graduation_app/models/activity.dart';
+import 'package:graduation_app/models/filter.dart';
 import 'package:graduation_app/utils/channel_utils.dart';
 import 'package:graduation_app/widgets/rectangle_button.dart';
 import 'package:graduation_app/widgets/build_background.dart';
@@ -10,6 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:like_button/like_button.dart';
 import 'package:graduation_app/widgets/app_bar_only_dots.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -23,7 +27,38 @@ class _MainMenuState extends State<MainMenu> {
   double space1 = 8.h;
   bool isActive = false;
 
+  Future blockActivities() async {
+    final box = Boxes.getActivities();
+    // List<Activity> app = box.values.toList().cast<Activity>();
+    List<Activity> app = box.values
+        .toList()
+        .where((c) => c.isBlocked == true)
+        .toList()
+        .cast<Activity>();
+
+    for (int i = 0; i < app.length; i++) {
+      invokeAddBlockedHost(app[i].host);
+    }
+  }
+
+  Future filters() async {
+    final box = Boxes.getFilters();
+    // List<Activity> app = box.values.toList().cast<Activity>();
+    List<Filter> filter = box.values.toList().cast<Filter>();
+
+    for (int i = 0; i < filter.length; i++) {
+      if (filter[i].isEnable) {
+        invokeAddHostFile(i.toString());
+      }
+    }
+  }
+
   Future<void> openVPN() async {
+    // bool req = await Permission.storage.request().isGranted;
+    // print(req);
+
+    await blockActivities();
+    await filters();
     await invokeInitialRules();
     await invokeConnectVPN();
     //print("open");

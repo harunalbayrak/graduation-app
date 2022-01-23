@@ -18,31 +18,34 @@ class ActivityAdapter extends TypeAdapter<Activity> {
     };
     return Activity()
       ..application = fields[0] as String
-      ..domain = fields[1] as String
-      ..times = (fields[2] as List).cast<DateTime>()
-      ..isBlocked = fields[3] as bool
-      ..total_1day = fields[4] as int
-      ..total_7days = fields[5] as int
-      ..appIcon = fields[6] as dynamic;
+      ..host = fields[1] as String
+      ..ip = fields[2] as String
+      ..times = (fields[3] as List).cast<DateTime>()
+      ..isBlocked = fields[4] as bool
+      ..total_1day = fields[5] as int
+      ..total_7days = fields[6] as int
+      ..appIcon = fields[7] as dynamic;
   }
 
   @override
   void write(BinaryWriter writer, Activity obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.application)
       ..writeByte(1)
-      ..write(obj.domain)
+      ..write(obj.host)
       ..writeByte(2)
-      ..write(obj.times)
+      ..write(obj.ip)
       ..writeByte(3)
-      ..write(obj.isBlocked)
+      ..write(obj.times)
       ..writeByte(4)
-      ..write(obj.total_1day)
+      ..write(obj.isBlocked)
       ..writeByte(5)
-      ..write(obj.total_7days)
+      ..write(obj.total_1day)
       ..writeByte(6)
+      ..write(obj.total_7days)
+      ..writeByte(7)
       ..write(obj.appIcon);
   }
 

@@ -1,5 +1,10 @@
 import 'package:graduation_app/boxes.dart';
 import 'package:graduation_app/models/app2.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
 dynamic getWifiRules() {
   var packagesAllowWifi = <String, bool>{};
@@ -11,7 +16,7 @@ dynamic getWifiRules() {
     try {
       packagesAllowWifi.addAll(value1);
     } catch (E) {
-      print("Error getWifiRules");
+      logger.e("Error getWifiRules");
     }
   }
 
@@ -28,7 +33,7 @@ dynamic getMobileNetworkRules() {
     try {
       packagesAllowMobileNetwork.addAll(value2);
     } catch (E) {
-      print("Error getMobileNetworkRules");
+      logger.e("Error getMobileNetworkRules");
     }
   }
 

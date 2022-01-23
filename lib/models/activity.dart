@@ -7,20 +7,23 @@ class Activity extends HiveObject {
   late String application;
 
   @HiveField(1)
-  late String domain;
+  late String host;
 
   @HiveField(2)
-  late List<DateTime> times;
+  late String ip;
 
   @HiveField(3)
-  late bool isBlocked;
+  late List<DateTime> times;
 
   @HiveField(4)
-  late int total_1day;
+  late bool isBlocked;
 
   @HiveField(5)
-  late int total_7days;
+  late int total_1day;
 
   @HiveField(6)
+  late int total_7days;
+
+  @HiveField(7)
   late dynamic appIcon;
 }
